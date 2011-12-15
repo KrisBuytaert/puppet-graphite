@@ -92,3 +92,20 @@ class graphite::demo {
         }
 }
 
+
+# Implement user creation 
+
+#
+#
+#python manage.py shell 
+#Python 2.6.5 (r265:79063, Nov 12 2010, 00:52:45) 
+#[GCC 4.4.4 20100525 (Red Hat 4.4.4-5)] on linux2
+#Type "help", "copyright", "credits" or "license" for more information.
+#(InteractiveConsole)
+#>>> from django.contrib.auth.models import User
+#>>> user = User.objects.create_user('root','kris@inuits.eu','graphite')
+#>>> user.save()
+#>>> quit
+#Use quit() or Ctrl-D (i.e. EOF) to exit
+#>>> 
+
