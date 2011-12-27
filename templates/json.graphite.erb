@@ -1,0 +1,17 @@
+{
+"servers" : [ {
+    "port" : "<%= jmxport %>",
+    "host" : "<%= jmxhost %>",
+    "queries" : [ { 
+        "obj" : "<%= objtype %>",
+        "attr": [ <%= attributes %>,
+        "outputWriters" : [ { 
+            "@class" : "code.googlecode.jmxtrans.model.output.GraphiteWriter",
+            "settings": { 
+                "port" : <%= graphiteport %>,
+                "host" : "<%= graphitehost %>"
+            }
+        }]
+    }]
+}]
+}
