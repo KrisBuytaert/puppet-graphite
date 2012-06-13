@@ -11,16 +11,18 @@
 # Sample Usage:
 #
 # [Remember: No empty lines between comments and class definition]
-class graphite {
+# when using django <1.4, timezone detection is broken and you probably want to configure it
+class graphite (time_zone = undef) {
 
   include graphite::carbon
   include graphite::whisper
-  include graphite::web
+  class {'graphite::web':
+    time_zone => $time_zone,
+  }
 
 }
 
-
-class graphite::web {
+class graphite::web (time_zone = undef) {
 
 
   package {
@@ -38,6 +40,17 @@ class graphite::web {
     hasrestart => true,
     hasstatus  => true,
   }
+
+  file {"local_settings.py":
+    path => "/etc/graphite-web/local_settings.py",
+    ensure => file,
+    owner   => "root",
+    group   => "root",
+    mode    => "0644",
+    notify  => Service["httpd"],
+    content => template("graphite/local_settings.py.erb");
+        }
+
 
 
 }
