@@ -12,7 +12,7 @@
 #
 # [Remember: No empty lines between comments and class definition]
 # when using django <1.4, timezone detection is broken and you probably want to configure it
-class graphite (time_zone = undef) {
+class graphite ($time_zone = undef) {
 
   include graphite::carbon
   include graphite::whisper
@@ -22,7 +22,7 @@ class graphite (time_zone = undef) {
 
 }
 
-class graphite::web (time_zone = undef) {
+class graphite::web ($time_zone = undef) {
 
 
   package {
