@@ -10,11 +10,8 @@
 #
 # * Implement user creation.
 #
-class graphite{
+class graphite::params ($time_zone = undef) {
 
-  include graphite::carbon
-  include graphite::whisper
-  include graphite::web
 
 }
 

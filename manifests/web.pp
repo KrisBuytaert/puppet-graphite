@@ -16,6 +16,7 @@
 #
 class graphite::web ($time_zone = undef) {
 
+  require graphite::params
   include graphite::web::package
   class {'graphite::web::config':
     time_zone => $time_zone,
