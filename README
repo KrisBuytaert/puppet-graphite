@@ -1,3 +1,19 @@
 graphite
 
-This is the graphite module.
+This is a puppet-graphite module.
+All bugs procduced by Kris.Buytaert@gmail.com
+
+
+Usage :
+
+include graphite
+
+graphite::carbon::storage {"default_1min_for_1day":
+  pattern    => ".*",
+  retentions => "60s:1d",
+}
+
+
+Note that without this define you won't have the default behaviour. 
+
+
