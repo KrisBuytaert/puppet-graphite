@@ -14,7 +14,7 @@
 #
 # * Update documentation
 #
-class graphite::web ($time_zone = undef) {
+class graphite::web ($time_zone = $::graphite::params::time_zone) {
 
   require graphite::params
   include graphite::web::package
