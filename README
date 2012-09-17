@@ -3,6 +3,32 @@ graphite
 This is a puppet-graphite module.
 All bugs procduced by Kris.Buytaert@gmail.com
 
+This module depends on 
+
+https://github.com/ripienaar/puppet-concat
+
+
+I've made the packaged versions of graphite-web, carbon and whisper. 
+available on
+
+
+
+yumrepo { 'monitoringsucks':
+    baseurl  => 'http://pulp.inuits.eu/pulp/repos/monitoring',
+    descr    => 'MonitoringSuck at Inuits',
+    gpgcheck => '0',
+}
+You also use your own repo 
+And you also need to have EPEL available  e.g from 
+
+yumrepo {'epel':
+    baseurl  => 'http://pulp.inuits.eu/pulp/repos/epel/6/x86_64/',
+    descr    => 'Epel Repo at Inuits',
+    gpgcheck => '0',
+}
+
+
+
 
 Usage :
 
@@ -16,4 +42,7 @@ graphite::carbon::storage {"default_1min_for_1day":
 
 Note that without this define you won't have the default behaviour. 
 
+More Detailed Examples on how to use this module including a fully functional 
+Vagrant box can be found on
+https://github.com/KrisBuytaert/vagrant-graphite.git
 
