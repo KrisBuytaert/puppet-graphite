@@ -15,7 +15,7 @@ class graphite::web::config ($time_zone = undef){
 
   file {'local_settings.py':
     ensure    => file,
-    path      => '/etc/graphite-web/local_settings.py',
+    path      => $graphite::r_local_settings_file,
     owner     => 'root',
     group     => 'root',
     mode      => '0644',
