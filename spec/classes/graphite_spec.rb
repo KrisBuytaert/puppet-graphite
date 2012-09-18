@@ -15,24 +15,20 @@ describe 'graphite' do
   end
 
   context 'With local_settings_file =>' do
-    let(:params) {{
-      :local_settings_file => '/opt/graphite/webapp/graphite/local_settings.py'
-    }}
+    let(:pre_condition) {"class{'graphite::params': local_settings_file => '/opt/graphite/webapp/graphite/local_settings.py'}"}
     it {
       should contain_file('local_settings.py').
         with_path('/opt/graphite/webapp/graphite/local_settings.py')
     }
   end 
   context 'with schema_file =>' do
-    let(:params) {{
-      :schema_file => '/opt/graphite/conf/storage-schemas.conf'
-    }}
+    let(:pre_condition) {"class{'graphite::params': schema_file => '/opt/graphite/conf/storage-schemas.conf'}"}
     it {
       should contain_concat('/opt/graphite/conf/storage-schemas.conf')
     }
   end
   context 'with time_zone =>' do
-    let (:params) {{ :time_zone => 'America/Chicago' }}
+    let(:pre_condition) {"class{'graphite::params': time_zone => 'America/Chicago'}"}
 
     it {
       should contain_file('local_settings.py').

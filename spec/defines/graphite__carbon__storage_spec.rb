@@ -18,7 +18,7 @@ describe 'graphite::carbon::storage' do
     }
   end
   context 'with schema_file =>' do
-    let (:pre_condition) {"class {'graphite': schema_file => '/storage-schemas.conf'}"}
+    let (:pre_condition) {"class {'graphite::params': schema_file => '/storage-schemas.conf'}\ninclude graphite"}
     let (:title) {'graphite-default'}
     let (:params) {{
       :pattern    => '.*',
