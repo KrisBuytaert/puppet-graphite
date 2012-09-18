@@ -3,7 +3,7 @@
 # This module manages graphite
 #
 # == Parameters
-#  local_settins_file: path to the graphite web local_settings.py file
+#  local_settings_file: path to the graphite web local_settings.py file
 #  schema_file: path to the storage-schemas.conf file
 #  time_zone: time zone to set in local_settings.py file
 # == Sample Usage:
