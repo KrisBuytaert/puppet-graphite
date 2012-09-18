@@ -11,11 +11,12 @@
 # Sample Usage:
 #
 # [Remember: No empty lines between comments and class definition]
-class graphite::web::config ($time_zone = undef){
+class graphite::web::config {
 
+  $time_zone = $graphite::r_time_zone
   file {'local_settings.py':
     ensure    => file,
-    path      => '/etc/graphite-web/local_settings.py',
+    path      => $graphite::r_local_settings_file,
     owner     => 'root',
     group     => 'root',
     mode      => '0644',
