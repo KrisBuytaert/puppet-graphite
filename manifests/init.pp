@@ -2,6 +2,10 @@
 #
 # This module manages graphite
 #
+# == Parameters
+#  local_settins_file: path to the graphite web local_settings.py file
+#  schema_file: path to the storage-schemas.conf file
+#  time_zone: time zone to set in local_settings.py file
 # == Sample Usage:
 #
 #   include graphite
@@ -12,7 +16,8 @@
 #
 class graphite(
   $local_settings_file = 'UNSET',
-  $schema_file         = 'UNSET'
+  $schema_file         = 'UNSET',
+  $time_zone           = 'UNSET'
 ){
 
   include graphite::params
@@ -25,6 +30,11 @@ class graphite(
   $r_schema_file = $schema_file ? {
     'UNSET' => $graphite::params::schema_file,
     default => $schema_file,
+  }
+
+  $r_time_zone = $time_zone ? {
+    'UNSET' => $graphite::params::time_zone,
+    default => $time_zone,
   }
 
   include graphite::carbon

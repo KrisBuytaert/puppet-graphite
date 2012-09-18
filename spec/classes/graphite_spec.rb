@@ -31,4 +31,12 @@ describe 'graphite' do
       should contain_concat('/opt/graphite/conf/storage-schemas.conf')
     }
   end
+  context 'with time_zone =>' do
+    let (:params) {{ :time_zone => 'America/Chicago' }}
+
+    it {
+      should contain_file('local_settings.py').
+        with_content(/TIME_ZONE = 'America\/Chicago/)
+    }
+  end
 end
