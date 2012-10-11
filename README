@@ -18,7 +18,7 @@ yumrepo { 'monitoringsucks':
     descr    => 'MonitoringSuck at Inuits',
     gpgcheck => '0',
 }
-You also use your own repo 
+You can also use your own repo 
 And you also need to have EPEL available  e.g from 
 
 yumrepo {'epel':
