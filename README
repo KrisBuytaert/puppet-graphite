@@ -3,14 +3,18 @@ graphite
 This is a puppet-graphite module.
 All bugs procduced by Kris.Buytaert@gmail.com
 
-This module depends on 
+This module depends on
 
 https://github.com/ripienaar/puppet-concat
+
+
+
 
 
 I've made the packaged versions of graphite-web, carbon and whisper. 
 available on
 
+The repository has been updated to have 0.9.10 versions of carbon, whisper and graphite-web
 
 
 yumrepo { 'monitoringsucks':
@@ -46,3 +50,6 @@ More Detailed Examples on how to use this module including a fully functional
 Vagrant box can be found on
 https://github.com/KrisBuytaert/vagrant-graphite.git
 
+
+I've tagged the code that supports 0.9.9 versions of graphite-web and carbon with 
+the 0.9.9 tag .. 
