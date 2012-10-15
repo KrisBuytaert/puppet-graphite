@@ -17,7 +17,7 @@ class graphite::carbon::config {
     group   => '0',
     mode    => '0644',
     owner   => '0',
-    notify  => Service['carbon'];
+    notify  => Service['carbon-cache'];
   }
   concat::fragment { 'header':
     target  => '/etc/carbon/storage-schemas.conf',

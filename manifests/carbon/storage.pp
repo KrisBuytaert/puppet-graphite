@@ -3,7 +3,7 @@ define graphite::carbon::storage ( $pattern,$retentions){
     target  => '/etc/carbon/storage-schemas.conf',
     order   => 10,
     content => template('graphite/storage-schemas.erb'),
-    notify  => Service['carbon']
+    notify  => Service['carbon-cache']
   }
 
 }
