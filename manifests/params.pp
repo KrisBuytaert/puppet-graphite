@@ -10,7 +10,10 @@
 #
 # * Implement user creation.
 #
-class graphite::params ($time_zone = undef) {
+class graphite::params (
+  $time_zone = undef,
+  $manage_httpd = false
+) {
 
 
 }
