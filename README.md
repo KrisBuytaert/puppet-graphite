@@ -1,8 +1,8 @@
-Puppet moduel for Graphite
+Puppet module for Graphite
 ==========================
 
 This is a puppet-graphite module.
-All bugs procduced by Kris.Buytaert@gmail.com
+All bugs produced by Kris.Buytaert@gmail.com
 
 Dependencies
 ------------
