@@ -1,7 +1,6 @@
+# Class: graphite::carbon::service
+#
 class graphite::carbon::service {
-
-
-
   service { 'carbon-cache':
     ensure     => running,
     enable     => true,
@@ -9,8 +8,5 @@ class graphite::carbon::service {
     hasstatus  => true,
     require    => Package['carbon'],
   }
-
-
 }
-
 

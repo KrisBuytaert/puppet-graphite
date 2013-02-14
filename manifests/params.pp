@@ -1,20 +1,8 @@
-# = Class: graphite
-#
-# This module manages graphite
-#
-# == Sample Usage:
-#
-#   include graphite
-#
-# == Todo:
-#
-# * Implement user creation.
+# = Class: graphite::params
 #
 class graphite::params (
-  $time_zone = 'UTC',
-  $manage_httpd = false
+  $manage_httpd = false,
+  $time_zone    = 'UTC',
 ) {
-
-
 }
 

@@ -1,18 +1,8 @@
-# Class: graphite
+# Class: graphite::carbon::package
 #
-# This module manages graphite
-#
-# Parameters:
-#
-# Actions:
-#
-# Requires:
-#
-# Sample Usage:
-#
-# [Remember: No empty lines between comments and class definition]
 class graphite::carbon::package {
-  package {'carbon':
+  package { 'carbon':
     ensure => present;
   }
 }
+

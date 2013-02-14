@@ -1,16 +1,5 @@
-# Class: graphite
+# Class: graphite::web::package
 #
-# This module manages graphite
-#
-# Parameters:
-#
-# Actions:
-#
-# Requires:
-#
-# Sample Usage:
-#
-# [Remember: No empty lines between comments and class definition]
 class graphite::web::package {
   package {
     'bitmap-fonts-compat':
@@ -19,3 +8,4 @@ class graphite::web::package {
       ensure => present;
   }
 }
+
