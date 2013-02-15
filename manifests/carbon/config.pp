@@ -15,5 +15,12 @@ class graphite::carbon::config {
     order  => 0,
     source => 'puppet:///modules/graphite/storage-schemas.conf',
   }
+
+  if $::osfamily == 'Debian' {
+    file { '/etc/init.d/carbon-cache':
+      ensure  => present,
+      content => template('graphite/carbon-cache_Debian.init'),
+    }
+  }
 }
 
