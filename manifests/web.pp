@@ -16,14 +16,10 @@
 #
 class graphite::web (
   $manage_httpd = $::graphite::params::manage_httpd,
-  $time_zone    = $::graphite::params::time_zone,
 ) {
   require graphite::params
   include graphite::web::package
-
-  class { 'graphite::web::config':
-    time_zone => $time_zone,
-  }
+  include graphite::web::config
 
   if $manage_httpd {
     include graphite::web::service
