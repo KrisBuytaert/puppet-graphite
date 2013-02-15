@@ -2,7 +2,10 @@
 #
 class graphite::web::package {
   $package_name = $::osfamily ? {
-    /(?i:Debian)/ => 'python-graphite-web',
+    /(?i:Debian)/ => [
+      'python-django-tagging',
+      'python-graphite-web',
+    ],
     /(?i:RedHat)/ => 'graphite-web',
     default       => 'graphite-web',
   }
