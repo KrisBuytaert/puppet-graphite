@@ -1,13 +1,16 @@
 # Class: graphite::web::config
 #
 class graphite::web::config {
+  $config_dir   = $::graphite::web::params::config_dir
+  $service_name = $::graphite::web::params::service_name
+
   file { 'local_settings.py':
     ensure    => file,
-    path      => '/etc/graphite-web/local_settings.py',
+    path      => "${config_dir}/local_settings.py",
     owner     => 'root',
     group     => 'root',
     mode      => '0644',
-    notify    => Service['httpd'],
+    notify    => Service[$service_name],
     content   => template('graphite/local_settings.py.erb');
   }
 }

@@ -1,11 +1,7 @@
 # Class: graphite::web::service
 #
 class graphite::web::service {
-  $service_name = $::osfamily ? {
-    /(?i:Debian)/ => 'apache2',
-    /(?i:RedHat)/ => 'httpd',
-    default       => 'httpd',
-  }
+  $service_name = $graphite::web::params::service_name
 
   service { $service_name:
     ensure     => running,

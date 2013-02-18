@@ -1,11 +1,7 @@
 # Class: graphite::carbon::service
 #
 class graphite::carbon::service {
-  $service_name = $::osfamily ? {
-    /(?i:Debian)/ => 'carbon-cache',
-    /(?i:RedHat)/ => 'carbon-cache',
-    default       => 'carbon-cache',
-  }
+  $service_name = $::graphite::carbon::params::service_name
 
   service { $service_name:
     ensure     => running,
