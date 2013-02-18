@@ -2,13 +2,17 @@
 #
 class graphite::whisper::package {
   $package_name = $::osfamily ? {
-    /(?i:Debian)/ => 'python-whisper',
-    /(?i:RedHat)/ => 'whisper',
-    default       => 'whisper',
+    default => 'whisper',
+  }
+
+  $package_provider = $::osfamily ? {
+    /(?i:Debian)/ => 'pip',
+    default       => undef,
   }
 
   package { $package_name:
-    ensure => present;
+    ensure   => present,
+    provider => $package_provider,
   }
 }
 
