@@ -22,6 +22,15 @@ class graphite::carbon::config {
   }
 
   if $::osfamily == 'Debian' {
+    # Fixme: needs abstraction
+    file { "${config_dir}/carbon.conf":
+      ensure  => present,
+      mode    => '0640',
+      content => template("graphite/carbon.conf.${::osfamily}.erb"),
+    }
+  }
+
+  if $::osfamily == 'Debian' {
     file { '/opt/graphite/storage':
       ensure  => directory,
       recurse => true,
