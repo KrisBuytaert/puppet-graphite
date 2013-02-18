@@ -12,5 +12,17 @@ class graphite::carbon::params {
     /(?i:RedHat)/ => 'carbon-cache',
     default       => 'carbon-cache',
   }
+
+  $www_user = $::osfamily ? {
+    /(?i:Debian)/ => 'www-data',
+    /(?i:RedHat)/ => 'apache',
+    default       => 'apache',
+  }
+
+  $www_group = $::osfamily ? {
+    /(?i:Debian)/ => 'www-data',
+    /(?i:RedHat)/ => 'apache',
+    default       => 'apache',
+  }
 }
 

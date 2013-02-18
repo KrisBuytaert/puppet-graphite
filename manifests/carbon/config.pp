@@ -5,6 +5,8 @@ class graphite::carbon::config {
 
   $config_dir   = $::graphite::carbon::params::config_dir
   $service_name = $::graphite::carbon::params::service_name
+  $www_group    = $::graphite::carbon::params::www_group
+  $www_user     = $::graphite::carbon::params::www_user
 
   concat { "${config_dir}/storage-schemas.conf":
     group  => '0',
@@ -20,10 +22,18 @@ class graphite::carbon::config {
   }
 
   if $::osfamily == 'Debian' {
+    file { '/opt/graphite/storage':
+      ensure  => directory,
+      recurse => true,
+      owner   => $www_user,
+      group   => $www_group,
+      before  => Service[$service_name],
+    }
+
     file { '/etc/init.d/carbon-cache':
       ensure  => present,
-      owner   => '0',
       mode    => '0755',
+      owner   => '0',
       group   => '0',
       content => template('graphite/carbon-cache_Debian.init'),
       before  => Service[$service_name],
