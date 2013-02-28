@@ -1,4 +1,4 @@
-# Class: graphite::carbon::storage
+# Define: graphite::carbon::storage
 #
 define graphite::carbon::storage (
   $config_dir = $::graphite::carbon::params::config_dir,
