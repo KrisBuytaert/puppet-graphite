@@ -1,25 +1,27 @@
-# Class: graphite
+# Class: graphite::web::config
 #
-# This module manages graphite
-#
-# Parameters:
-#
-# Actions:
-#
-# Requires:
-#
-# Sample Usage:
-#
-# [Remember: No empty lines between comments and class definition]
-class graphite::web::config ($time_zone = undef){
+class graphite::web::config {
+  $config_dir   = $::graphite::web::params::config_dir
+  $service_name = $::graphite::web::params::service_name
 
-  file {'local_settings.py':
+  file { 'local_settings.py':
     ensure    => file,
-    path      => '/etc/graphite-web/local_settings.py',
+    path      => "${config_dir}/local_settings.py",
     owner     => 'root',
     group     => 'root',
     mode      => '0644',
-    notify    => Service['httpd'],
+    notify    => Service[$service_name],
     content   => template('graphite/local_settings.py.erb');
   }
+
+  if $::osfamily == 'Debian' {
+    file { "${config_dir}/apache2.conf":
+      ensure  => present,
+      owner   => 'root',
+      group   => 'root',
+      notify  => Service[$service_name],
+      content => template("graphite/apache2.conf.${::osfamily}.erb");
+    }
+  }
 }
+

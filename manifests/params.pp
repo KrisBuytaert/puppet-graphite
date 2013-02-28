@@ -1,20 +1,12 @@
-# = Class: graphite
+# = Class: graphite::params
 #
-# This module manages graphite
-#
-# == Sample Usage:
-#
-#   include graphite
-#
-# == Todo:
-#
-# * Implement user creation.
-#
-class graphite::params (
-  $time_zone = 'UTC',
+class graphite::params {
+  $config_dir = $::osfamily ? {
+    /(?i:Debian)/ => '/opt/graphite/webapp/graphite',
+    /(?i:RedHat)/ => '/etc/graphite-web',
+    default       => '/etc/graphite-web',
+  }
+
   $manage_httpd = false
-) {
-
-
 }
 
