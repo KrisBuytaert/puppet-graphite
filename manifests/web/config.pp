@@ -1,8 +1,10 @@
 # Class: graphite::web::config
 #
 class graphite::web::config {
-  $config_dir   = $::graphite::web::params::config_dir
-  $service_name = $::graphite::web::params::service_name
+  $config_dir        = $::graphite::web::params::config_dir
+  $service_name      = $::graphite::web::params::service_name
+  $vhost_serveralias = $::graphite::vhost_serveralias
+  $vhost_servername  = $::graphite::vhost_servername
 
   file { 'local_settings.py':
     ensure    => file,
