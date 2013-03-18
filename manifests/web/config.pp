@@ -11,7 +11,8 @@ class graphite::web::config {
     group     => 'root',
     mode      => '0644',
     notify    => Service[$service_name],
-    content   => template('graphite/local_settings.py.erb');
+    content   => template('graphite/local_settings.py.erb'),
+    require   => Package['graphite-web'],
   }
 
   if $::osfamily == 'Debian' {
