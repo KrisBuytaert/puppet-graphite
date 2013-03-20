@@ -8,7 +8,7 @@ class graphite::web::params {
   }
 
   $service_name = $::osfamily ? {
-    default       => 'apache',
+    default       => 'httpd',
   }
 }
 
