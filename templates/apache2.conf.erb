@@ -1,8 +1,8 @@
 <VirtualHost *:80>
     ServerName   <%= @fqdn %>
     DocumentRoot "<%= graphite_prefix %>/webapp"
-    ErrorLog     /var/log/apache2/graphite_error.log
-    CustomLog    /var/log/apache2/graphite_access.log common
+    ErrorLog     <%= log_prefix %>/graphite_error.log
+    CustomLog    <%= log_prefix %>/graphite_access.log common
 
     <Location "/">
         SetHandler python-program

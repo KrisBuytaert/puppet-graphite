@@ -15,9 +15,11 @@ class graphite::web::config {
   }
 
   if $::osfamily == 'Redhat' {
-    $graphite_prefix = "/usr/share/graphite"
+    $graphite_prefix = "/usr/share/graphite",
+    $log_prefix = "/var/log/apache2"
   } else {
     $graphite_prefix = "/opt/graphite"
+    $log_prefix = "/var/log/graphite-web"
   }
 
   file { "${config_dir}/apache2.conf":
