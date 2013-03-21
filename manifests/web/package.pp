@@ -19,6 +19,10 @@ class graphite::web::package {
       ensure => present,
       before => Package[$package_name];
     }
+    package { 'mod_ssl':
+      ensure => present,
+      before => Package[$package_name};
+    }
   }
 
   package { $package_name:
