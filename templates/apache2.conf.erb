@@ -15,13 +15,16 @@ Listen 443
         SetEnv DJANGO_SETTINGS_MODULE graphite.settings
         PythonDebug Off
         PythonAutoReload Off
+        AuthLDAPUrl <%= ldap_url %>
+        AuthLDAPBindPassword <%= ldap_pw %>
+        Require ldap-group <%= ldap_group %>
     </Location>
 
     <Location "/content/">
         SetHandler None
+        AuthLDAPUrl <%= ldap_url %>
+        AuthLDAPBindPassword <%= ldap_pw %>
+        Require ldap-group <%= ldap_group %>
     </Location>
-    AuthLDAPUrl <%= ldap_url %>
-    AuthLDAPBindPassword <%= ldap_pw %>
-    Require ldap-group <%= ldap_group %>
 </VirtualHost>
 
