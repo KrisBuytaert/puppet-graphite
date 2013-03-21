@@ -1,8 +1,11 @@
-<VirtualHost *:80>
+<VirtualHost *:443>
     ServerName   <%= @fqdn %>
     DocumentRoot "<%= graphite_prefix %>/webapp"
     ErrorLog     <%= log_prefix %>/graphite_error.log
     CustomLog    <%= log_prefix %>/graphite_access.log common
+    SSLEngine on
+    SSLCertificateFile    /etc/ssl/certs/graphite-selfsigned.crt
+    SSLCertificateKeyFile /etc/ssl/private/graphite-selfsigned.key
 
     <Location "/">
         SetHandler python-program
