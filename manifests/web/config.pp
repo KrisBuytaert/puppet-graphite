@@ -31,7 +31,7 @@ class graphite::web::config {
   if $::osfamily == 'Redhat' {
     file { '/etc/httpd/conf.d/graphite.conf':
       ensure => 'link',
-      target => '${config_dir}/apache2.conf',
+      target => "${config_dir}/apache2.conf",
     }
   }
 }
