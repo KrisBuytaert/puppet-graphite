@@ -3,6 +3,9 @@
 class graphite::web::config {
   $config_dir   = $::graphite::web::params::config_dir
   $service_name = $::graphite::web::params::service_name
+  $ldap_url	= $::graphite::ldap_url
+  $ldap_pw	= $::graphite::ldap_pw
+  $ldap_group	= $::graphite::ldap_group
 
   file { 'local_settings.py':
     ensure    => file,
