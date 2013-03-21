@@ -42,6 +42,13 @@ class graphite::web::config {
       notify	=> Service[$service_name],
       content	=> template("graphite/mod_python_load.erb");
     }
+    file { '/etc/httpd/mod.d/mod_ssl.load':
+      ensure	=> present,
+      owner	=> 'root',
+      group	=> 'root',
+      notify	=> Service[$service_name],
+      content	=> template("graphite/mod_ssl_load.erb");
+    }
   }
 
   # XXX - Figure out how to use proper hubspot certs for prod.
