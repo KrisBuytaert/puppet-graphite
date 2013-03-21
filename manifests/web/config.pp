@@ -27,5 +27,12 @@ class graphite::web::config {
     notify  => Service[$service_name],
     content => template("graphite/apache2.conf.erb");
   }
+
+  if $::osfamily == 'Redhat' {
+    file { '/etc/httpd/conf.d/graphite.conf':
+      ensure => 'link',
+      target => '${config_dir}/apache2.conf',
+    }
+  }
 }
 
