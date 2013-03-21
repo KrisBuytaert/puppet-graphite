@@ -56,14 +56,14 @@ class graphite::web::config {
     ensure	=> present,
     owner	=> 'root',
     group	=> 'root',
-    content	=> 'puppet:///modules/graphite/graphite-selfsigned.crt',
+    source	=> 'puppet:///modules/graphite/graphite-selfsigned.crt',
   }
 
   file { '/etc/ssl/certs/graphite-selfsigned.key':
     ensure	=> present,
     owner	=> 'root',
     group	=> 'root',
-    content	=> 'puppet:///modules/graphite/graphite-selfsigned.key',
+    source	=> 'puppet:///modules/graphite/graphite-selfsigned.key',
   }
 }
 
