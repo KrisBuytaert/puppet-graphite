@@ -5,7 +5,7 @@
     CustomLog    <%= log_prefix %>/graphite_access.log common
     SSLEngine on
     SSLCertificateFile    /etc/ssl/certs/graphite-selfsigned.crt
-    SSLCertificateKeyFile /etc/ssl/private/graphite-selfsigned.key
+    SSLCertificateKeyFile /etc/ssl/certs/graphite-selfsigned.key
 
     <Location "/">
         SetHandler python-program
