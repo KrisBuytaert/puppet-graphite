@@ -18,7 +18,7 @@ class graphite::web::config {
     $graphite_prefix = "/usr/share/graphite",
     $log_prefix = "/var/log/apache2"
   } else {
-    $graphite_prefix = "/opt/graphite"
+    $graphite_prefix = "/opt/graphite",
     $log_prefix = "/var/log/graphite-web"
   }
 
