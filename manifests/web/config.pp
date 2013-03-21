@@ -40,14 +40,14 @@ class graphite::web::config {
       owner	=> 'root',
       group	=> 'root',
       notify	=> Service[$service_name],
-      content	=> template("graphite/mod_python_load.erb");
+      content	=> 'LoadModule python_module modules/mod_python.so'
     }
     file { '/etc/httpd/mod.d/mod_ssl.load':
       ensure	=> present,
       owner	=> 'root',
       group	=> 'root',
       notify	=> Service[$service_name],
-      content	=> template("graphite/mod_ssl_load.erb");
+      content	=> 'LoadModule ssl_module modules/mod_ssl.so'
     }
   }
 
