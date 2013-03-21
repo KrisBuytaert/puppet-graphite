@@ -43,5 +43,20 @@ class graphite::web::config {
       content	=> template("graphite/mod_python_load.erb");
     }
   }
+
+  # XXX - Figure out how to use proper hubspot certs for prod.
+  file { '/etc/ssl/certs/graphite-selfsigned.crt':
+    ensure	=> present,
+    owner	=> 'root',
+    group	=> 'root',
+    content	=> 'puppet:///modules/graphite/graphite-selfsigned.crt',
+  }
+
+  file { '/etc/ssl/certs/graphite-selfsigned.key':
+    ensure	=> present,
+    owner	=> 'root',
+    group	=> 'root',
+    content	=> 'puppet:///modules/graphite/graphite-selfsigned.key',
+  }
 }
 
