@@ -10,7 +10,7 @@
 #
 # * Implement user creation.
 #
-class graphite {
+class graphite ($ldap_url, $ldap_pw, $ldap_group) {
   include graphite::params
   include graphite::carbon
   include graphite::whisper

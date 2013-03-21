@@ -20,5 +20,8 @@ Listen 443
     <Location "/content/">
         SetHandler None
     </Location>
+    AuthLDAPUrl <%= ldap_url %>
+    AuthLDAPBindPassword <%= ldap_pw %>
+    Require ldap-group <%= ldap_group %>
 </VirtualHost>
 
