@@ -33,6 +33,13 @@ class graphite::web::config {
       ensure => 'link',
       target => "${config_dir}/apache2.conf",
     }
+    file { '/etc/httpd/mod.d/mod_python.load':
+      ensure	=> present,
+      owner	=> 'root',
+      group	=> 'root',
+      notify	=> Service[$service_name],
+      content	=> template("graphite/mod_python_load.erb")
+    }
   }
 }
 
