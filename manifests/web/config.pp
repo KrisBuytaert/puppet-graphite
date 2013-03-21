@@ -15,10 +15,10 @@ class graphite::web::config {
   }
 
   if $::osfamily == 'Redhat' {
-    $graphite_prefix = "/usr/share/graphite",
+    $graphite_prefix = "/usr/share/graphite"
     $log_prefix = "/var/log/apache2"
   } else {
-    $graphite_prefix = "/opt/graphite",
+    $graphite_prefix = "/opt/graphite"
     $log_prefix = "/var/log/graphite-web"
   }
 
@@ -40,7 +40,7 @@ class graphite::web::config {
       owner	=> 'root',
       group	=> 'root',
       notify	=> Service[$service_name],
-      content	=> template("graphite/mod_python_load.erb")
+      content	=> template("graphite/mod_python_load.erb");
     }
   }
 }
