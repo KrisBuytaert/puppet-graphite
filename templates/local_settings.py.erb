@@ -9,8 +9,11 @@
 # Set your local timezone (Django's default is America/Chicago)
 # If your graphs appear to be offset by a couple hours then this probably
 # needs to be explicitly set to your local timezone.
-TIME_ZONE = '<%= timezone %>'
-
+<% if @time_zone -%>
+TIME_ZONE = '<%= @time_zone %>'
+<% else -%>
+#TIME_ZONE = 'America/Los_Angeles'
+<% end -%>
 
 # Override this to provide documentation specific to your Graphite deployment
 #DOCUMENTATION_URL = "http://graphite.readthedocs.org/"
@@ -35,39 +38,85 @@ TIME_ZONE = '<%= timezone %>'
 # You should not use the loopback address (127.0.0.1) here if using clustering
 # as every webapp in the cluster should use the exact same values to prevent
 # unneeded cache misses. Set to [] to disable caching of images and fetched data
+<% if @memcache_hosts -%>
+MEMCACHE_HOSTS = ['<%= @memcache_hosts.join('\',\'') -%>']
+<% else -%>
 #MEMCACHE_HOSTS = ['10.10.10.10:11211', '10.10.10.11:11211', '10.10.10.12:11211']
+<% end -%>
 #DEFAULT_CACHE_DURATION = 60 # Cache images and data for 1 minute
-
 
 #####################################
 # Filesystem Paths #
 #####################################
 # Change only GRAPHITE_ROOT if your install is merely shifted from /opt/graphite
 # to somewhere else
+<% if @graphite_root -%>
+GRAPHITE_ROOT = '<%= @graphite_root %>'
+<%
+else
+  @graphite_root='/opt/graphite' -%>
 #GRAPHITE_ROOT = '/opt/graphite'
+<% end -%>
 
 # Most installs done outside of a separate tree such as /opt/graphite will only
 # need to change these three settings. Note that the default settings for each
 # of these is relative to GRAPHITE_ROOT
+<% if @conf_dir -%>
+CONF_DIR = '<%= @conf_dir %>'
+<% else -%>
 #CONF_DIR = '/opt/graphite/conf'
+<% end -%>
+<% if @storage_dir -%>
+STORAGE_DIR = '<%= @storage_dir %>'
+<%
+else
+  if @graphite_root
+    @storage_dir=@graphite_root + '/storage'
+  else
+    @storage_dir='/opt/graphite/storage'
+  end -%>
 #STORAGE_DIR = '/opt/graphite/storage'
+<% end -%>
+<% if @content_dir -%>
+CONTENT_DIR = '<%= @content_dir %>'
+<% else -%>
 #CONTENT_DIR = '/opt/graphite/webapp/content'
+<% end -%>
 
 # To further or fully customize the paths, modify the following. Note that the
 # default settings for each of these are relative to CONF_DIR and STORAGE_DIR
 #
 ## Webapp config files
+<% if @dashboard_conf -%>
+DASHBOARD_CONF = '<%= @dashboard_conf %>'
+<% else -%>
 #DASHBOARD_CONF = '/opt/graphite/conf/dashboard.conf'
+<% end -%>
+<% if @graphtemplates_conf -%>
+GRAPHTEMPLATES_CONF = '<%= @graphtemplates_conf %>'
+<% else -%>
 #GRAPHTEMPLATES_CONF = '/opt/graphite/conf/graphTemplates.conf'
+<% end -%>
 
 ## Data directories
 # NOTE: If any directory is unreadable in DATA_DIRS it will break metric browsing
+<% if @whisper_dir -%>
+WHISPER_DIR = '<%= @whisper_dir %>'
+<% else -%>
 #WHISPER_DIR = '/opt/graphite/storage/whisper'
+<% end -%>
 #RRD_DIR = '/opt/graphite/storage/rrd'
 #DATA_DIRS = [WHISPER_DIR, RRD_DIR] # Default: set from the above variables
+<% if @log_dir -%>
+LOG_DIR = '<%= @log_dir %>'
+<% else -%>
 #LOG_DIR = '/opt/graphite/storage/log/webapp'
+<% end -%>
+<% if @index_file -%>
+INDEX_FILE = '<%= @index_file %>' # Search index file
+<% else -%>
 #INDEX_FILE = '/opt/graphite/storage/index'  # Search index file
-
+<% end -%>
 
 #####################################
 # Email Configuration #
@@ -87,11 +136,32 @@ TIME_ZONE = '<%= timezone %>'
 #####################################
 # Authentication Configuration #
 #####################################
+<% if @use_ldap_auth -%>
+USE_LDAP_AUTH = True
+LDAP_SERVER = "<%= @ldap_server %>"
+<% if @ldap_port -%>
+LDAP_PORT = <%= @ldap_port %>
+<% end -%>
+<%if @ldap_search_base -%>
+LDAP_SEARCH_BASE = "<%= @ldap_search_base %>"
+<% end -%>
+<%if @ldap_base_user -%>
+LDAP_BASE_USER = "<%= @ldap_base_user %>"
+<% end -%>
+<%if @ldap_base_pass -%>
+LDAP_BASE_PASS = "<%= @ldap_base_pass %>"
+<% end -%>
+<%if @ldap_user_query -%>
+LDAP_USER_QUERY = "<%= @ldap_user_query %>"
+<% end -%>
+import ldap
+ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
+<% else -%>
 ## LDAP / ActiveDirectory authentication setup
 #USE_LDAP_AUTH = True
 #LDAP_SERVER = "ldap.mycompany.com"
 #LDAP_PORT = 389
-#	OR
+#       OR
 #LDAP_URI = "ldaps://ldap.mycompany.com:636"
 #LDAP_SEARCH_BASE = "OU=users,DC=mycompany,DC=com"
 #LDAP_BASE_USER = "CN=some_readonly_account,DC=mycompany,DC=com"
@@ -114,7 +184,7 @@ TIME_ZONE = '<%= timezone %>'
 
 # Override the URL for the login link (e.g. for django_openid_auth)
 #LOGIN_URL = '/account/login'
-
+<% end -%>
 
 ##########################
 # Database Configuration #
@@ -158,6 +228,23 @@ TIME_ZONE = '<%= timezone %>'
 #DATABASE_HOST = 'mysql.mycompany.com'
 #DATABASE_PORT = '3306'
 
+DATABASE_ENGINE = 'django.db.backends.sqlite3'
+DATABASE_NAME = '<%= @storage_dir %>/graphite.db'      # Or path to the database file if using sqlite3
+DATABASE_USER = ''
+DATABASE_PASSWORD = ''
+DATABASE_HOST = ''
+DATABASE_PORT = ''
+
+DATABASES = {
+    'default': {
+        'NAME': '<%= @storage_dir %>/graphite.db',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': ''
+    }
+}
 
 #########################
 # Cluster Configuration #
@@ -200,4 +287,3 @@ TIME_ZONE = '<%= timezone %>'
 # Uncomment the following line for direct access to Django settings such as
 # MIDDLEWARE_CLASSES or APPS
 #from graphite.app_settings import *
-

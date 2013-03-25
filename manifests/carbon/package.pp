@@ -1,14 +1,18 @@
-# Class: graphite::carbon::package
+# Class: graphite
 #
+# This module manages graphite
+#
+# Parameters:
+#
+# Actions:
+#
+# Requires:
+#
+# Sample Usage:
+#
+# [Remember: No empty lines between comments and class definition]
 class graphite::carbon::package {
-  $package_name = $::osfamily ? {
-    /(?i:Debian)/ => 'python-carbon',
-    /(?i:RedHat)/ => 'carbon',
-    default       => 'carbon',
-  }
-
-  package { $package_name:
+  package {'carbon':
     ensure => present;
   }
 }
-

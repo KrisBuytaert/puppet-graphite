@@ -1,32 +1,21 @@
-# Class: graphite::web::package
+# Class: graphite
 #
+# This module manages graphite
+#
+# Parameters:
+#
+# Actions:
+#
+# Requires:
+#
+# Sample Usage:
+#
+# [Remember: No empty lines between comments and class definition]
 class graphite::web::package {
-  $package_name = $::osfamily ? {
-    /(?i:Debian)/ => [
-      'python-django-tagging',
-      'python-graphite-web',
-    ],
-    /(?i:RedHat)/ => 'graphite-web',
-    default       => 'graphite-web',
-  }
-
-  if $::osfamily == 'RedHat' {
-    package { 'bitmap-fonts-compat':
-      ensure => present,
-      before => Package[$package_name];
-    }
-    package { 'mod_python':
-      ensure => present,
-      before => Package[$package_name];
-    }
-    package { 'mod_ssl':
-      ensure => present,
-      before => Package[$package_name];
-    }
-  }
-
-  package { $package_name:
-    ensure => present;
+  package {
+    'bitmap-fonts-compat':
+      ensure => present;
+    'graphite-web':
+      ensure => present;
   }
 }
-

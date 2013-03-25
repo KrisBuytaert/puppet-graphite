@@ -17,14 +17,15 @@ Listen 443
         PythonAutoReload Off
         AuthLDAPUrl <%= ldap_url %>
         AuthLDAPBindPassword <%= ldap_pw %>
-        Require ldap-group <%= ldap_group %>
+	Require valid-user
     </Location>
 
     <Location "/content/">
         SetHandler None
         AuthLDAPUrl <%= ldap_url %>
         AuthLDAPBindPassword <%= ldap_pw %>
-        Require ldap-group <%= ldap_group %>
+	AuthLDAPBindDN <% ldap_dn %>
+	Require valid-user
     </Location>
 </VirtualHost>
 

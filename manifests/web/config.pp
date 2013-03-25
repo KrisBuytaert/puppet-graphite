@@ -1,72 +1,51 @@
-# Class: graphite::web::config
+# Class: graphite
 #
-class graphite::web::config {
-  $config_dir   = $::graphite::web::params::config_dir
-  $service_name = $::graphite::web::params::service_name
-  $ldap_url	= $::graphite::ldap_url
-  $ldap_pw	= $::graphite::ldap_pw
-  $ldap_dn	= $::graphite::ldap_dn
+# This module manages graphite
+#
+# Parameters:
+#
+# Actions:
+#
+# Requires:
+#
+# Sample Usage:
+#
+# [Remember: No empty lines between comments and class definition]
+class graphite::web::config (
+  $graphite_root       = undef,
+  $conf_dir            = undef,
+  $storage_dir         = undef,
+  $content_dir         = undef,
+  $dashboard_conf      = undef,
+  $graphtemplates_conf = undef,
+  $whisper_dir         = undef,
+  $log_dir             = undef,
+  $index_file          = undef,
+  $time_zone           = undef,
+  $use_ldap_auth       = false,
+  $ldap_server         = undef,
+  $ldap_port           = 389,
+  $ldap_search_base    = undef,
+  $ldap_base_user      = undef,
+  $ldap_base_pass      = undef,
+  $ldap_user_query     = undef,
+  $memcache_hosts      = undef) {
+
+  exec { 'graphite_syncdb':
+    path        => ['/bin', '/usr/bin'],
+    command => "bash -c 'cd \$(python -c \"from distutils.sysconfig import get_python_lib; print(get_python_lib())\")/graphite && python ./manage.py syncdb'",
+    refreshonly => true,
+    subscribe   => File['local_settings.py'],
+  }
 
   file { 'local_settings.py':
-    ensure    => file,
-    path      => "${config_dir}/local_settings.py",
-    owner     => 'root',
-    group     => 'root',
-    mode      => '0644',
-    notify    => Service[$service_name],
-    content   => template('graphite/local_settings.py.erb');
-  }
-
-  if $::osfamily == 'Redhat' {
-    $graphite_prefix = "/usr/share/graphite"
-    $log_prefix = "/var/log/graphite-web"
-  } else {
-    $graphite_prefix = "/opt/graphite"
-    $log_prefix = "/var/log/apache2"
-  }
-
-  file { "${config_dir}/apache2.conf":
-    ensure  => present,
+    ensure  => file,
+    path    => '/etc/graphite-web/local_settings.py',
     owner   => 'root',
     group   => 'root',
-    notify  => Service[$service_name],
-    content => template("graphite/apache2.conf.erb");
+    mode    => '0644',
+    notify  => Service['httpd'],
+    content => template('graphite/local_settings.py.erb');
   }
 
-  if $::osfamily == 'Redhat' {
-    file { '/etc/httpd/conf.d/graphite.conf':
-      ensure => 'link',
-      target => "${config_dir}/apache2.conf",
-    }
-    file { '/etc/httpd/mod.d/mod_python.load':
-      ensure	=> present,
-      owner	=> 'root',
-      group	=> 'root',
-      notify	=> Service[$service_name],
-      content	=> 'LoadModule python_module modules/mod_python.so'
-    }
-    file { '/etc/httpd/mod.d/mod_ssl.load':
-      ensure	=> present,
-      owner	=> 'root',
-      group	=> 'root',
-      notify	=> Service[$service_name],
-      content	=> 'LoadModule ssl_module modules/mod_ssl.so'
-    }
-  }
-
-  # XXX - Figure out how to use proper hubspot certs for prod.
-  file { '/etc/ssl/certs/graphite-selfsigned.crt':
-    ensure	=> present,
-    owner	=> 'root',
-    group	=> 'root',
-    source	=> 'puppet:///modules/graphite/graphite-selfsigned.crt',
-  }
-
-  file { '/etc/ssl/certs/graphite-selfsigned.key':
-    ensure	=> present,
-    owner	=> 'root',
-    group	=> 'root',
-    source	=> 'puppet:///modules/graphite/graphite-selfsigned.key',
-  }
 }
-
