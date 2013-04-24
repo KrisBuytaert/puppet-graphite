@@ -1,4 +1,4 @@
-Puppet moduel for Graphite
+Puppet module for Graphite
 ==========================
 
 This is a puppet-graphite module.
