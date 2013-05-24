@@ -1,4 +1,4 @@
-# = Class: graphite
+# == Class: graphite
 #
 # This module manages graphite
 #

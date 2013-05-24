@@ -1,4 +1,4 @@
-# = Class: graphite::config
+# == Class: graphite::config
 #
 class graphite::config {
   $config_dir = $::graphite::params::config_dir

@@ -1,4 +1,4 @@
-# = Class: graphite::params
+# == Class: graphite::params
 #
 class graphite::params {
   $config_dir = $::osfamily ? {

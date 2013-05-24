@@ -1,4 +1,4 @@
-# = Class: graphite::whisper
+# == Class: graphite::whisper
 #
 # Description of graphite::whisper
 #
