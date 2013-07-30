@@ -2,7 +2,7 @@
 #
 class graphite::whisper::package {
   $package_name = $::osfamily ? {
-    default => 'whisper',
+    default => 'python-whisper',
   }
 
   $package_provider = $::osfamily ? {

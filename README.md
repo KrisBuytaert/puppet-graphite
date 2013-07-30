@@ -20,26 +20,9 @@ This module can be installed via the puppet module tool:
 Notes
 -----
 
-I've made the packaged versions of graphite-web, carbon and whisper. 
-available on
-
-The repository has been updated to have 0.9.10 versions of carbon, whisper and graphite-web
-
-
-    yumrepo { 'monitoringsucks':
-        baseurl  => 'http://pulp.inuits.eu/pulp/repos/monitoring',
-        descr    => 'MonitoringSuck at Inuits',
-        gpgcheck => '0',
-    }
-
-You can also use your own repo
-And you also need to have EPEL available  e.g from 
-
-    yumrepo {'epel':
-        baseurl  => 'http://pulp.inuits.eu/pulp/repos/epel/6/x86_64/',
-        descr    => 'Epel Repo at Inuits',
-        gpgcheck => '0',
-    }
+For EL6, Graphite, Carbon and Whisper are included in EPEL repository.
+You can use a module such as http://forge.puppetlabs.com/stahnma/epel to
+enable it on your machine.
 
 Usage
 -----
