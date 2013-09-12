@@ -1,5 +1,5 @@
 class graphite::whisper::package {
-  package {'pyhton-whisper':
+  package {'python-whisper':
     ensure => present;
   }
 }
