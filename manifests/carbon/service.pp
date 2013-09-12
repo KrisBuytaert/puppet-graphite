@@ -7,7 +7,7 @@ class graphite::carbon::service {
     enable     => true,
     hasrestart => true,
     hasstatus  => true,
-    require    => Package['carbon'],
+    require    => Package['python-carbon'],
   }
 
 
