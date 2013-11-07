@@ -8,7 +8,7 @@ Dependencies
 ------------
 This module depends on
 
-- [concat](http://forge.puppetlabs.com/ripienaar/concat)
+- [concat](http://forge.puppetlabs.com/puppetlabs/concat)
 
 Installation
 ------------
