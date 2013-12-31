@@ -11,7 +11,15 @@
 # Sample Usage:
 #
 # [Remember: No empty lines between comments and class definition]
-class graphite::web::config ($time_zone = undef){
+class graphite::web::config (
+  $time_zone         = undef,
+  $database_name     = '/var/lib/graphite-web/graphite.db',
+  $database_engine   = 'django.db.backends.sqlite3',
+  $database_user     = '',
+  $database_password = '',
+  $database_host     = '',
+  $database_port     = '',
+  ){
 
   file {'local_settings.py':
     ensure    => file,
