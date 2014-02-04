@@ -1,4 +1,4 @@
-# = Class: graphite::params
+# == Class: graphite::params
 #
 class graphite::params {
   $config_dir = $::osfamily ? {
@@ -7,6 +7,8 @@ class graphite::params {
     default       => '/etc/graphite-web',
   }
 
-  $manage_httpd = false
+  $manage_httpd      = false
+  $vhost_serveralias = undef
+  $vhost_servername  = $::fqdn
 }
 

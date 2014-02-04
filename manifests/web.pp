@@ -1,4 +1,4 @@
-# = Class: graphite::web
+# == Class: graphite::web
 #
 # Installs the graphite webfontend.
 #

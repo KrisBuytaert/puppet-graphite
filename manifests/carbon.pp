@@ -1,4 +1,4 @@
-# = Class: graphite::carbon
+# == Class: graphite::carbon
 #
 class graphite::carbon {
   include graphite::carbon::params

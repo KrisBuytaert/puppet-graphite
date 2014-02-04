@@ -1,4 +1,4 @@
-# = Class: graphite::demo
+# == Class: graphite::demo
 #
 # Setup client example.
 #
