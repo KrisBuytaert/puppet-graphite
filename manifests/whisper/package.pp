@@ -2,7 +2,8 @@
 #
 class graphite::whisper::package {
   $package_name = $::osfamily ? {
-    default => 'whisper',
+    /(?i:RedHat)/ => 'python-whisper',
+    default       => 'whisper',
   }
 
   $package_provider = $::osfamily ? {
