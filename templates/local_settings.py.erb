@@ -9,7 +9,7 @@
 # Set your local timezone (Django's default is America/Chicago)
 # If your graphs appear to be offset by a couple hours then this probably
 # needs to be explicitly set to your local timezone.
-TIME_ZONE = '<%= timezone %>'
+TIME_ZONE = '<%= @timezone %>'
 
 
 # Override this to provide documentation specific to your Graphite deployment
@@ -44,7 +44,9 @@ TIME_ZONE = '<%= timezone %>'
 #####################################
 # Change only GRAPHITE_ROOT if your install is merely shifted from /opt/graphite
 # to somewhere else
-#GRAPHITE_ROOT = '/opt/graphite'
+<% if @graphite_root %>
+GRAPHITE_ROOT = '<%= @graphite_root%>'
+<% end %>
 
 # Most installs done outside of a separate tree such as /opt/graphite will only
 # need to change these three settings. Note that the default settings for each
@@ -62,10 +64,10 @@ TIME_ZONE = '<%= timezone %>'
 
 ## Data directories
 # NOTE: If any directory is unreadable in DATA_DIRS it will break metric browsing
-#WHISPER_DIR = '/opt/graphite/storage/whisper'
+WHISPER_DIR = '/var/lib/carbon/whisper/'
 #RRD_DIR = '/opt/graphite/storage/rrd'
 #DATA_DIRS = [WHISPER_DIR, RRD_DIR] # Default: set from the above variables
-#LOG_DIR = '/opt/graphite/storage/log/webapp'
+LOG_DIR = '<%= @log_dir %>'
 #INDEX_FILE = '/opt/graphite/storage/index'  # Search index file
 
 
@@ -139,16 +141,16 @@ TIME_ZONE = '<%= timezone %>'
 #
 # Users with Django 1.2 or greater should use the new dictionary
 # specification as the old database specification style is removed in 1.4
-#DATABASES = {
-#    'default': {
-#        'NAME': '/opt/graphite/storage/graphite.db',
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'USER': '',
-#        'PASSWORD': '',
-#        'HOST': '',
-#        'PORT': ''
-#    }
-#}
+DATABASES = {
+    'default': {
+        'NAME': '<%= @database_name %>',
+        'ENGINE': '<%= @database_engine %>',
+        'USER': '<%= @database_user %>',
+        'PASSWORD': '<%= @database_password %>',
+        'HOST': '<%= @database_host %>',
+        'PORT': '<%= @database_port %>'
+    }
+}
 #
 # Users still on Django 1.1 must use the old method instead:
 #DATABASE_ENGINE = 'django.db.backends.mysql'

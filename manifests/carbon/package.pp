@@ -3,7 +3,7 @@
 class graphite::carbon::package {
   $package_name = $::osfamily ? {
     /(?i:Debian)/ => 'python-carbon',
-    /(?i:RedHat)/ => 'carbon',
+    /(?i:RedHat)/ => 'python-carbon',
     default       => 'carbon',
   }
 

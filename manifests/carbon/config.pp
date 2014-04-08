@@ -1,7 +1,6 @@
 # Class: graphite::carbon::config
 #
 class graphite::carbon::config {
-  include concat::setup
 
   $config_dir   = $::graphite::carbon::params::config_dir
   $service_name = $::graphite::carbon::params::service_name
