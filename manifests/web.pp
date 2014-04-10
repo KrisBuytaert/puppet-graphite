@@ -23,6 +23,7 @@ class graphite::web (
   $database_password = $::graphite::params::database_password,
   $database_host = $::graphite::params::database_host,
   $database_port = $::graphite::params::database_port,
+  $extra_http_config = undef,
 ) inherits graphite::params {
   include graphite::web::params
   include graphite::web::package
