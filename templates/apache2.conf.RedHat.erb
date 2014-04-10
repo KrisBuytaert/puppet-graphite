@@ -8,7 +8,6 @@
     ErrorLog /var/log/httpd/graphite-web-error.log
     CustomLog /var/log/httpd/graphite-web-access.log common
     Alias /media/ "/usr/lib/python2.6/site-packages/django/contrib/admin/media/"
-    Alias /d/ "/vagrant/d/"
     Alias /content/ "/usr/share/graphite/webapp/content/"
 
     WSGIScriptAlias / /usr/share/graphite/graphite-web.wsgi
@@ -19,10 +18,6 @@
       Allow from all
     </Directory>
 
-    <Directory "/vagrant/d/">
-      Order allow,deny
-      Allow from all
-    </Directory>
     <Directory "/usr/share/graphite/webapp/content/">
       Order allow,deny
       Allow from all
