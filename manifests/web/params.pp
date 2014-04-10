@@ -11,6 +11,11 @@ class graphite::web::params {
     /(?i:RedHat)/ => '/etc/graphite-web',
     default       => '/etc/graphite-web',
   }
+  $whisper_dir = $::osfamily ? {
+    /(?i:Debian)/ => '/opt/graphite/storage/whisper/',
+    /(?i:RedHat)/ => '/var/lib/carbon/whisper/',
+    default       => '/var/lib/carbon/whisper/',
+  }
   $http_config_dir = $::osfamily ? {
     /(?i:Debian)/ => '/opt/graphite/webapp/graphite',
     /(?i:RedHat)/ => '/etc/httpd/conf.d',

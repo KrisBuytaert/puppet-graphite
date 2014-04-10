@@ -23,5 +23,9 @@
       Allow from all
     </Directory>
 
+    <% if @extra_http_config %>
+    <%= @extra_http_config %>
+    <% end %>
+
 </VirtualHost>
 

@@ -7,6 +7,8 @@ class graphite::web::config ($timezone='Europe/Brussels'){
   $service_name = $::graphite::web::params::service_name
   $django_root_dir = $::graphite::params::django_root_dir
   $graphite_root = $::graphite::web::params::graphite_root
+  $extra_http_config = $::graphite::web::extra_http_config
+  $whisper_dir = $::graphite::web::params::whisper_dir
 
   exec { 'graphite_syncdb':
     command     => 'python manage.py syncdb --noinput',

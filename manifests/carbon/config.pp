@@ -2,16 +2,17 @@
 #
 class graphite::carbon::config {
 
-  $config_dir   = $::graphite::carbon::params::config_dir
-  $service_name = $::graphite::carbon::params::service_name
-  $www_group    = $::graphite::carbon::params::www_group
-  $www_user     = $::graphite::carbon::params::www_user
+  $config_dir          = $::graphite::carbon::params::config_dir
+  $service_name        = $::graphite::carbon::params::service_name
+  $www_group           = $::graphite::carbon::params::www_group
+  $www_user            = $::graphite::carbon::params::www_user
+  $enable_udp_listener = $::graphite::carbon::enable_udp_listener
 
   concat { "${config_dir}/storage-schemas.conf":
     group  => '0',
     mode   => '0644',
     owner  => '0',
-    notify => Service['carbon-cache'];
+    notify => Service[$service_name];
   }
 
   concat::fragment { 'header':
@@ -20,12 +21,13 @@ class graphite::carbon::config {
     source => 'puppet:///modules/graphite/storage-schemas.conf',
   }
 
-  if $::osfamily == 'Debian' {
+  if $::osfamily == 'Debian' or $::osfamily == 'RedHat' {
     # Fixme: needs abstraction
     file { "${config_dir}/carbon.conf":
       ensure  => present,
       mode    => '0640',
       content => template("graphite/carbon.conf.${::osfamily}.erb"),
+      notify  => Service[$service_name];
     }
   }
 

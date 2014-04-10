@@ -13,14 +13,15 @@ class graphite::params {
     default       => '/etc/graphite-web',
   }
 
-  $manage_httpd = false
+  $manage_httpd        = false
+  $enable_udp_listener = false
 
-  $database_name = '/opt/graphite/storage/graphite.db'
-  $database_engine = 'django.db.backends.sqlite3'
-  $database_user = ''
-  $database_password = ''
-  $database_host = ''
-  $database_port = ''
+  $database_name       = '/opt/graphite/storage/graphite.db'
+  $database_engine     = 'django.db.backends.sqlite3'
+  $database_user       = ''
+  $database_password   = ''
+  $database_host       = ''
+  $database_port       = ''
 
 }
 

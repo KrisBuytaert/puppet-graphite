@@ -16,5 +16,10 @@
     <Location "/content/">
         SetHandler None
     </Location>
+
+    <% if @extra_http_config %>
+    <%= @extra_http_config %>
+    <% end %>
+
 </VirtualHost>
 
