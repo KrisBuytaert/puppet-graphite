@@ -1,7 +1,7 @@
 # Class: graphite::web::config
 #
 class graphite::web::config ($timezone='Europe/Brussels'){
-  $config_dir   = $::graphite::web::params::config_dir
+  $config_dir   = $::graphite::web::config_dir
   $http_config_dir = $::graphite::web::params::http_config_dir
   $log_dir      = $::graphite::web::params::log_dir
   $service_name = $::graphite::web::params::service_name
