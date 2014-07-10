@@ -16,8 +16,8 @@
 #
 class graphite::web (
   $time_zone                = $::graphite::params::time_zone,
-  $manage_httpd             = $::graphite::params::manage_httpd
-  $basic_http_auth          = $::graphite::params::basic_http_auth
+  $manage_httpd             = $::graphite::params::manage_httpd,
+  $basic_http_auth          = $::graphite::params::basic_http_auth,
   $basic_http_auth_password = $::graphite::params::basic_http_auth_password
   ) {
   require graphite::params
