@@ -30,4 +30,18 @@ class graphite::web::config (
     notify    => Service['httpd'],
     content   => template('graphite/local_settings.py.erb');
   }
+
+  include ::logrotate
+  logrotate::file {'graphite-web':
+    log        => '/var/log/graphite-web/error.log',
+    options    => [
+      'daily',
+      'missingok',
+      'rotate 7',
+      'compress',
+      'delaycompress',
+      'notifempty',
+      ],
+  }
+
 }
