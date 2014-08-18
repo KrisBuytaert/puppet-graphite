@@ -20,6 +20,7 @@ class graphite (
   $database_host       = $::graphite::params::database_host,
   $database_port       = $::graphite::params::database_port,
   $enable_udp_listener = $::graphite::params::enable_udp_listener,
+  $timezone            = $::graphite::params::timezone,
   $extra_http_config   = undef,
 ) inherits graphite::params {
   class {

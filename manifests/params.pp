@@ -22,6 +22,7 @@ class graphite::params {
   $database_password   = ''
   $database_host       = ''
   $database_port       = ''
+  $timezone            = 'UTC'
 
 }
 
