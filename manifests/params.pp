@@ -15,7 +15,7 @@ class graphite::params (
   $manage_httpd             = false,
   $basic_http_auth          = false,
   $basic_http_auth_password = undef,
-  $whisper_dir              = '/opt/graphite/storage/whisper',
+  $whisper_dir              = '/var/lib/carbon/whisper/',
 ) {
 
 }

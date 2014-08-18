@@ -13,7 +13,7 @@
 # [Remember: No empty lines between comments and class definition]
 class graphite::web::config (
   $time_zone         = undef,
-  $whisper_dir       = '/opt/graphite/storage/whisper',
+  $whisper_dir       = '/var/lib/carbon/whisper/',
   $database_name     = '/var/lib/graphite-web/graphite.db',
   $database_engine   = 'django.db.backends.sqlite3',
   $database_user     = '',
