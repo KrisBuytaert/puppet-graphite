@@ -37,7 +37,7 @@ do {
 sub main {
     my $graphite;
     if($Config{graphite}) {
-        open($graphite, "|nc -q 2 $Config{graphite} 2003") || die("Failed to netcat to $Config{graphite}: $!");
+        open($graphite, "|nc $Config{graphite} 2003") || die("Failed to netcat to $Config{graphite}: $!");
 	select $graphite; 
     }
 
