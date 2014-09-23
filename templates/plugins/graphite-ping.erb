@@ -10,7 +10,7 @@ running_domains=`ps aux|grep /usr/local/sbin/graphite-ping|awk '{print $14}'|gre
 
 if [ "" = "$running_domains" ]
 then
- /usr/bin/perl /usr/local/sbin/graphite-ping --host <%= @host %> --prefix hetzner-network.<%= @host %> \
+ /usr/bin/perl /usr/local/sbin/graphite-ping --host <%= @host %> --prefix hetzner-network.<%= @fqdn %> \
    --continuous --graphite-server graphite.internal.inuits.eu &
 fi
 
