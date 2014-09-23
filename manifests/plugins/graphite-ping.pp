@@ -17,7 +17,7 @@ define graphite::plugins::graphite-ping {
   if !defined(File["/etc/cron.hourly/99graphite-ping-${host}"]){
     file { "/etc/cron.hourly/99graphite-ping-${host}":
       path    => "/etc/cron.hourly/99graphite-ping-${host}",
-      user    => root,
+      owner   => root,
       group   => root,
       mode    => '0775',
       content => template('graphite/plugins/graphite-ping.erb'),
@@ -25,10 +25,10 @@ define graphite::plugins::graphite-ping {
   }
 
   if !defined(File['/usr/local/sbin/graphite-ping']){
-    file { 'graphite-ping':
+    file { '/usr/local/sbin/graphite-ping':
       ensure  => present,
       path    => '/usr/local/sbin/graphite-ping',
-      user    => root,
+      owner   => root,
       group   => root,
       mode    => '0755',
       content => 'puppet:///modules/graphite/plugins/graphite-ping',
