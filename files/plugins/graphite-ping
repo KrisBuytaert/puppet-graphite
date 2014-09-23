@@ -1,0 +1,132 @@
+#!/usr/bin/perl
+
+## This file is managed by puppet ##
+
+# source: https://github.com/dmsasser/graphiteutils
+
+# purpose:  Graphite probe to measure packet loss.  Relies on the ping command
+use strict;
+use Getopt::Long;
+use vars qw (%Config);
+use Time::Local;
+use POSIX 'strftime';
+use Sys::Hostname;
+
+#$Config{count}=60;
+
+unless(GetOptions(
+	   "debug" => \$Config{debug},
+	   "prefix=s" => \$Config{prefix},
+	   "host=s" => \$Config{host},
+	   "count=s" => \$Config{count},
+	   "continuous" => \$Config{continuous},
+	   "graphite-server=s" => \$Config{graphite},
+       )) {
+    print STDERR "Invalid usage\n";
+    exit 1;
+}
+
+die("Must specify -host") unless $Config{host};
+$Config{prefix}="system." . hostname unless $Config{prefix};
+
+do {
+    $Config{date}=time;
+    &main;
+} while $Config{continuous};
+
+sub main {
+    my $graphite;
+    if($Config{graphite}) {
+        open($graphite, "|nc -q 2 $Config{graphite} 2003") || die("Failed to netcat to $Config{graphite}: $!");
+	select $graphite; 
+    }
+
+    #open(my $ping, "ping -c $Config{count} $Config{host} 2>&1 |") || die("Failed to run ping $Config{host}: $!");
+    open(my $ping, "ping $Config{host} 2>&1 |") || die("Failed to run ping $Config{host}: $!");
+
+    my @times;
+    my $loss;
+
+    while(<$ping>) {
+	if(/bytes from.*time=(\S+) ms/) {
+	    push(@times, $1);
+	}
+	if(/(\d+)% packet loss/) {
+	    $loss = $1;
+	}
+	if(/^ping: unknown host/) {
+	    close $ping;
+	    return;
+	}
+    }
+
+    close $ping;
+
+    my @times = sort { $a <=> $b} @times;
+
+	my ($min, $max, $average, $count) = &stats(@times);
+	my $stddev = &stddev($average, @times);
+	my $median = $times[int($#times)*.5];
+	my $ninety = $times[int($#times)*.9];
+
+    my $hostkey = $Config{host};
+    $hostkey =~ s/[^[a-zA-Z0-9_-]/_/g;
+
+    if(@times) {
+	&write("ping.$hostkey.min.ms", $min);
+	&write("ping.$hostkey.max.ms", $max);
+	&write("ping.$hostkey.average.ms", $average);
+	&write("ping.$hostkey.stddev.ms", $stddev);
+	&write("ping.$hostkey.median.ms", $median);
+	&write("ping.$hostkey.90percent.ms", $ninety);
+    }
+    &write("ping.$hostkey.packet_loss.percent", $loss);
+
+    close $graphite if $graphite;
+}
+
+sub stats {
+    my $min = 999999999;
+    my $max = 0;
+    my ($sum, $count);
+    foreach my $value (@_) {
+	$min = $value>$min?$min:$value;
+	$max = $value>$max?$value:$max;
+	$sum += $value;
+	$count ++;
+    }
+
+    return 0 unless $count;
+
+    return ($min, $max, ($sum/$count), $count);
+}
+
+sub stddev {
+    my $mean = shift;
+
+    my ($sum, $count);
+    foreach my $value (@_) {
+	$sum += abs($value-$mean);
+	$count ++;
+    }
+
+    return 0 unless $count;
+
+    return $sum/$count;
+}
+
+
+sub write {
+    my $key = shift;
+    my $value = shift;
+    my $date = shift;
+
+    $value = 0 unless $value;
+    $date = $Config{date} unless $date;
+
+    my $metric = "$Config{prefix}.$key";
+
+    $metric =~ s/[^a-zA-Z0-9_\.-]/_/g;
+
+    print "$metric $value $date\n";
+}

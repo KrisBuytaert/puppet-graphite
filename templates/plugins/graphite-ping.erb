@@ -1,0 +1,16 @@
+#!/bin/bash
+### File managed with puppet ###
+### Served by:        '<%= scope.lookupvar('::servername') %>'
+### Module:           '<%= scope.to_hash['module_name'] %>'
+### Template source:  '<%= template_source %>'
+
+
+# return empty string, when grapthite-ping is not running for particular host
+running_domains=`ps aux|grep /usr/local/sbin/graphite-ping|awk '{print $14}'|grep <%= @host %>`
+
+if [ "" = "$running_domains" ]
+then
+ /usr/bin/perl /usr/local/sbin/graphite-ping --host <%= @host %> --prefix hetzner-network.<%= @host %> \
+   --continuous --graphite-server graphite.internal.inuits.eu &
+fi
+
