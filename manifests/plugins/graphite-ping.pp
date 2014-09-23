@@ -20,7 +20,7 @@ define graphite::plugins::graphite-ping {
       user    => root,
       group   => root,
       mode    => '0775',
-      content => template('plugins/graphite-ping.erb'),
+      content => template('graphite/plugins/graphite-ping.erb'),
     }
   }
 
