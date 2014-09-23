@@ -31,7 +31,7 @@ define graphite::plugins::graphite-ping {
       owner   => root,
       group   => root,
       mode    => '0755',
-      content => 'puppet:///modules/graphite/plugins/graphite-ping',
+      source  => 'puppet:///modules/graphite/plugins/graphite-ping',
     }
   }
 
