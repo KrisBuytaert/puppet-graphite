@@ -12,7 +12,7 @@ use Time::Local;
 use POSIX 'strftime';
 use Sys::Hostname;
 
-#$Config{count}=60;
+$Config{count}=60;
 
 unless(GetOptions(
 	   "debug" => \$Config{debug},
@@ -41,8 +41,7 @@ sub main {
 	select $graphite; 
     }
 
-    #open(my $ping, "ping -c $Config{count} $Config{host} 2>&1 |") || die("Failed to run ping $Config{host}: $!");
-    open(my $ping, "ping $Config{host} 2>&1 |") || die("Failed to run ping $Config{host}: $!");
+    open(my $ping, "ping -c $Config{count} $Config{host} 2>&1 |") || die("Failed to run ping $Config{host}: $!");
 
     my @times;
     my $loss;

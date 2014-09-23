@@ -4,7 +4,10 @@
 #
 # source: https://github.com/dmsasser/graphiteutils
 
-define graphite::plugins::graphite-ping ($host){
+define graphite::plugins::graphite-ping (){
+  
+  $host = $name
+
   if !defined(Package['nc']){
     package { 'nc':
       ensure => installed,
@@ -16,16 +19,18 @@ define graphite::plugins::graphite-ping ($host){
       path    => "/etc/cron.hourly/99graphite-ping-${host}",
       user    => root,
       group   => root,
-      mode    => 0775,
+      mode    => '0775',
       content => template('plugins/graphite-ping.erb'),
   }
 
   if !defined(File['/usr/local/sbin/graphite-ping']{
     file { 'graphite-ping':
-    path    => '/usr/local/sbin/graphite-ping',
-    ensure  => present,
-    mode    => 0755,
-    content => 'puppet:///graphite/plugins/graphite-ping',
+      ensure  => present,
+      path    => '/usr/local/sbin/graphite-ping',
+      user    => root,
+      group   => root,
+      mode    => '0755',
+      content => 'puppet:///modules/graphite/plugins/graphite-ping',
     }
   }
 
