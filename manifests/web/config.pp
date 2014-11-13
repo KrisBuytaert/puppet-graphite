@@ -1,6 +1,8 @@
 # Class: graphite::web::config
 #
-class graphite::web::config ($timezone='Europe/Brussels'){
+class graphite::web::config (
+  $timezone = $::timezone,
+){
   $config_dir        = $::graphite::web::config_dir
   $http_config_dir   = $::graphite::web::params::http_config_dir
   $log_dir           = $::graphite::web::params::log_dir
