@@ -25,5 +25,18 @@ class graphite::carbon::config {
     source  => 'puppet:///modules/graphite/storage-schemas.conf'
   }
 
+  include ::logrotate
+  logrotate::file {'carbon':
+    log        => '/var/log/carbon/console.log',
+    options    => [
+      'daily',
+      'missingok',
+      'rotate 7',
+      'compress',
+      'delaycompress',
+      'notifempty',
+      ],
+  }
+
 
 }
