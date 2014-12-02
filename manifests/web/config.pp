@@ -34,7 +34,7 @@ class graphite::web::config (
 
   include ::logrotate
   logrotate::file {'graphite-web':
-    log        => '/var/log/graphite-web/error.log',
+    log        => ['/var/log/graphite-web/error.log', '/var/log/graphite-web/access.log'],
     options    => [
       'daily',
       'missingok',
