@@ -43,6 +43,7 @@ class graphite::web::config (
       'delaycompress',
       'notifempty',
       ],
+    postrotate => '/etc/init.d/httpd reload > /dev/null',
   }
 
 }
