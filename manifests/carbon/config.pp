@@ -25,5 +25,26 @@ class graphite::carbon::config {
     source  => 'puppet:///modules/graphite/storage-schemas.conf'
   }
 
+  file { '/etc/carbon/carbon.conf':
+    group  => 'root',
+    owner  => 'root'
+    mode   => '0644',
+    source => 'puppet:///modules/graphite/carbon.conf'
+  }
+
+  #Set up logrotation to deal with the logs
+  include ::logrotate
+  logrotate::file{'carbon':
+    log     => '/var/log/carbon/*.log',
+    options => [
+      'daily',
+      'compress',
+      'delaycompress',
+      'missingok',
+      'postrotate',
+      '/etc/init.d/carbon-cache restart',
+      'endscript',
+    ]
+  }
 
 }
