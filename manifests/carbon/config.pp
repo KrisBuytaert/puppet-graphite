@@ -27,7 +27,7 @@ class graphite::carbon::config {
 
   file { '/etc/carbon/carbon.conf':
     group  => 'root',
-    owner  => 'root'
+    owner  => 'root',
     mode   => '0644',
     source => 'puppet:///modules/graphite/carbon.conf'
   }
