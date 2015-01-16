@@ -38,6 +38,7 @@ class graphite::carbon::config {
     log     => '/var/log/carbon/*.log',
     options => [
       'daily',
+      'rotate 7',
       'compress',
       'delaycompress',
       'missingok',
