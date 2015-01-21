@@ -40,7 +40,6 @@ class graphite::carbon::config {
       'daily',
       'rotate 7',
       'compress',
-      'delaycompress',
       'missingok',
       'postrotate',
       '/etc/init.d/carbon-cache restart',
