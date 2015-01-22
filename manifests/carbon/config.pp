@@ -42,7 +42,7 @@ class graphite::carbon::config {
       'compress',
       'missingok',
       'postrotate',
-      '/etc/init.d/carbon-cache restart',
+      '/bin/kill -HUP `cat /var/run/carbon-cache.pid 2> /dev/null` 2> /dev/null || true',
       'endscript',
     ]
   }
