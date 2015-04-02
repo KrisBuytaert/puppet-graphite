@@ -11,7 +11,7 @@
 # * Implement user creation.
 #
 class graphite::params (
-  $carbon_package           = 'python-graphite',
+  $carbon_package           = 'python-carbon',
   $carbon_package_ensure  = 'present',
   $carbon_config_dir      = '/etc/carbon',
   $time_zone                = 'UTC',
