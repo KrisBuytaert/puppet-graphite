@@ -1,16 +1,88 @@
-# = Class: graphite::carbon
+#= undef,
 #
 # Install carbon and enable carbon.
 #
-# == Actions:
+#= undef,
 #
 # Installs the carbon package and enables the carbon service.
 #
-# == Todo:
+#= undef,
 #
 # * Update documentation
 #
-class graphite::carbon inherits graphite::params {
+class graphite::carbon (
+  $carbon_config_dir                         = undef,
+  $carbon_enable_logrotation                 = undef,
+  $carbon_user                               = undef,
+  $carbon_max_cache_size                     = undef,
+  $carbon_max_updates_per_second             = undef,
+  $carbon_max_updates_per_second_on_shutdown = undef,
+  $carbon_max_creates_per_minute             = undef,
+  $carbon_line_receiver_interface            = undef,
+  $carbon_line_receiver_port                 = undef,
+  $carbon_enable_udp_listerner               = undef,
+  $carbon_udp_receiver_interface             = undef,
+  $carbon_udp_receiver_port                  = undef,
+  $carbon_pickle_receiver_interface          = undef,
+  $carbon_pickle_receiver_port               = undef,
+  $carbon_log_listener_connections           = undef,
+  $carbon_use_insecure_unpickler             = undef,
+  $carbon_cache_query_interface              = undef,
+  $carbon_cache_query_port                   = undef,
+  $carbon_use_flow_control                   = undef,
+  $carbon_log_updates                        = undef,
+  $carbon_log_cache_hits                     = undef,
+  $carbon_log_cache_queu_sorts               = undef,
+  $carbon_cache_write_strategy               = undef,
+  $carbon_whisper_autoflush                  = undef,
+  $carbon_whisper_sparse_create              = undef,
+  $carbon_whisper_fallocate_create           = undef,
+  $carbon_whisper_lock_writes                = undef,
+  $carbon_use_whitelist                      = undef,
+  $carbon_carbon_metric_prefix               = undef,
+  $carbon_carbon_metric_interval             = undef,
+  $carbon_enable_amqp                        = undef,
+  $carbon_amqp_verbose                       = undef,
+  $carbon_amqp_host                          = undef,
+  $carbon_amqp_port                          = undef,
+  $carbon_amqp_vhost                         = undef,
+  $carbon_ampq_user                          = undef,
+  $carbon_amqp_password                      = undef,
+  $carbon_amqp_exchange                      = undef,
+  $caron_metric_name_in_body                 = undef,
+  $carbon_bind_patterns                      = undef,
+  $relay_user                                = undef,
+  $relay_line_receiver_interface             = undef,
+  $relay_line_receiver_port                  = undef,
+  $relay_pickle_receiver_interface           = undef,
+  $relay_pickle_receiver_port                = undef,
+  $relay_log_listener_connections            = undef,
+  $relay_method                              = undef,
+  $relay_replication_factor                  = undef,
+  $relay_destinations                        = undef,
+  $relay_max_data_points_per_message         = undef,
+  $relay_max_queue_size                      = undef,
+  $relay_use_flow_control                    = undef,
+  $relay_use_whitelist                       = undef,
+  $relay_carbon_metric_prefix                = undef,
+  $relay_carbon_metirc_interval              = undef,
+  $aggregator_user                           = undef,
+  $aggregator_line_receiver_interface        = undef,
+  $aggregator_line_receiver_port             = undef,
+  $aggregator_pickle_receiver_interface      = undef,
+  $aggregator_pickle_receiver_port           = undef,
+  $aggregator_log_listener_connections       = undef,
+  $aggregator_forward_all                    = undef,
+  $aggregator_destinations                   = undef,
+  $aggregator_replication_factor             = undef,
+  $aggregator_max_queue_size                 = undef,
+  $aggregator_use_flow_control               = undef,
+  $aggregator_max_datapoints_per_message     = undef,
+  $aggregator_max_aggregation_intervals      = undef,
+  $aggregator_use_whitelist                  = undef,
+  $aggregator_carbon_metric_prefix           = undef,
+  $aggregator_carbon_metric_interval         = undef,
+) inherits graphite::params {
 
   contain graphite::carbon::package
   contain graphite::carbon::config
