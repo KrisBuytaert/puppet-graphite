@@ -21,7 +21,7 @@ class graphite::params (
   $carbon_max_updates_per_second             = '500',
   $carbon_max_updates_per_second_on_shutdown = '1000',
   $carbon_max_creates_per_minute    = '50',
-  $carbon_line_receiver_interface   = '0.0.0.0'
+  $carbon_line_receiver_interface   = '0.0.0.0',
   $carbon_line_receiver_port        = '2013',
   $carbon_enable_udp_listerner      = 'False',
   $carbon_udp_receiver_interface    = '0.0.0.0',
@@ -61,7 +61,7 @@ class graphite::params (
   $relay_pickle_receiver_port       = '2014',
   $relay_log_listener_connections   = 'True',
   $relay_method                     = 'rules',
-  $relay_replication_factor         = '1'
+  $relay_replication_factor         = '1',
   $relay_destinations               = '127.0.0.1:2004',
   $relay_max_data_points_per_message = '500',
   $relay_max_queue_size             = '10000',
