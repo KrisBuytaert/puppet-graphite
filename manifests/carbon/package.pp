@@ -13,7 +13,7 @@
 # [Remember: No empty lines between comments and class definition]
 class graphite::carbon::package inherits graphite::carbon{
   package { $carbon_package:
-    ensure => $carbon_packagge_ensure,
+    ensure => $carbon_package_ensure,
     before => Service['carbon-cache'];
   }
 }
