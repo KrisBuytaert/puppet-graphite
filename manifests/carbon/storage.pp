@@ -1,8 +1,8 @@
-define graphite::carbon::storage ( $pattern,$retentions){
+define graphite::carbon::storage ( $pattern,$retentions) inherits graphite::carbon {
   concat::fragment {$name:
-    target  => '/etc/carbon/storage-schemas.conf',
+    target  => "${carbon_config_dir}storage-schemas.conf",
     order   => 10,
-    content => template('graphite/storage-schemas.erb'),
+    content => template('graphite/carbon/storage-schemas.conf.erb'),
     notify  => Service['carbon-cache']
   }
 

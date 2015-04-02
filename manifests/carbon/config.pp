@@ -31,6 +31,7 @@ class graphite::carbon::config inherits graphite::carbon {
     owner   => '0',
     notify  => Service['carbon-cache'],
   }
+
   concat::fragment { 'header':
     target  => "${carbon_config_dir}storage-schemas.conf",
     order   => 0,
