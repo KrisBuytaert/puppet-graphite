@@ -33,9 +33,9 @@ class graphite::carbon::config inherits graphite::carbon {
   }
 
   concat::fragment { 'header':
-    target  => "${carbon_config_dir}storage-schemas.conf",
-    order   => 0,
-    content => template('graphite/carbon/storage-schemas.erb'),
+    target => "${carbon_config_dir}storage-schemas.conf",
+    order  => 0,
+    source => 'puppet:///modules/graphite/storage-schemas.conf',
   }
 
   file { "${carbon_config_dir}carbon.conf":
