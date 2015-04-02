@@ -10,10 +10,10 @@
 #
 # * Update documentation
 #
-class graphite::carbon {
+class graphite::carbon inherits graphite::params {
 
-  include graphite::carbon::package
-  include graphite::carbon::config
-  include graphite::carbon::service
+  contain graphite::carbon::package
+  contain graphite::carbon::config
+  contain graphite::carbon::service
+
 }
-

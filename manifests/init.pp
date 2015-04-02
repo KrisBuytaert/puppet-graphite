@@ -10,7 +10,7 @@
 #
 # * Implement user creation.
 #
-class graphite{
+class graphite inherits graphite::params{
 
   include graphite::carbon
   include graphite::whisper
