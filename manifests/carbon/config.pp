@@ -1,14 +1,26 @@
 # Class: graphite
 #
-# This module manages graphite
+# This is a private class, do not use inside a manifest/role/profile
 #
 # Parameters:
 #
+# $carbon_config_dir:
+#   The directory where the carbon config is put in.
+#   Default: '/etc/carbon/'
+#
 # Actions:
+#
+# Build the config files using templetes.
+# Variables withing the 'graphite::carbon' scope will be injected in the config.
 #
 # Requires:
 #
+# graphite::carbon::package
+# inherits params from graphite::carbon
+#
 # Sample Usage:
+#
+# contain graphite::carbon::config
 #
 # [Remember: No empty lines between comments and class definition]
 class graphite::carbon::config inherits graphite::carbon {
