@@ -11,6 +11,7 @@
 # * Update documentation
 #
 class graphite::carbon (
+  $carbon_cache_amount                       = '1',
   $carbon_cache_service_name                 = $graphite::params::carbon_cache_service_name,
   $carbon_cache_service_ensure               = $graphite::params::carbon_cache_service_ensure,
   $carbon_package                            = $graphite::params::carbon_package,
