@@ -217,12 +217,13 @@ WHISPER_FALLOCATE_CREATE = <%= scope.lookupvar('graphite::carbon::carbon_whisper
 # from [carbon] section.
 # You can then specify the --instance=b option to manage this instance
 <% @carbon_cache_amount.each do |cache_instance| -%>
- [cache:<%= cache_instance %>]
- LINE_RECEIVER_PORT = <%= scope.lookupvar('graphite::carbon::carbon_line_receiver_port') %>
- UDP_RECEIVER_PORT = <%= scope.lookupvar('graphite::carbon::carbon_udp_receiver_port') %>
- PICKLE_RECEIVER_PORT = <%= scope.lookupvar('graphite::carbon::carbon_pickle_receiver_port') %>
- CACHE_QUERY_PORT = <%= scope.lookupvar('graphite::carbon::carbon_cache_query_port') %>
+[cache:<%= cache_instance %>]
+LINE_RECEIVER_PORT = <%= scope.lookupvar('graphite::carbon::carbon_line_receiver_port') %>
+UDP_RECEIVER_PORT = <%= scope.lookupvar('graphite::carbon::carbon_udp_receiver_port') %>
+PICKLE_RECEIVER_PORT = <%= scope.lookupvar('graphite::carbon::carbon_pickle_receiver_port') %>
+CACHE_QUERY_PORT = <%= scope.lookupvar('graphite::carbon::carbon_cache_query_port') %>
 <% end -%>
+
 [relay]
 USER = <%= scope.lookupvar('graphite::carbon::relay_user') %>
 LINE_RECEIVER_INTERFACE = <%= scope.lookupvar('graphite::carbon::relay_line_receiver_interface') %>
