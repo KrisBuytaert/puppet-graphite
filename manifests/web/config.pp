@@ -28,7 +28,7 @@ class graphite::web::config (
     owner     => 'root',
     group     => 'root',
     mode      => '0644',
-    notify    => Service['httpd'],
+    #notify    => Service['httpd'],
     content   => template('graphite/local_settings.py.erb');
   }
 }
