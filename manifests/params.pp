@@ -7,6 +7,8 @@
 #   contain graphite::params
 #
 class graphite::params (
+  $carbon_cache_service_name                 = 'carbon-cache',
+  $carbon_cache_service_enable               = 'running',
   $carbon_package                            = 'python-carbon',
   $carbon_package_ensure                     = 'present',
   $time_zone                                 = 'UTC',
@@ -14,7 +16,7 @@ class graphite::params (
   $basic_http_auth                           = false,
   $basic_http_auth_password                  = undef,
   $whisper_dir                               = '/var/lib/carbon/whisper/',
-  $carbon_config_dir                         = '/etc/carbon',
+  $carbon_config_dir                         = '/etc/carbon/',
   $carbon_enable_logrotation                 = 'False',
   $carbon_user                               = 'carbon',
   $carbon_max_cache_size                     = 'inf',
