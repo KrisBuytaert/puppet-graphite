@@ -11,6 +11,7 @@ class graphite::params (
   $carbon_cache_service_enable               = 'running',
   $carbon_package                            = 'python-carbon',
   $carbon_package_ensure                     = 'present',
+  $carbon_cache_amount                       = $::processorcount,
   $time_zone                                 = 'UTC',
   $manage_httpd                              = false,
   $basic_http_auth                           = false,
@@ -89,5 +90,8 @@ class graphite::params (
   $aggregator_carbon_metric_interval         = '60',
 ) {
 
+  notify { 'debug':
+    message => "$carbon_cache_amount",
+  }
 }
 

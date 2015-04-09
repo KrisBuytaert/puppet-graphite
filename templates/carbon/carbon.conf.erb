@@ -216,12 +216,16 @@ WHISPER_FALLOCATE_CREATE = <%= scope.lookupvar('graphite::carbon::carbon_whisper
 # and any other settings you want to customize, defaults are inherited
 # from [carbon] section.
 # You can then specify the --instance=b option to manage this instance
-<% @carbon_cache_amount.each do |cache_instance| -%>
-[cache:<%= cache_instance %>]
-LINE_RECEIVER_PORT = <%= scope.lookupvar('graphite::carbon::carbon_line_receiver_port') %>
-UDP_RECEIVER_PORT = <%= scope.lookupvar('graphite::carbon::carbon_udp_receiver_port') %>
-PICKLE_RECEIVER_PORT = <%= scope.lookupvar('graphite::carbon::carbon_pickle_receiver_port') %>
-CACHE_QUERY_PORT = <%= scope.lookupvar('graphite::carbon::carbon_cache_query_port') %>
+<% i = 0 -%>
+<% puts @carbon_cache_amount -%>
+<% for a in 1..@carbon_cache_amount.to_i do -%>
+[cache:<%= a %>]
+LINE_RECEIVER_PORT = <%= @carbon_line_receiver_port.to_i + 10*i %>
+UDP_RECEIVER_PORT = <%= @carbon_udp_receiver_port.to_i + 10*i %>
+PICKLE_RECEIVER_PORT = <%= @carbon_pickle_receiver_port.to_i + 10*i %>
+CACHE_QUERY_PORT = <%= @carbon_cache_query_port.to_i + 10*i %>
+
+<% i += 1 -%>
 <% end -%>
 
 [relay]
