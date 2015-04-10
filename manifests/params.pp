@@ -24,22 +24,18 @@ class graphite::params (
   $carbon_max_updates_per_second             = '500',
   $carbon_max_updates_per_second_on_shutdown = '1000',
   $carbon_max_creates_per_minute             = '50',
-  $carbon_line_receiver_interface            = '0.0.0.0',
   $carbon_line_receiver_port                 = '2013',
   $carbon_enable_udp_listerner               = 'False',
-  $carbon_udp_receiver_interface             = '0.0.0.0',
   $carbon_udp_receiver_port                  = '2003',
-  $carbon_pickle_receiver_interface          = '0.0.0.0',
   $carbon_pickle_receiver_port               = '2014',
   $carbon_log_listener_connections           = 'True',
   $carbon_use_insecure_unpickler             = 'False',
-  $carbon_cache_query_interface              = '0.0.0.0',
   $carbon_cache_query_port                   = '7002',
   $carbon_use_flow_control                   = 'True',
   $carbon_log_updates                        = 'False',
   $carbon_log_cache_hits                     = 'False',
   $carbon_log_cache_queu_sorts               = 'True',
-  $carbon_cache_write_strategy               = 'Sorted',
+  $carbon_cache_write_strategy               = 'sorted',
   $carbon_whisper_autoflush                  = 'False',
   $carbon_whisper_sparse_create              = 'True',
   $carbon_whisper_fallocate_create           = 'True',
@@ -90,8 +86,16 @@ class graphite::params (
   $aggregator_carbon_metric_interval         = '60',
 ) {
 
-  notify { 'debug':
-    message => "$carbon_cache_amount",
+  if $carbon_cache_amount > 1 {
+    $carbon_line_receiver_interface = '127.0.0.1'
+    $carbon_udp_receiver_interface = '127.0.0.1'
+    $carbon_pickle_receiver_iterface = '127.0.0.1'
+    $carbon_cache_query_interface = '127.0.0.1'
+  } else {
+    $carbon_line_receiver_interface = '0.0.0.0'
+    $carbon_udp_receiver_interface = '0.0.0.0'
+    $carbon_pickle_receiver_iterface = '0.0.0.0'
+    $carbon_cache_query_interface = '0.0.0.0'
   }
 }
 

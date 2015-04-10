@@ -28,16 +28,12 @@ class graphite::carbon (
   $carbon_max_updates_per_second             = $graphite::params::carbon_max_updates_per_second,
   $carbon_max_updates_per_second_on_shutdown = $graphite::params::carbon_max_updates_per_second_on_shutdown,
   $carbon_max_creates_per_minute             = $graphite::params::carbon_max_creates_per_minute,
-  $carbon_line_receiver_interface            = $graphite::params::carbon_line_receiver_interface,
   $carbon_line_receiver_port                 = $graphite::params::carbon_line_receiver_port,
   $carbon_enable_udp_listerner               = $graphite::params::carbon_enable_udp_listerner,
-  $carbon_udp_receiver_interface             = $graphite::params::carbon_udp_receiver_interface,
   $carbon_udp_receiver_port                  = $graphite::params::carbon_udp_receiver_port,
-  $carbon_pickle_receiver_interface          = $graphite::params::carbon_pickle_receiver_interface,
   $carbon_pickle_receiver_port               = $graphite::params::carbon_pickle_receiver_port,
   $carbon_log_listener_connections           = $graphite::params::carbon_log_listener_connections,
   $carbon_use_insecure_unpickler             = $graphite::params::carbon_use_insecure_unpickler,
-  $carbon_cache_query_interface              = $graphite::params::carbon_cache_query_interface,
   $carbon_cache_query_port                   = $graphite::params::carbon_cache_query_port,
   $carbon_use_flow_control                   = $graphite::params::carbon_use_flow_control,
   $carbon_log_updates                        = $graphite::params::carbon_log_updates,
@@ -93,6 +89,18 @@ class graphite::carbon (
   $aggregator_carbon_metric_prefix           = $graphite::params::aggregator_carbon_metric_prefix,
   $aggregator_carbon_metric_interval         = $graphite::params::aggregator_carbon_metric_interval,
 ) inherits ::graphite::params{
+
+  if $carbon_cache_amount > 1 {
+    $carbon_line_receiver_interface = '127.0.0.1'
+    $carbon_udp_receiver_interface = '127.0.0.1'
+    $carbon_pickle_receiver_iterface = '127.0.0.1'
+    $carbon_cache_query_interface = '127.0.0.1'
+  } else {
+    $carbon_line_receiver_interface = '0.0.0.0'
+    $carbon_udp_receiver_interface = '0.0.0.0'
+    $carbon_pickle_receiver_iterface = '0.0.0.0'
+    $carbon_cache_query_interface = '0.0.0.0'
+  }
 
   contain graphite::carbon::package
   contain graphite::carbon::config
