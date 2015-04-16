@@ -218,7 +218,9 @@ WHISPER_FALLOCATE_CREATE = <%= @carbon_whisper_fallocate_create %>
 # You can then specify the --instance=b option to manage this instance
 <% i = 0 -%>
 <% for a in 1..@carbon_cache_amount.to_i do -%>
-[cache:<%= a %>]
+  <% if @carbon_cache_amount.to_i > 1 -%>
+    [cache:<%= a %>]
+  <% end -%>
 LINE_RECEIVER_PORT = <%= @carbon_line_receiver_port.to_i + 10*i %>
 UDP_RECEIVER_PORT = <%= @carbon_udp_receiver_port.to_i + 10*i %>
 PICKLE_RECEIVER_PORT = <%= @carbon_pickle_receiver_port.to_i + 10*i %>
@@ -273,7 +275,14 @@ REPLICATION_FACTOR = <%= @relay_replication_factor %>
 #
 # If using RELAY_METHOD = rules, all destinations used in relay-rules.conf
 # must be defined in this list
-DESTINATIONS = <%= @relay_destinations %>
+<% destinations = '' -%>
+<% i = 0 -%>
+<% for d in 1..@carbon_cache_amount.to_i do
+     destinations += (@relay_destinations+':'+(@carbon_pickle_receiver_port.to_i + 10*i).to_s+':'+i.to_s+',')
+     i += 1
+   end
+-%>
+DESTINATIONS = <%= destinations %>
 
 # This defines the maximum "message size" between carbon daemons.
 # You shouldn't need to tune this unless you really know what you're doing.
