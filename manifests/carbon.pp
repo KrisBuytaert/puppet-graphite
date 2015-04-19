@@ -6,6 +6,7 @@
 # This class calls the graphite::carbon::package, graphite::carbon::config and graphite::carbon::service classes.
 #
 # Parameters:
+#
 # The same as in the carbon.conf file but in lower case and with a prefix corresponding to the config section.
 # Example:
 #   In carbon.conf:
