@@ -292,7 +292,7 @@ REPLICATION_FACTOR = <%= @relay_replication_factor %>
 <% destinations = '' -%>
 <% i = 0 -%>
 <% for d in 1..@carbon_cache_amount.to_i do
-     destinations += (@relay_destinations+':'+(@carbon_pickle_receiver_port.to_i + 10*i).to_s+':'+i.to_s+',')
+     destinations += (@relay_destinations+':'+(@carbon_pickle_receiver_port.to_i + 10*i).to_s+':'+d.to_s+',')
      i += 1
    end
 -%>
