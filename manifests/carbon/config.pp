@@ -1,4 +1,4 @@
-# Class: graphite
+# Class: ::graphite::carbon::config
 #
 # This is a private class, do not use inside a manifest/role/profile
 #
