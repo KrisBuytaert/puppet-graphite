@@ -64,8 +64,10 @@ MAX_UPDATES_PER_SECOND = <%= @carbon_max_updates_per_second %>
 # If defined, this changes the MAX_UPDATES_PER_SECOND in Carbon when a
 # stop/shutdown is initiated.  This helps when MAX_UPDATES_PER_SECOND is
 # relatively low and carbon has cached a lot of updates; it enables the carbon
-# daemon to shutdown more quickly. 
-# MAX_UPDATES_PER_SECOND_ON_SHUTDOWN = <%= @carbon_max_updates_per_second_on_shutdown %>
+# daemon to shutdown more quickly.
+<% if @carbon_max_updates_per_second_on_shutdown_enabled -%>
+MAX_UPDATES_PER_SECOND_ON_SHUTDOWN = <%= @carbon_max_updates_per_second_on_shutdown %>
+<% end -%>
 
 # Softly limits the number of whisper files that get created each minute.
 # Setting this value low (like at 50) is a good way to ensure your graphite
@@ -144,7 +146,9 @@ WHISPER_AUTOFLUSH = <%= @carbon_whisper_autoflush %>
 # the file sparsely instead. Enabling this option may allow a large increase of
 # MAX_CREATES_PER_MINUTE but may have longer term performance implications
 # depending on the underlying storage configuration.
-# WHISPER_SPARSE_CREATE = <%= @carbon_whisper_sparse_create %>
+<% if @carbon_whisper_sparse_create -%>
+WHISPER_SPARSE_CREATE = <%= @carbon_whisper_sparse_create %>
+<% end -%>
 
 # Only beneficial on linux filesystems that support the fallocate system call.
 # It maintains the benefits of contiguous reads/writes, but with a potentially
@@ -157,33 +161,41 @@ WHISPER_FALLOCATE_CREATE = <%= @carbon_whisper_fallocate_create %>
 # Enabling this option will cause Whisper to lock each Whisper file it writes
 # to with an exclusive lock (LOCK_EX, see: man 2 flock). This is useful when
 # multiple carbon-cache daemons are writing to the same files
-# WHISPER_LOCK_WRITES = <%= @carbon_whisper_lock_writes %>
+<% if @carbon_whisper_lock_writes -%>
+WHISPER_LOCK_WRITES = <%= @carbon_whisper_lock_writes %>
+<% end -%>
 
 # Set this to True to enable whitelisting and blacklisting of metrics in
 # CONF_DIR/whitelist and CONF_DIR/blacklist. If the whitelist is missing or
 # empty, all metrics will pass through
-# USE_WHITELIST = <%= @carbon_use_whitelist %>
+<% if @carbon_use_whitelist -%>
+USE_WHITELIST = <%= @carbon_use_whitelist %>
+<% end -%>
 
 # By default, carbon itself will log statistics (such as a count,
 # metricsReceived) with the top level prefix of 'carbon' at an interval of 60
 # seconds. Set CARBON_METRIC_INTERVAL to 0 to disable instrumentation
-# CARBON_METRIC_PREFIX = <%= @carbon_carbon_metric_prefix %>
-# CARBON_METRIC_INTERVAL = <%= @carbon_carbon_metric_interval %>
+<% if @carbon_carbon_metric_prefix and @carbon_carbon_metric_interval -%>
+CARBON_METRIC_PREFIX = <%= @carbon_carbon_metric_prefix %>
+CARBON_METRIC_INTERVAL = <%= @carbon_carbon_metric_interval %>
+<% end -%>
 
 # Enable AMQP if you want to receve metrics using an amqp broker
-# ENABLE_AMQP = <%= @carbon_enable_amqp %>
+<% if @carbon_enable_amqp != 'False' %>
+ENABLE_AMQP = <%= @carbon_enable_amqp %>
 
 # Verbose means a line will be logged for every metric received
 # useful for testing
-# AMQP_VERBOSE = <%= @carbon_amqp_verbose %>
+AMQP_VERBOSE = <%= @carbon_amqp_verbose %>
 
-# AMQP_HOST = <%= @carbon_amqp_host %>
-# AMQP_PORT = <%= @carbon_amqp_port %>
-# AMQP_VHOST = <%= @carbon_amqp_vhost %>
-# AMQP_USER = <%= @carbon_ampq_user %>
-# AMQP_PASSWORD = <%= @carbon_amqp_password %>
-# AMQP_EXCHANGE = <%= @carbon_amqp_exchange %>
-# AMQP_METRIC_NAME_IN_BODY = <%= @caron_metric_name_in_body %>
+AMQP_HOST = <%= @carbon_amqp_host %>
+AMQP_PORT = <%= @carbon_amqp_port %>
+AMQP_VHOST = <%= @carbon_amqp_vhost %>
+AMQP_USER = <%= @carbon_ampq_user %>
+AMQP_PASSWORD = <%= @carbon_amqp_password %>
+AMQP_EXCHANGE = <%= @carbon_amqp_exchange %>
+AMQP_METRIC_NAME_IN_BODY = <%= @caron_metric_name_in_body %>
+<% end -%>
 
 # The manhole interface allows you to SSH into the carbon daemon
 # and get a python interpreter. BE CAREFUL WITH THIS! If you do
@@ -206,7 +218,9 @@ WHISPER_FALLOCATE_CREATE = <%= @carbon_whisper_fallocate_create %>
 #
 # Example: store everything
 # BIND_PATTERNS = #
-# BIND_PATTERNS = <%= @carbon_bind_patterns %>
+<% if @carbon_bind_patterns -%>
+BIND_PATTERNS = <%= @carbon_bind_patterns %>
+<% end -%>
 
 # To configure special settings for the carbon-cache instance 'b', uncomment this:
 #[cache:b]
@@ -219,7 +233,7 @@ WHISPER_FALLOCATE_CREATE = <%= @carbon_whisper_fallocate_create %>
 <% i = 0 -%>
 <% for a in 1..@carbon_cache_amount.to_i do -%>
   <% if @carbon_cache_amount.to_i > 1 -%>
-    [cache:<%= a %>]
+  [cache:<%= a %>]
   <% end -%>
 LINE_RECEIVER_PORT = <%= @carbon_line_receiver_port.to_i + 10*i %>
 UDP_RECEIVER_PORT = <%= @carbon_udp_receiver_port.to_i + 10*i %>
@@ -298,14 +312,17 @@ USE_FLOW_CONTROL = <%= @relay_use_flow_control %>
 # Set this to True to enable whitelisting and blacklisting of metrics in
 # CONF_DIR/whitelist and CONF_DIR/blacklist. If the whitelist is missing or
 # empty, all metrics will pass through
-# USE_WHITELIST = <%= @relay_use_whitelist %>
+<% if @relay_use_whitelist %>
+USE_WHITELIST = <%= @relay_use_whitelist %>
+<% end -%>
 
 # By default, carbon itself will log statistics (such as a count,
 # metricsReceived) with the top level prefix of 'carbon' at an interval of 60
 # seconds. Set CARBON_METRIC_INTERVAL to 0 to disable instrumentation
-# CARBON_METRIC_PREFIX = <%= @relay_carbon_metric_prefix %>
-# CARBON_METRIC_INTERVAL = <%= @relay_carbon_metirc_interval %>
-
+<% if @relay_carbon_metric_prefix and @relay_carbon_metric_interval -%>
+CARBON_METRIC_PREFIX = <%= @relay_carbon_metric_prefix %>
+CARBON_METRIC_INTERVAL = <%= @relay_carbon_metirc_interval %>
+<% end -%>
 
 [aggregator]
 USER = <%= @aggregator_user %>

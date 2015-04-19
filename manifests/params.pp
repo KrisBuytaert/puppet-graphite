@@ -10,7 +10,7 @@ class graphite::params (
   $carbon_cache_service_name                 = 'carbon-cache',
   $carbon_cache_service_enable               = 'running',
   $carbon_package                            = 'python-carbon',
-  $carbon_package_ensure                     = 'present',
+  $carbon_package_ensure                     = 'absent',
   $carbon_cache_amount                       = $::processorcount,
   $time_zone                                 = 'UTC',
   $manage_httpd                              = false,
@@ -22,7 +22,7 @@ class graphite::params (
   $carbon_user                               = 'carbon',
   $carbon_max_cache_size                     = 'inf',
   $carbon_max_updates_per_second             = '500',
-  $carbon_max_updates_per_second_on_shutdown = '1000',
+  $carbon_max_updates_per_second_on_shutdown = undef,
   $carbon_max_creates_per_minute             = '50',
   $carbon_line_receiver_port                 = '2013',
   $carbon_enable_udp_listerner               = 'False',
@@ -37,12 +37,12 @@ class graphite::params (
   $carbon_log_cache_queu_sorts               = 'True',
   $carbon_cache_write_strategy               = 'sorted',
   $carbon_whisper_autoflush                  = 'False',
-  $carbon_whisper_sparse_create              = 'True',
+  $carbon_whisper_sparse_create              = undef,
   $carbon_whisper_fallocate_create           = 'True',
-  $carbon_whisper_lock_writes                = 'False',
-  $carbon_use_whitelist                      = 'False',
-  $carbon_carbon_metric_prefix               = 'carbon',
-  $carbon_carbon_metric_interval             = '60',
+  $carbon_whisper_lock_writes                = undef,
+  $carbon_use_whitelist                      = undef,
+  $carbon_carbon_metric_prefix               = undef,
+  $carbon_carbon_metric_interval             = undef,
   $carbon_enable_amqp                        = 'False',
   $carbon_amqp_verbose                       = 'False',
   $carbon_amqp_host                          = 'localhost',
@@ -59,15 +59,14 @@ class graphite::params (
   $relay_pickle_receiver_interface           = '0.0.0.0',
   $relay_pickle_receiver_port                = '2014',
   $relay_log_listener_connections            = 'True',
-  $relay_method                              = 'rules',
   $relay_replication_factor                  = '1',
-  $relay_destinations                        = '127.0.0.1:2004',
+  $relay_destinations                        = '127.0.0.1',
   $relay_max_data_points_per_message         = '500',
   $relay_max_queue_size                      = '10000',
   $relay_use_flow_control                    = 'True',
-  $relay_use_whitelist                       = 'True',
-  $relay_carbon_metric_prefix                = 'carbon',
-  $relay_carbon_metirc_interval              = '60',
+  $relay_use_whitelist                       = undef,
+  $relay_carbon_metric_prefix                = undef,
+  $relay_carbon_metirc_interval              = undef,
   $aggregator_user                           = 'carbon',
   $aggregator_line_receiver_interface        = '0.0.0.0',
   $aggregator_line_receiver_port             = '2023',
@@ -87,15 +86,17 @@ class graphite::params (
 ) {
 
   if $carbon_cache_amount > 1 {
-    $carbon_line_receiver_interface = '127.0.0.1'
-    $carbon_udp_receiver_interface = '127.0.0.1'
+    $carbon_line_receiver_interface  = '127.0.0.1'
+    $carbon_udp_receiver_interface   = '127.0.0.1'
     $carbon_pickle_receiver_iterface = '127.0.0.1'
-    $carbon_cache_query_interface = '127.0.0.1'
+    $carbon_cache_query_interface    = '127.0.0.1'
+    $relay_method                    = 'consistent-hashing'
   } else {
-    $carbon_line_receiver_interface = '0.0.0.0'
-    $carbon_udp_receiver_interface = '0.0.0.0'
+    $carbon_line_receiver_interface  = '0.0.0.0'
+    $carbon_udp_receiver_interface   = '0.0.0.0'
     $carbon_pickle_receiver_iterface = '0.0.0.0'
-    $carbon_cache_query_interface = '0.0.0.0'
+    $carbon_cache_query_interface    = '0.0.0.0'
+    $relay_method                    = 'rules'
   }
 }
 
