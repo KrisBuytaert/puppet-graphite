@@ -1,14 +1,51 @@
-#= undef,
+# Class: graphite::carbon
 #
-# Install carbon and enable carbon.
+# This class manages the carbon package, configuration and service.
+# It inherists params from the params class.
+# There is some param logic in this class to sort out the interface to use for carbon.
+# This class calls the graphite::carbon::package, graphite::carbon::config and graphite::carbon::service classes.
 #
-#= undef,
+# Parameters:
+# The same as in the carbon.conf file but in lower case and with a prefix corresponding to the config section.
+# Example:
+#   In carbon.conf:
+#   "REPLICATION_FACTOR = 1"
+#   In the puppet class definition:
+#   "relay_replication_factor => '1',"
 #
-# Installs the carbon package and enables the carbon service.
+# Sample uses:
 #
-#= undef,
+# Install carbon with defaults:
+# include ::graphite::carbon
 #
-# * Update documentation
+# Install carbon with a different package name:
+# class { '::graphite::carbon':
+#   carbon_package => 'python-carbon',
+# }
+#
+# Use specific ports:
+# class { '::graphite::carbon':
+#   carbon_line_receiver_port   => '2014',
+#   carbon_udp_receiver_port    => '2013',
+#   carbon_pickle_receiver_port => '2012',
+#   carbon_cache_query_port     => '7000',
+# }
+# When using multiple caches, the port numbers will be incremented by 10.
+# For example while using the above class will make a multiple cache definition like this:
+# [cache:1]
+# LINE_RECEIVER_PORT = 2014
+# UDP_RECEIVER_PORT = 2013
+# PICKLE_RECEIVER_PORT = 2012
+# CACHE_QUERY_PORT = 7000
+#
+# [cache:2]
+# LINE_RECEIVER_PORT = 2024
+# UDP_RECEIVER_PORT = 2023
+# PICKLE_RECEIVER_PORT = 2022
+# CACHE_QUERY_PORT = 7010
+#
+# The same will happen to the destinations param:
+# DESTINATIONS = 127.0.0.1:2012:1,127.0.0.1:2022:2,
 #
 class graphite::carbon (
   $carbon_cache_amount                       = $graphite::params::carbon_cache_amount,
@@ -95,15 +132,15 @@ class graphite::carbon (
     $carbon_udp_receiver_interface = '127.0.0.1'
     $carbon_pickle_receiver_iterface = '127.0.0.1'
     $carbon_cache_query_interface = '127.0.0.1'
-  } else {
-    $carbon_line_receiver_interface = '0.0.0.0'
-    $carbon_udp_receiver_interface = '0.0.0.0'
-    $carbon_pickle_receiver_iterface = '0.0.0.0'
-    $carbon_cache_query_interface = '0.0.0.0'
-  }
+    } else {
+      $carbon_line_receiver_interface = '0.0.0.0'
+      $carbon_udp_receiver_interface = '0.0.0.0'
+      $carbon_pickle_receiver_iterface = '0.0.0.0'
+      $carbon_cache_query_interface = '0.0.0.0'
+    }
 
-  contain graphite::carbon::package
-  contain graphite::carbon::config
-  contain graphite::carbon::service
+    contain graphite::carbon::package
+    contain graphite::carbon::config
+    contain graphite::carbon::service
 
 }
