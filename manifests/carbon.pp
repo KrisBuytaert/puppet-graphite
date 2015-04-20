@@ -123,6 +123,7 @@ class graphite::carbon (
   $aggregator_use_flow_control               = $graphite::params::aggregator_use_flow_control,
   $aggregator_max_datapoints_per_message     = $graphite::params::aggregator_max_datapoints_per_message,
   $aggregator_max_aggregation_intervals      = $graphite::params::aggregator_max_aggregation_intervals,
+  $aggregator_write_back_frequenty           = $graphite::params::aggregator_write_back_frequenty,
   $aggregator_use_whitelist                  = $graphite::params::aggregator_use_whitelist,
   $aggregator_carbon_metric_prefix           = $graphite::params::aggregator_carbon_metric_prefix,
   $aggregator_carbon_metric_interval         = $graphite::params::aggregator_carbon_metric_interval,

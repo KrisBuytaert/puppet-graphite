@@ -80,9 +80,10 @@ class graphite::params (
   $aggregator_use_flow_control               = 'True',
   $aggregator_max_datapoints_per_message     = '500',
   $aggregator_max_aggregation_intervals      = '5',
+  $aggregator_write_back_frequenty           = undef,
   $aggregator_use_whitelist                  = 'False',
-  $aggregator_carbon_metric_prefix           = 'carbon',
-  $aggregator_carbon_metric_interval         = '60',
+  $aggregator_carbon_metric_prefix           = undef,
+  $aggregator_carbon_metric_interval         = undef,
 ) {
 
   if $carbon_cache_amount > 1 {

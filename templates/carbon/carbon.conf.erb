@@ -389,15 +389,21 @@ MAX_AGGREGATION_INTERVALS = <%= @aggregator_max_aggregation_intervals %>
 # every N seconds, independent of rule frequency. This is useful, for example,
 # to be able to query partially aggregated metrics from carbon-cache without
 # having to first wait rule.frequency seconds.
-# WRITE_BACK_FREQUENCY = 0
+<% if @aggregator_write_back_frequenty -%>
+WRITE_BACK_FREQUENCY = <%= @aggregator_write_back_frequenty %>
+<% end -%>
 
 # Set this to True to enable whitelisting and blacklisting of metrics in
 # CONF_DIR/whitelist and CONF_DIR/blacklist. If the whitelist is missing or
 # empty, all metrics will pass through
-# USE_WHITELIST = <%= @aggregator_use_whitelist %>
+<% if @aggregator_use_whitelist.to_s == 'True' -%>
+USE_WHITELIST = <%= @aggregator_use_whitelist %>
+<% end -%>
 
 # By default, carbon itself will log statistics (such as a count,
 # metricsReceived) with the top level prefix of 'carbon' at an interval of 60
 # seconds. Set CARBON_METRIC_INTERVAL to 0 to disable instrumentation
-# CARBON_METRIC_PREFIX = <%= @aggregator_carbon_metric_prefix %>
-# CARBON_METRIC_INTERVAL = <%= @aggregator_carbon_metric_interval %>
+<% if @aggregator_carbon_metric_prefix and @aggregator_carbon_metric_interval -%>
+CARBON_METRIC_PREFIX = <%= @aggregator_carbon_metric_prefix %>
+CARBON_METRIC_INTERVAL = <%= @aggregator_carbon_metric_interval %>
+<% end -%>
