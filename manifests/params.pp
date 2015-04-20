@@ -10,7 +10,7 @@ class graphite::params (
   $carbon_cache_service_name                 = 'carbon-cache',
   $carbon_cache_service_enable               = 'running',
   $carbon_package                            = 'python-carbon',
-  $carbon_package_ensure                     = 'absent',
+  $carbon_package_ensure                     = 'present',
   $carbon_cache_amount                       = $::processorcount,
   $time_zone                                 = 'UTC',
   $manage_httpd                              = false,
