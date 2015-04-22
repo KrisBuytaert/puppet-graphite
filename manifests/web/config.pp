@@ -13,8 +13,8 @@
 # [Remember: No empty lines between comments and class definition]
 class graphite::web::config (
   $time_zone         = undef,
-  $whisper_dir       = ${::graphite::params::whisper_dir},
-  $database_name     = "${::graphite::params::graphite_web_dir}graphite.db",
+  $whisper_dir       = $graphite::params::whisper_dir,
+  $database_name     = "${graphite::params::graphite_web_dir}graphite.db",
   $database_engine   = 'django.db.backends.sqlite3',
   $database_user     = '',
   $database_password = '',

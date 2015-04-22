@@ -13,7 +13,7 @@ class graphite::params (
   $carbon_package_ensure                     = 'present',
   $carbon_cache_amount                       = $::processorcount,
   $time_zone                                 = 'UTC',
-  $manage_httpd                              = false,
+  $manage_httpd                              = true,
   $basic_http_auth                           = false,
   $basic_http_auth_password                  = undef,
   $whisper_dir                               = '/var/lib/carbon/whisper/',

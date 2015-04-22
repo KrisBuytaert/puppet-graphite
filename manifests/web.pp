@@ -20,14 +20,13 @@ class graphite::web (
   $manage_httpd             = $::graphite::params::manage_httpd,
   $basic_http_auth          = $::graphite::params::basic_http_auth,
   $basic_http_auth_password = $::graphite::params::basic_http_auth_password
-  ) {
-  require graphite::params
+  ) inherits ::graphite::params {
   include graphite::web::package
   class {'graphite::web::config':
     time_zone   => $time_zone,
     whisper_dir => $whisper_dir,
   }
-  if $manage_httpd {
+  if str2bool("$manage_httpd") {
     include graphite::web::service
   }
   if $basic_http_auth {
