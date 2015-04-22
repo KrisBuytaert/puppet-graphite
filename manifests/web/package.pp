@@ -12,10 +12,11 @@
 #
 # [Remember: No empty lines between comments and class definition]
 class graphite::web::package {
-  package {
-    'bitmap-fonts-compat':
-      ensure => present;
-    'graphite-web':
-      ensure => present;
+  Package {
+    ensure => present,
   }
+
+  $soft = ['bitmap-fonts-compat','graphite-web']
+
+  package { $soft : }
 }

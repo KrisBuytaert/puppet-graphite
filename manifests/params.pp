@@ -84,6 +84,7 @@ class graphite::params (
   $aggregator_use_whitelist                  = 'False',
   $aggregator_carbon_metric_prefix           = undef,
   $aggregator_carbon_metric_interval         = undef,
+  $graphite_web_dir                          = '/etc/graphite-web/'
 ) {
 
   if $carbon_cache_amount > 1 {

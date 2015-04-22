@@ -13,8 +13,8 @@
 # [Remember: No empty lines between comments and class definition]
 class graphite::web::config (
   $time_zone         = undef,
-  $whisper_dir       = '/var/lib/carbon/whisper/',
-  $database_name     = '/var/lib/graphite-web/graphite.db',
+  $whisper_dir       = ${::graphite::params::whisper_dir},
+  $database_name     = "${::graphite::params::graphite_web_dir}graphite.db",
   $database_engine   = 'django.db.backends.sqlite3',
   $database_user     = '',
   $database_password = '',
@@ -23,12 +23,12 @@ class graphite::web::config (
   ){
 
   file {'local_settings.py':
-    ensure    => file,
-    path      => '/etc/graphite-web/local_settings.py',
-    owner     => 'root',
-    group     => 'root',
-    mode      => '0644',
-    #notify    => Service['httpd'],
-    content   => template('graphite/local_settings.py.erb');
+    ensure  => file,
+    path    => "${::graphite::params::graphite_web_dir}local_settings.py",
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    require => Package['graphite-web'],
+    content => template('graphite/local_settings.py.erb');
   }
 }
