@@ -21,7 +21,7 @@ class graphite::web (
   $basic_http_auth          = $::graphite::params::basic_http_auth,
   $basic_http_auth_password = $::graphite::params::basic_http_auth_password
   ) inherits ::graphite::params {
-  include graphite::web::package
+  contain graphite::web::package
   class {'graphite::web::config':
     time_zone   => $time_zone,
     whisper_dir => $whisper_dir,
