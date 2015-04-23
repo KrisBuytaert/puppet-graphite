@@ -10,7 +10,7 @@
 
 exec="/usr/bin/carbon-cache"
 <% for i in 1..@carbon_cache_amount.to_i do -%>
-pidfile-<%= i %>="/var/run/carbon-cache-<%= i %>"
+pidfile_<%= i %>="/var/run/carbon-cache-<%= i %>.pid"
 <% end -%>
 
 CONFIG="<%= @carbon_config_dir %>carbon.conf"
@@ -18,18 +18,18 @@ LOG_DIR="/var/log/carbon"
 
 [ -e /etc/sysconfig/carbon ] && . /etc/sysconfig/carbon
 <% for i in 1..@carbon_cache_amount.to_i do -%>
-lockfile-<%= i %>=/var/lock/subsys/carbon-cache-<%= i %>
+lockfile_<%= i %>=/var/lock/subsys/carbon-cache-<%= i %>
 <% end -%>
 
 start() {
     [ -f $CONFIG ] || exit 6
     [ -x $exec ] || exit 5
 <% for i in 1..@carbon_cache_amount.to_i do -%>
-    echo -n $"Starting `basename $exec` instance=<%= i %>: "
-    daemon "$exec --config=$CONFIG --pidfile=$pidfile-<%= i %>.pid --logdir=$LOG_DIR --instance=<%= i %> start"
+    echo -n $"Starting `basename $exec` instance 1: "
+    $exec --config=$CONFIG --pidfile=$pidfile_<%= i %> --logdir=$LOG_DIR --instance=<%= i %> start
     retval=$?
     echo
-    [ $retval -eq 0 ] && touch $lockfile-<%= i %>
+    [ $retval -eq 0 ] && touch $lockfile_<%= i %>
     return $retval
 <% end -%>
     }
@@ -37,10 +37,10 @@ start() {
 stop() {
 <% for i in 1..@carbon_cache_amount.to_i do -%>
     echo -n $"Stopping `basename $exec` instance=<%= i %>: "
-    killproc -p $pidfile-<%= i %> `basename $exec`
+    killproc -p $pidfile_<%= i %> `basename $exec`
     retval=$?
     echo
-    [ $retval -eq 0 ] && rm -f $lockfile-<%= i %>
+    [ $retval -eq 0 ] && rm -f $lockfile_<%= i %>
     return $retval
 <% end -%>
     }
@@ -57,7 +57,7 @@ reload() {
 
 rh_status() {
 <% for i in 1..@carbon_cache_amount.to_i do -%>
-    status -p $pidfile-<%= i %> `basename $exec`
+    status -p $pidfile_<%= i %> `basename $exec`
 <% end -%>
 }
 
