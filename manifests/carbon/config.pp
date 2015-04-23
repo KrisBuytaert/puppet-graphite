@@ -46,4 +46,12 @@ class graphite::carbon::config inherits graphite::carbon {
     content => template('graphite/carbon/carbon.conf.erb'),
   }
 
+  file { '/etc/init.d/carbon-cache':
+    ensure  => present,
+    group   => 'root',
+    owner   => 'root',
+    mode    => '0755',
+    content => template('graphite/carbon/carbon-cache.erb'),
+  }
+
 }
