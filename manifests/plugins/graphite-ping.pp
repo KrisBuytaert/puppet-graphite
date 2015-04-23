@@ -5,7 +5,7 @@
 # source: https://github.com/dmsasser/graphiteutils
 
 define graphite::plugins::graphite-ping {
-  
+
   $host = $name
 
   if !defined(Package['nc']){
