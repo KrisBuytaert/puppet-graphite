@@ -46,9 +46,9 @@ REPLICATION_FACTOR = <%= @relay_replication_factor %>
 # must be defined in this list
 <% destinations = '' -%>
 <% i = 0 -%>
-<% for d in @relay_destinations do
-     destinations += (d +':'+ @relay_pickle_receiver_port)
-     if d < len(@relay_destinations)
+<% for d in 1..@carbon_cache_amount.to_i do
+     destinations += (@relay_destinations+':'+(@carbon_pickle_receiver_port.to_i + 10*i).to_s+':'+d.to_s)
+     if d < @carbon_cache_amount.to_i
        destinations += ', '
      end
      i += 1

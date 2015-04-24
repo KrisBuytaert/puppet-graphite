@@ -56,4 +56,21 @@ class graphite::carbon::config inherits graphite::carbon {
     notify  => Service[$carbon_cache_service_name],
   }
 
+  file { "${carbon_config_dir}carbon-relay.conf":
+    ensure  => present,
+    group   => 'root',
+    owner   => 'root',
+    mode    => '0644',
+    content => template('graphite/carbon/carbon-relay.conf.erb'),
+    notify => Service[$relay_service_name],
+  }
+
+  file { '/etc/init.d/carbon-relay':
+    ensure  => present,
+    group   => 'root',
+    owner   => 'root',
+    mode    => '0755',
+    content => template('graphite/relay/carbon-relay.erb'),
+    notify => Service[$relay_service_name],
+    }
 }

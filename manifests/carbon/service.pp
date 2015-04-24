@@ -25,4 +25,11 @@ class graphite::carbon::service inherits graphite::carbon {
     hasrestart => true,
     hasstatus  => true,
   }
+
+  service { $relay_service_name:
+    ensure     => $carbon_cache_service_enable,
+    enable     => true,
+    hasrestart => true,
+    hasstatus  => true,
+  }
 }

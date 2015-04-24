@@ -144,5 +144,5 @@ class graphite::carbon (
     contain graphite::carbon::package
     contain graphite::carbon::config
     contain graphite::carbon::service
-    contain graphite::whisper
+    contain graphite::carbon::whisper
 }

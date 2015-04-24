@@ -16,7 +16,7 @@
 #
 # Sample uses:
 #
-class graphite::carbon::relay (
+class graphite::relay (
   $relay_destinations          = undef,
   $carbon_pickle_receiver_port = $graphite::params::relay_pickle_receiver_port,
 ) inherits graphite::params {
