@@ -24,6 +24,5 @@ class graphite::carbon::service inherits graphite::carbon {
     enable     => true,
     hasrestart => true,
     hasstatus  => true,
-
   }
 }

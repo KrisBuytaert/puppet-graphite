@@ -1,0 +1,83 @@
+[relay]
+USER = <%= @relay_user %>
+LINE_RECEIVER_INTERFACE = <%= @relay_line_receiver_interface %>
+LINE_RECEIVER_PORT = <%= @relay_line_receiver_port %>
+PICKLE_RECEIVER_INTERFACE = <%= @relay_pickle_receiver_interface %>
+PICKLE_RECEIVER_PORT = <%= @relay_pickle_receiver_port %>
+
+# Set to false to disable logging of successful connections
+LOG_LISTENER_CONNECTIONS = <%= @relay_log_listener_connections %>
+
+# Carbon-relay has several options for metric routing controlled by RELAY_METHOD
+#
+# Use relay-rules.conf to route metrics to destinations based on pattern rules
+#RELAY_METHOD = rules
+#
+# Use consistent-hashing for even distribution of metrics between destinations
+#RELAY_METHOD = consistent-hashing
+#
+# Use consistent-hashing but take into account an aggregation-rules.conf shared
+# by downstream carbon-aggregator daemons. This will ensure that all metrics
+# that map to a given aggregation rule are sent to the same carbon-aggregator
+# instance.
+# Enable this for carbon-relays that send to a group of carbon-aggregators
+#RELAY_METHOD = aggregated-consistent-hashing
+RELAY_METHOD = <%= @relay_method %>
+
+# If you use consistent-hashing you can add redundancy by replicating every
+# datapoint to more than one machine.
+REPLICATION_FACTOR = <%= @relay_replication_factor %>
+
+# This is a list of carbon daemons we will send any relayed or
+# generated metrics to. The default provided would send to a single
+# carbon-cache instance on the default port. However if you
+# use multiple carbon-cache instances then it would look like this:
+#
+# DESTINATIONS = 127.0.0.1:2004:a, 127.0.0.1:2104:b
+#
+# The general form is IP:PORT:INSTANCE where the :INSTANCE part is
+# optional and refers to the "None" instance if omitted.
+#
+# Note that if the destinations are all carbon-caches then this should
+# exactly match the webapp's CARBONLINK_HOSTS setting in terms of
+# instances listed (order matters!).
+#
+# If using RELAY_METHOD = rules, all destinations used in relay-rules.conf
+# must be defined in this list
+<% destinations = '' -%>
+<% i = 0 -%>
+<% for d in 1..@carbon_cache_amount.to_i do
+     destinations += (@relay_destinations+':'+(@carbon_pickle_receiver_port.to_i + 10*i).to_s+':'+d.to_s)
+     if d < @carbon_cache_amount.to_i
+       destinations += ', '
+     end
+     i += 1
+   end
+-%>
+DESTINATIONS = <%= destinations %>
+
+# This defines the maximum "message size" between carbon daemons.
+# You shouldn't need to tune this unless you really know what you're doing.
+MAX_DATAPOINTS_PER_MESSAGE = <%= @relay_max_data_points_per_message %>
+MAX_QUEUE_SIZE = <%= @relay_max_queue_size %>
+
+# Set this to False to drop datapoints when any send queue (sending datapoints
+# to a downstream carbon daemon) hits MAX_QUEUE_SIZE. If this is True (the
+# default) then sockets over which metrics are received will temporarily stop accepting
+# data until the send queues fall below 80% MAX_QUEUE_SIZE.
+USE_FLOW_CONTROL = <%= @relay_use_flow_control %>
+
+# Set this to True to enable whitelisting and blacklisting of metrics in
+# CONF_DIR/whitelist and CONF_DIR/blacklist. If the whitelist is missing or
+# empty, all metrics will pass through
+<% if @relay_use_whitelist %>
+USE_WHITELIST = <%= @relay_use_whitelist %>
+<% end -%>
+
+# By default, carbon itself will log statistics (such as a count,
+# metricsReceived) with the top level prefix of 'carbon' at an interval of 60
+# seconds. Set CARBON_METRIC_INTERVAL to 0 to disable instrumentation
+<% if @relay_carbon_metric_prefix and @relay_carbon_metric_interval -%>
+CARBON_METRIC_PREFIX = <%= @relay_carbon_metric_prefix %>
+CARBON_METRIC_INTERVAL = <%= @relay_carbon_metirc_interval %>
+<% end -%>

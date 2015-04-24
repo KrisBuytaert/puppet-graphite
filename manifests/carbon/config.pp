@@ -38,12 +38,12 @@ class graphite::carbon::config inherits graphite::carbon {
     source => 'puppet:///modules/graphite/storage-schemas.conf',
   }
 
-  file { "${carbon_config_dir}carbon.conf":
+  file { "${carbon_config_dir}carbon-cache.conf":
     ensure  => present,
     group   => 'root',
     owner   => 'root',
     mode    => '0644',
-    content => template('graphite/carbon/carbon.conf.erb'),
+    content => template('graphite/carbon/carbon-cache.conf.erb'),
     notify  => Service[$carbon_cache_service_name],
   }
 

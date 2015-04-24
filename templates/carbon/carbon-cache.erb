@@ -14,7 +14,7 @@ pidfile_<%= i %>="/var/run/carbon-cache-<%= i %>.pid"
 lockfile_<%= i %>=/var/lock/subsys/carbon-cache-<%= i %>
 <% end -%>
 
-CONFIG="<%= @carbon_config_dir %>carbon.conf"
+CONFIG="<%= @carbon_config_dir %>carbon-cache.conf"
 LOG_DIR="/var/log/carbon"
 
 [ -e /etc/sysconfig/carbon ] && . /etc/sysconfig/carbon
