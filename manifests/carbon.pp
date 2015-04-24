@@ -130,15 +130,15 @@ class graphite::carbon (
 ) inherits ::graphite::params{
 
   if $carbon_cache_amount > 1 {
-      $carbon_line_receiver_interface = '127.0.0.1'
-      $carbon_udp_receiver_interface = '127.0.0.1'
+      $carbon_line_receiver_interface  = '127.0.0.1'
+      $carbon_udp_receiver_interface   = '127.0.0.1'
       $carbon_pickle_receiver_iterface = '127.0.0.1'
-      $carbon_cache_query_interface = '127.0.0.1'
+      $carbon_cache_query_interface    = '127.0.0.1'
     } else {
-      $carbon_line_receiver_interface = '0.0.0.0'
-      $carbon_udp_receiver_interface = '0.0.0.0'
+      $carbon_line_receiver_interface  = '0.0.0.0'
+      $carbon_udp_receiver_interface   = '0.0.0.0'
       $carbon_pickle_receiver_iterface = '0.0.0.0'
-      $carbon_cache_query_interface = '0.0.0.0'
+      $carbon_cache_query_interface    = '0.0.0.0'
     }
 
     contain graphite::carbon::package

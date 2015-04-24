@@ -44,6 +44,7 @@ class graphite::carbon::config inherits graphite::carbon {
     owner   => 'root',
     mode    => '0644',
     content => template('graphite/carbon/carbon.conf.erb'),
+    notify  => Service[$carbon_cache_service_name],
   }
 
   file { '/etc/init.d/carbon-cache':
@@ -52,6 +53,7 @@ class graphite::carbon::config inherits graphite::carbon {
     owner   => 'root',
     mode    => '0755',
     content => template('graphite/carbon/carbon-cache.erb'),
+    notify  => Service[$carbon_cache_service_name],
   }
 
 }

@@ -29,6 +29,6 @@
 class graphite::carbon::package inherits graphite::carbon{
   package { $carbon_package:
     ensure => $carbon_package_ensure,
-    before => Service['carbon-cache'];
+    before => Service[$carbon_cache_service_name];
   }
 }
