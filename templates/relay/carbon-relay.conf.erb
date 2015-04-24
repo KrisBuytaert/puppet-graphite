@@ -45,10 +45,10 @@ REPLICATION_FACTOR = <%= @relay_replication_factor %>
 # If using RELAY_METHOD = rules, all destinations used in relay-rules.conf
 # must be defined in this list
 <% destinations = '' -%>
-<% i = 0 -%>
+<% i = 1 -%>
 <% for d in @relay_destinations do
      destinations += (d +':'+ @relay_pickle_receiver_port)
-     if d < len(@relay_destinations)
+     if i < @relay_destinations.length
        destinations += ', '
      end
      i += 1

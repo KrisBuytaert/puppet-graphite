@@ -56,6 +56,7 @@ class graphite::params (
   $caron_metric_name_in_body                 = 'False',
   $carbon_bind_patterns                      = undef,
   $relay_service_name                        = 'carbon-relay',
+  $relay_service_enable                      = 'running',
   $relay_user                                = 'carbon',
   $relay_line_receiver_interface             = '0.0.0.0',
   $relay_line_receiver_port                  = '2003',

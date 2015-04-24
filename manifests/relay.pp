@@ -21,13 +21,18 @@ class graphite::relay (
   $carbon_pickle_receiver_port = $graphite::params::relay_pickle_receiver_port,
 ) inherits graphite::params {
 
+  package { $carbon_package:
+    ensure => $carbon_package_ensure,
+  }
+
   file { "${carbon_config_dir}carbon-relay.conf":
     ensure  => present,
     group   => 'root',
     owner   => 'root',
     mode    => '0644',
     content => template('graphite/relay/carbon-relay.conf.erb'),
-    #notify => Service[$relay_service_name],
+    require => Package[$carbon_package],
+    notify  => Service[$relay_service_name],
   }
 
   file { '/etc/init.d/carbon-relay':
@@ -36,7 +41,8 @@ class graphite::relay (
     owner   => 'root',
     mode    => '0755',
     content => template('graphite/relay/carbon-relay.erb'),
-    #notify => Service[$relay_service_name],
+    require => Package[$carbon_package],
+    notify  => Service[$relay_service_name],
   }
 
   service { $relay_service_name:
