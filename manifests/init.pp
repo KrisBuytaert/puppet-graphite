@@ -14,7 +14,6 @@ class graphite inherits graphite::params{
 
   include graphite::params
   include graphite::carbon
-  include graphite::whisper
   include graphite::web
 
 }
