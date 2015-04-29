@@ -1,26 +1,33 @@
-# = Class: graphite::web
+# Class: graphite::web
 #
-# Installs the graphite webfontend.
+# This class manages the graphite webfrontend.
 #
-# == Actions:
+# Parameters:
 #
-# Installs packages for graphite web frontend.
+# The same as in the local_settings.py file.
+# Example:
+#  In local_settings.py:
+#  TIME_ZONE = 'UTC'
+#  In the puppet class definition:
+#  time_zone => 'UTC',
 #
-# == Requires:
+# Sample Uses:
 #
-# Running web server.
+# Setup graphite web with defaults:
+# include graphite::web
 #
-# == Todo:
-#
-# * Update documentation
+# Setup graphite web and let it manage the webserver:
+# class { 'graphite::web':
+#   manage_httpd => True,
+# }
 #
 class graphite::web (
+  $cluster_servers          = undef,
   $time_zone                = $::graphite::params::web_time_zone,
   $whisper_dir              = $::graphite::params::whisper_dir,
   $manage_httpd             = $::graphite::params::web_manage_httpd,
   $basic_http_auth          = $::graphite::params::web_basic_http_auth,
   $basic_http_auth_password = $::graphite::params::web_basic_http_auth_password,
-  $cluster_servers          = undef,
   $graphite_web_port        = $::graphite::params::web_port,
   ) inherits ::graphite::params {
   contain graphite::web::package
@@ -33,6 +40,3 @@ class graphite::web (
     include graphite::web::auth
   }
 }
-
-
-

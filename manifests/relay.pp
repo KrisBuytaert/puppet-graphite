@@ -13,7 +13,7 @@
 #   In the puppet class definition:
 #   "relay_replication_factor => '1',"
 #
-# Sample uses:
+# Sample Uses:
 #
 # Setup the relay with defaults:
 # class { 'graphite::relay':
@@ -25,7 +25,6 @@
 #   relay_destinations          => ['192.168.1.102','192.168.1.104'],
 #   carbon_pickle_receiver_port => '2012',
 # }
-
 #
 class graphite::relay (
   $relay_destinations                = undef,

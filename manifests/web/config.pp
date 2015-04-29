@@ -1,16 +1,20 @@
-# Class: graphite
+# Class: graphite::web::config
 #
-# This module manages graphite
+# This is a private class, do not use inside a manifest/role/profile
 #
 # Parameters:
 #
-# Actions:
+# $whisper_dir:
+#   The directory where the whisper database is.
+#   Default: '/var/lib/carbon/whisper'
 #
-# Requires:
+# $web_dir:
+#   The directory where the graphite-web config is put in.
+#   Default: '/etc/graphite-web'
 #
-# Sample Usage:
+# Sample Uses:
 #
-# [Remember: No empty lines between comments and class definition]
+# contain graphite::web::config
 class graphite::web::config (
   $whisper_dir       = $graphite::params::whisper_dir,
   $database_name     = "${graphite::params::web_dir}graphite.db",

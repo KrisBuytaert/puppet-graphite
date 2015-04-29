@@ -84,7 +84,7 @@ class graphite::params (
   $web_basic_http_auth                       = false,
   $web_basic_http_auth_password              = undef,
   $web_dir                                   = '/etc/graphite-web/',
-  $web_manage_httpd                          = true,
+  $web_manage_httpd                          = false,
   $web_port                                  = '80',
   $web_time_zone                             = 'UTC',
   $whisper_dir                               = '/var/lib/carbon/whisper/',
