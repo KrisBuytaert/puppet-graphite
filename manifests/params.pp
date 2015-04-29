@@ -12,10 +12,10 @@ class graphite::params (
   $carbon_package                            = 'python-carbon',
   $carbon_package_ensure                     = 'present',
   $carbon_cache_amount                       = $::processorcount,
-  $time_zone                                 = 'UTC',
-  $manage_httpd                              = true,
-  $basic_http_auth                           = false,
-  $basic_http_auth_password                  = undef,
+  $web_time_zone                             = 'UTC',
+  $web_manage_httpd                          = true,
+  $web_basic_http_auth                       = false,
+  $web_basic_http_auth_password              = undef,
   $whisper_dir                               = '/var/lib/carbon/whisper/',
   $whisper_package                           = 'python-whisper',
   $whisper_package_ensure                    = 'present',
@@ -88,7 +88,8 @@ class graphite::params (
   $aggregator_use_whitelist                  = 'False',
   $aggregator_carbon_metric_prefix           = undef,
   $aggregator_carbon_metric_interval         = undef,
-  $graphite_web_dir                          = '/etc/graphite-web/'
+  $web_dir                                   = '/etc/graphite-web/',
+  $web_port                                  = '80',
 ) {
 
   if $carbon_cache_amount > 1 {

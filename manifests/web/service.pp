@@ -1,7 +1,7 @@
 class graphite::web::service () inherits ::graphite::web {
 
   $manualdbsetup = 'false'
-  $managesyncdb_path = "${graphite_web_dir}.DoNotDeletePlease"
+  $managesyncdb_path = "${web_dir}.DoNotDeletePlease"
 
   if !str2bool("$manualdbsetup") {
     exec { 'setup db':

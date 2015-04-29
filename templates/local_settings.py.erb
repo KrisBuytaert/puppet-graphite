@@ -171,7 +171,17 @@ INDEX_FILE = '/var/lib/graphite-web/index'  # Search index file
 # metric data. Note that the first server to return a match for a query will be
 # used.
 #CLUSTER_SERVERS = ["10.0.2.2:80", "10.0.2.3:80"]
-
+<% cluster_servers_destinations = ''
+   i = 1 -%>
+<%- if @cluster_servers
+      for d in @cluster_servers do
+        cluster_servers_destinations += (d + ':' + @web_port)
+          if i < @cluster_servers.length
+            cluster_servers_destinations += ', '
+          end
+      end -%>
+CLUSTER_SERVERS = <%= cluster_servers_destinations %>
+<%- end -%>
 ## These are timeout values (in seconds) for requests to remote webapps
 #REMOTE_STORE_FETCH_TIMEOUT = 6   # Timeout to fetch series data
 #REMOTE_STORE_FIND_TIMEOUT = 2.5  # Timeout for metric find requests

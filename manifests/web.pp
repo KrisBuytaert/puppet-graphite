@@ -15,21 +15,21 @@
 # * Update documentation
 #
 class graphite::web (
-  $time_zone                = $::graphite::params::time_zone,
-  $whisper_dir              = $::graphite::params::whisper_dir,
-  $manage_httpd             = $::graphite::params::manage_httpd,
-  $basic_http_auth          = $::graphite::params::basic_http_auth,
-  $basic_http_auth_password = $::graphite::params::basic_http_auth_password
+  $time_zone                = $::graphite::params::web_time_zone,
+  $whisper_dir              = $::graphite::params::web_whisper_dir,
+  $manage_httpd             = $::graphite::params::web_manage_httpd,
+  $basic_http_auth          = $::graphite::params::web_basic_http_auth,
+  $basic_http_auth_password = $::graphite::params::web_basic_http_auth_password,
+  $cluster_servers          = undef,
+  $graphite_web_port        = $::graphite::params::web_port,
   ) inherits ::graphite::params {
   contain graphite::web::package
-  class {'graphite::web::config':
-    time_zone   => $time_zone,
-    whisper_dir => $whisper_dir,
-  }
+  contain graphite::web::config
+
   if str2bool("$manage_httpd") {
     include graphite::web::service
   }
-  if $basic_http_auth {
+  if str2bool("$basic_http_auth") {
     include graphite::web::auth
   }
 }

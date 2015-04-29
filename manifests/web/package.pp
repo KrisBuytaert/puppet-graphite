@@ -11,7 +11,7 @@
 # Sample Usage:
 #
 # [Remember: No empty lines between comments and class definition]
-class graphite::web::package {
+class graphite::web::package () inherits graphite::web {
   Package {
     ensure => present,
   }
