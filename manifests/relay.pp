@@ -29,6 +29,7 @@
 #
 class graphite::relay (
   $relay_destinations                = undef,
+  $relay_method                      = 'consistent-hashing',
   $carbon_pickle_receiver_port       = $graphite::params::relay_pickle_receiver_port,
   $relay_carbon_metirc_interval      = $graphite::params::relay_carbon_metric_interval,
   $relay_carbon_metric_prefix        = $graphite::params::relay_carbon_metric_perfix,
