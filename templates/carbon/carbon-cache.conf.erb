@@ -232,13 +232,13 @@ BIND_PATTERNS = <%= @carbon_bind_patterns %>
 # You can then specify the --instance=b option to manage this instance
 <% i = 0 -%>
 <% for a in 1..@carbon_cache_amount.to_i do -%>
-<% if @carbon_cache_amount.to_i > 1 -%>
+  <%- if @carbon_cache_amount.to_i > 1 -%>
 [cache:<%= a %>]
-<% end -%>
+  <%- end -%>
 LINE_RECEIVER_PORT = <%= @carbon_line_receiver_port.to_i + 10*i %>
 UDP_RECEIVER_PORT = <%= @carbon_udp_receiver_port.to_i + 10*i %>
 PICKLE_RECEIVER_PORT = <%= @carbon_pickle_receiver_port.to_i + 10*i %>
 CACHE_QUERY_PORT = <%= @carbon_cache_query_port.to_i + 10*i %>
 
-<% i += 1 -%>
+  <%- i += 1 -%>
 <% end -%>
