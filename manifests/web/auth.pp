@@ -22,7 +22,7 @@ class graphite::web::auth (
     group     => 'root',
     mode      => '0644',
     notify    => Service['httpd'],
-    content   => template('graphite/graphite-web.conf.erb');
+    content   => template('graphite/web/graphite-web.conf.erb');
   }
 
   file {'/usr/share/graphite/.htpasswd':

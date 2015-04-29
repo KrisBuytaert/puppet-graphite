@@ -32,6 +32,6 @@ class graphite::web::config (
     group   => 'root',
     mode    => '0644',
     require => Package['graphite-web'],
-    content => template('graphite/local_settings.py.erb');
+    content => template('graphite/web/local_settings.py.erb');
   }
 }
