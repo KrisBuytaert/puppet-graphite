@@ -175,7 +175,7 @@ INDEX_FILE = '/var/lib/graphite-web/index'  # Search index file
    i = 1 -%>
 <%- if @cluster_servers
       for d in @cluster_servers do
-        cluster_servers_destinations += (d + ':' + @web_port)
+        cluster_servers_destinations += ('"' + d + ':' + @web_port + '"')
           if i < @cluster_servers.length
             cluster_servers_destinations += ', '
           end
