@@ -135,11 +135,13 @@ class graphite::carbon (
       $carbon_udp_receiver_interface   = '127.0.0.1'
       $carbon_pickle_receiver_iterface = '127.0.0.1'
       $carbon_cache_query_interface    = '127.0.0.1'
+      $relay_method                    = 'consistent-hashing'
     } else {
       $carbon_line_receiver_interface  = '0.0.0.0'
       $carbon_udp_receiver_interface   = '0.0.0.0'
       $carbon_pickle_receiver_iterface = '0.0.0.0'
       $carbon_cache_query_interface    = '0.0.0.0'
+      $relay_method                    = 'rules'
     }
 
     contain graphite::carbon::package
