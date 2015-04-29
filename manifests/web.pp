@@ -16,7 +16,7 @@
 #
 class graphite::web (
   $time_zone                = $::graphite::params::web_time_zone,
-  $whisper_dir              = $::graphite::params::web_whisper_dir,
+  $whisper_dir              = $::graphite::params::whisper_dir,
   $manage_httpd             = $::graphite::params::web_manage_httpd,
   $basic_http_auth          = $::graphite::params::web_basic_http_auth,
   $basic_http_auth_password = $::graphite::params::web_basic_http_auth_password,
