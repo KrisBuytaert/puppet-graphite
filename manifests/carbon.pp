@@ -102,7 +102,6 @@ class graphite::carbon (
   $relay_pickle_receiver_interface           = $graphite::params::relay_pickle_receiver_interface,
   $relay_pickle_receiver_port                = $graphite::params::relay_pickle_receiver_port,
   $relay_log_listener_connections            = $graphite::params::relay_log_listener_connections,
-  $relay_method                              = $graphite::params::relay_method,
   $relay_replication_factor                  = $graphite::params::relay_replication_factor,
   $relay_destinations                        = $graphite::params::relay_destinations,
   $relay_max_data_points_per_message         = $graphite::params::relay_max_data_points_per_message,
