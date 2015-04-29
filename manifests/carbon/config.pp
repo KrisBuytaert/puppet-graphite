@@ -8,10 +8,22 @@
 #   The directory where the carbon config is put in.
 #   Default: '/etc/carbon/'
 #
+# $carbon_cache_service_name:
+#   The name of the carbon-cache service.
+#   Default: 'carbon-cache'
+#
+# $carbon_package:
+#   The name of the carbon package.
+#   Default: 'python-carbon'
+#
+# $relay_service_name:
+#   The name of the relay service.
+#   Default: 'carbon-relay'
+#
 # Actions:
 #
 # Build the config files using templetes.
-# Variables withing the 'graphite::carbon' scope will be injected in the config.
+# Variables within the 'graphite::carbon' scope will be injected in the config.
 #
 # Requires:
 #
@@ -29,7 +41,7 @@ class graphite::carbon::config inherits graphite::carbon {
     group   => '0',
     mode    => '0644',
     owner   => '0',
-    notify  => Service['carbon-cache'],
+    notify  => Service[$carbon_cache_service_name],
   }
 
   concat::fragment { 'header':
@@ -44,6 +56,7 @@ class graphite::carbon::config inherits graphite::carbon {
     owner   => 'root',
     mode    => '0644',
     content => template('graphite/carbon/carbon-cache.conf.erb'),
+    require => Package[$carbon_package],
     notify  => Service[$carbon_cache_service_name],
   }
 
@@ -53,6 +66,7 @@ class graphite::carbon::config inherits graphite::carbon {
     owner   => 'root',
     mode    => '0755',
     content => template('graphite/carbon/carbon-cache.erb'),
+    require => Package[$carbon_package],
     notify  => Service[$carbon_cache_service_name],
   }
 
@@ -62,7 +76,8 @@ class graphite::carbon::config inherits graphite::carbon {
     owner   => 'root',
     mode    => '0644',
     content => template('graphite/carbon/carbon-relay.conf.erb'),
-    notify => Service[$relay_service_name],
+    require => Package[$carbon_package],
+    notify  => Service[$relay_service_name],
   }
 
   file { '/etc/init.d/carbon-relay':

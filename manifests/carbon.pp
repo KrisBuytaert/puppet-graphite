@@ -5,6 +5,7 @@
 # There is some param logic in this class to sort out the interface to use for carbon.
 # This class calls the graphite::carbon::package, graphite::carbon::config and graphite::carbon::service classes.
 #
+# The multiple carbon caches require a carbon-relay to function properly. Including graphite::carbon::cache will setup the carbon-relay if there are multiple caches configured.
 # Parameters:
 #
 # The same as in the carbon.conf file but in lower case and with a prefix corresponding to the config section.

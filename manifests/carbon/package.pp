@@ -1,4 +1,4 @@
-# Class: ::graphite::carbon::package
+# Class: graphite::carbon::package
 #
 # This is a private class, do not use inside a manifest/role/profile
 #
@@ -29,6 +29,6 @@
 class graphite::carbon::package inherits graphite::carbon{
   package { $carbon_package:
     ensure => $carbon_package_ensure,
-    before => Service[$carbon_cache_service_name];
+    before => Service[$carbon_cache_service_name],
   }
 }
