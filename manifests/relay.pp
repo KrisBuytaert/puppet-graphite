@@ -1,9 +1,8 @@
-# Class: graphite::carbon
+# Class: graphite::relay
 #
-# This class manages the configuration of the relay.
+# This class manages the instalation, configuration and service of the carbon relay.
 # It inherists params from the params class.
-# This class setups the relay on the node as standalone or in combination with carbon-caches.
-# The config of the relay is done by concatination a part of config to the carbon.conf.
+# This class setups the relay on the node as standalone, it will need the destination to where the metrics need to be forwarded as an array.
 #
 # Parameters:
 #
@@ -16,39 +15,39 @@
 #
 # Sample uses:
 #
+# Setup the relay with defaults:
+# class { 'graphite::relay':
+#   relay_destinations => ['192.168.1.102','192.168.1.104'],
+# }
+#
+# Use a specific port to sent the metrics to:
+# class { 'graphite::relay':
+#   relay_destinations          => ['192.168.1.102','192.168.1.104'],
+#   carbon_pickle_receiver_port => '2012',
+# }
+
+#
 class graphite::relay (
-  $relay_destinations          = undef,
-  $carbon_pickle_receiver_port = $graphite::params::relay_pickle_receiver_port,
+  $relay_destinations                = undef,
+  $carbon_pickle_receiver_port       = $graphite::params::relay_pickle_receiver_port,
+  $relay_carbon_metirc_interval      = $graphite::params::relay_carbon_metric_interval,
+  $relay_carbon_metric_prefix        = $graphite::params::relay_carbon_metric_perfix,
+  $relay_destinations                = $graphite::params::relay_destinations,
+  $relay_line_receiver_interface     = $graphite::params::relay_line_receiver_interface,
+  $relay_line_receiver_port          = $graphite::params::relay_line_receiver_port,
+  $relay_log_listener_connections    = $graphite::params::relay_lig_listener_connections,
+  $relay_max_data_points_per_message = $graphite::params::relay_max_data_points_per_message,
+  $relay_max_queue_size              = $graphite::params::relay_max_queu_size,
+  $relay_pickle_receiver_interface   = $graphite::params::relay_pickle_receiver_interface,
+  $relay_pickle_receiver_port        = $graphite::params::relay_pickle_receiver_port,
+  $relay_replication_factor          = $graphite::params::relay_replication_factor,
+  $relay_service_enable              = $graphite::params::relay_service_enable,
+  $relay_service_name                = $graphite::params::relay_service_name,
+  $relay_use_flow_control            = $graphite::params::relay_use_flow_control,
+  $relay_use_whitelist               = $graphite::params::relay_use_whitelist,
+  $relay_user                        = $graphite::params::relay_user,
 ) inherits graphite::params {
-
-  package { $carbon_package:
-    ensure => $carbon_package_ensure,
-  }
-
-  file { "${carbon_config_dir}carbon-relay.conf":
-    ensure  => present,
-    group   => 'root',
-    owner   => 'root',
-    mode    => '0644',
-    content => template('graphite/relay/carbon-relay.conf.erb'),
-    require => Package[$carbon_package],
-    notify  => Service[$relay_service_name],
-  }
-
-  file { '/etc/init.d/carbon-relay':
-    ensure  => present,
-    group   => 'root',
-    owner   => 'root',
-    mode    => '0755',
-    content => template('graphite/relay/carbon-relay.erb'),
-    require => Package[$carbon_package],
-    notify  => Service[$relay_service_name],
-  }
-
-  service { $relay_service_name:
-    ensure     => $relay_service_enable,
-    enable     => true,
-    hasrestart => true,
-    hasstatus  => true,
-  }
+  contain graphite::relay::config
+  contain graphite::relay::package
+  contain graphite::relay::service
 }
