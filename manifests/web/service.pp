@@ -29,7 +29,7 @@ class graphite::web::service inherits ::graphite::web {
 
   $managesyncdb_path = "${web_dir}.DoNotDeletePlease"
 
-  if !str2bool("$web_manage_db_setup") {
+  if str2bool("$web_manage_db_setup") {
     exec { 'setup_db':
       command => '/usr/bin/python /usr/lib/python2.6/site-packages/graphite/manage.py syncdb --noinput',
       creates => $managesyncdb_path,
