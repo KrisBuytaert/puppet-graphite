@@ -94,7 +94,7 @@ class graphite::params (
   $web_rrd_dir = '/var/lib/carbon/rrd',
   $web_data_dirs = '[WHISPER_DIR, RRD_DIR]',
   $web_log_dir = '/var/log/graphite-web/',
-  $web_index_file = '/var/lib/graphite-web/index'
+  $web_index_file = '/var/lib/graphite-web/index',
   $whisper_dir                               = '/var/lib/carbon/whisper/',
   $whisper_package                           = 'python-whisper',
   $whisper_package_ensure                    = 'present',
