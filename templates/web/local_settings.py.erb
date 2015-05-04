@@ -76,6 +76,7 @@ FLUSHRRDCACHED = '<%= web_flushrrdcached %>
   end
   memcache_hosts += ']'-%>
 MEMCACHE_HOSTS = <%= memcache_hosts %>
+<%- end -%>
 <%- if @web_default_cache_duration -%>
 DEFAULT_CACHE_DURATION = <%= @web_default_cache_duration %>
 <%- end -%>
@@ -201,7 +202,7 @@ INDEX_FILE = '<%= @web_index_file %>'  # Search index file
 # metric data. Note that the first server to return a match for a query will be
 # used.
 #CLUSTER_SERVERS = ["10.0.2.2:80", "10.0.2.3:80"]
-<% cluster_servers_destinations = ''
+<%- cluster_servers_destinations = ''
    i = 1 -%>
 <%- if @cluster_servers
       for d in @cluster_servers do
