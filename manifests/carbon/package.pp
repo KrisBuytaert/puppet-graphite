@@ -19,7 +19,7 @@
 # Requires:
 #
 # graphite::carbon
-# inherits params form graphite::carbon
+# inherits params from graphite::carbon
 #
 # Sample Usage:
 #

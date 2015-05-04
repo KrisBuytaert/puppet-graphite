@@ -6,11 +6,11 @@
 #
 # $whisper_dir:
 #   The directory where the whisper database is.
-#   Default: '/var/lib/carbon/whisper'
+#   Default: '/var/lib/carbon/whisper/'
 #
 # $web_dir:
 #   The directory where the graphite-web config is put in.
-#   Default: '/etc/graphite-web'
+#   Default: '/etc/graphite-web/'
 #
 # Sample Uses:
 #
@@ -27,7 +27,7 @@ class graphite::web::config (
 
   file {'local_settings.py':
     ensure  => file,
-    path    => "${::graphite::params::web_dir}local_settings.py",
+    path    => "${web_dir}local_settings.py",
     owner   => 'root',
     group   => 'root',
     mode    => '0644',

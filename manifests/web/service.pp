@@ -1,9 +1,35 @@
-class graphite::web::service () inherits ::graphite::web {
+# Class: graphite::web::service
+#
+# This is a private class, do not use inside a manifest/role/profile
+#
+# Parameters:
+#
+# $web_manage_db_setup:
+#   Boolean to see if puppet needs to run the manage.py syncdb command.
+#   Default: 'true'
+#
+# $web_dir:
+#  The directory where the graphite-web config is put in.
+#  Default: '/etc/graphite-web'
+#
+# $web_service_name:
+#  The name of the web service.
+#  Default: 'httpd'
+#
+# $web_service_enable:
+#  The state the service to be in.
+#  Default: 'running'
+#
+# Sample Usage:
+#
+# contain graphite::web::service
+#
+# [Remember: No empty lines between comments and class definition]
+class graphite::web::service inherits ::graphite::web {
 
-  $manualdbsetup = 'false'
   $managesyncdb_path = "${web_dir}.DoNotDeletePlease"
 
-  if !str2bool("$manualdbsetup") {
+  if !str2bool("$web_manage_db_setup") {
     exec { 'setup_db':
       command => '/usr/bin/python /usr/lib/python2.6/site-packages/graphite/manage.py syncdb --noinput',
       creates => $managesyncdb_path,
@@ -16,8 +42,8 @@ class graphite::web::service () inherits ::graphite::web {
     }
   }
 
-  service { 'httpd':
-    ensure     => running,
+  service { $web_service_name:
+    ensure     => $web_service_enable,
     enable     => true,
     hasrestart => true,
     hasstatus  => true,
