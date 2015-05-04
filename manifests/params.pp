@@ -81,7 +81,7 @@ class graphite::params (
   $web_data_dirs                             = '[WHISPER_DIR, RRD_DIR]',
   $web_log_dir                               = '/var/log/graphite-web/',
   $web_index_file                            = '/var/lib/graphite-web/index',
-  $web_package                               = "[bitmap-fonts-compat','graphite-web']",
+  $web_package                               = ['bitmap-fonts-compat','graphite-web'],
   $web_package_ensure                        = 'installed',
   $web_service_name                          = 'httpd',
   $web_service_enable                        = 'running',
