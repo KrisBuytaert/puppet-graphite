@@ -1,5 +1,10 @@
-# MANAGED BY PUPPET
-
+### File managed with puppet ###
+##<% if scope.lookupvar('::servername') -%>
+### Served by:        '<%= scope.lookupvar('::servername') %>'
+##<% end -%>
+### Module:           '<%= @module_name %>'
+### Template source:  'MODULES<%= template_source.gsub(Regexp.new("^#{Puppet.lookup(:current_environment)[:modulepath].gsub(':','|')}"),"") %>'
+#
 # This needs to be in your server's config somewhere, probably
 # the main httpd.conf
 NameVirtualHost *:80
