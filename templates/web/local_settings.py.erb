@@ -202,7 +202,7 @@ INDEX_FILE = '<%= @web_index_file %>'  # Search index file
 # metric data. Note that the first server to return a match for a query will be
 # used.
 #CLUSTER_SERVERS = ["10.0.2.2:80", "10.0.2.3:80"]
-<%- cluster_servers_destinations = ''
+<%- cluster_servers_destinations = '['
    i = 1 -%>
 <%- if @cluster_servers
       for d in @cluster_servers do
@@ -210,8 +210,9 @@ INDEX_FILE = '<%= @web_index_file %>'  # Search index file
           if i < @cluster_servers.length
             cluster_servers_destinations += ', '
           end
+       i += 1
       end -%>
-CLUSTER_SERVERS = <%= cluster_servers_destinations %>
+CLUSTER_SERVERS = <%= cluster_servers_destinations %>]
 <%- end -%>
 
 ## These are timeout values (in seconds) for requests to remote webapps
@@ -219,6 +220,18 @@ CLUSTER_SERVERS = <%= cluster_servers_destinations %>
 #REMOTE_STORE_FIND_TIMEOUT = 2.5  # Timeout for metric find requests
 #REMOTE_STORE_RETRY_DELAY = 60    # Time before retrying a failed remote webapp
 #REMOTE_FIND_CACHE_DURATION = 300 # Time to cache remote metric find results
+<%- if @web_remote_store_fetch_timeout -%>
+REMOTE_STORE_FETCH_TIMEOUT = <%= @web_store_fetch_timeout %>
+<%- end -%>
+<%- if @web_remote_store_find_timeout -%>
+REMOTE_STORE_FETCH_TIMEOUT = <%= @web_store_find_timeout %>
+<%- end -%>
+<%- if @web_remote_store_retry_delay -%>
+REMOTE_STORE_FETCH_TIMEOUT = <%= @web_store_retry_delay %>
+<%- end -%>
+<%- if @web_remote_store_cache_duration -%>
+REMOTE_STORE_FETCH_TIMEOUT = <%= @web_store_cache_duration %>
+<%- end -%>
 
 ## Remote rendering settings
 # Set to True to enable rendering of Graphs on a remote webapp
