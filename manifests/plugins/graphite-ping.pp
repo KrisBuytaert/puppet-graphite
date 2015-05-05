@@ -4,7 +4,7 @@
 #
 # source: https://github.com/dmsasser/graphiteutils
 
-define graphite::plugins::graphite-ping {
+define graphite::plugins::graphite_ping {
 
   $host = $name
 
@@ -26,12 +26,12 @@ define graphite::plugins::graphite-ping {
 
   if !defined(File['/usr/local/sbin/graphite-ping']){
     file { '/usr/local/sbin/graphite-ping':
-      ensure  => present,
-      path    => '/usr/local/sbin/graphite-ping',
-      owner   => root,
-      group   => root,
-      mode    => '0755',
-      source  => 'puppet:///modules/graphite/plugins/graphite-ping',
+      ensure => present,
+      path   => '/usr/local/sbin/graphite-ping',
+      owner  => root,
+      group  => root,
+      mode   => '0755',
+      source => 'puppet:///modules/graphite/plugins/graphite-ping',
     }
   }
 
