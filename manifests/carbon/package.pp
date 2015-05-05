@@ -27,8 +27,8 @@
 #
 # [Remember: No empty lines between comments and class definition]
 class graphite::carbon::package inherits graphite::carbon{
-  package { $carbon_package:
-    ensure => $carbon_package_ensure,
-    before => Service[$carbon_cache_service_name],
+  package { $graphite::carbon::carbon_package:
+    ensure => $graphite::carbon::carbon_package_ensure,
+    before => Service[$graphite::carbon::carbon_cache_service_name],
   }
 }

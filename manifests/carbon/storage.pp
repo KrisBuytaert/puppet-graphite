@@ -22,10 +22,10 @@
 # [Remember: No empty lines between comments and class definition]
 define graphite::carbon::storage ( $pattern,$retentions) inherits graphite::carbon {
   concat::fragment {$name:
-    target  => "${carbon_config_dir}storage-schemas.conf",
+    target  => "${graphite::carbon::carbon_config_dir}storage-schemas.conf",
     order   => 10,
     content => template('graphite/carbon/storage-schemas.conf.erb'),
-    notify  => Service["${carbon_cache_service_name}"]
+    notify  => Service[$graphite::carbon::carbon_cache_service_name],
   }
 
 }

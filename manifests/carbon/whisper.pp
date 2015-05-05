@@ -4,11 +4,11 @@
 #
 # Parameters:
 #
-# $whisper_package:
+# $graphite::carbon::whisper_package:
 #   The name of the to-install whisper package.
 #   Default: 'python-whisper'
 #
-# $whipser_package_ensure:
+# $graphite::carbon::whipser_package_ensure:
 #   The state of the package.
 #   Default: 'installed'
 #
@@ -28,7 +28,7 @@
 # [Remember: No empty lines between comments and cladd definition]
 class graphite::carbon::whisper (
 ) inherits graphite::carbon {
-  package { $whisper_package :
-    ensure => $whisper_package_ensure,
+  package { $graphite::carbon::whisper_package :
+    ensure => $graphite::carbon::whisper_package_ensure,
   }
 }

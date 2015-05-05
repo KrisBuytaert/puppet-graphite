@@ -37,27 +37,27 @@
 # [Remember: No empty lines between comments and class definition]
 class graphite::carbon::config inherits graphite::carbon {
 
-  concat { "${carbon_config_dir}storage-schemas.conf":
-    group   => '0',
-    mode    => '0644',
-    owner   => '0',
-    notify  => Service[$carbon_cache_service_name],
+  concat { "${graphite::carbon::carbon_config_dir}storage-schemas.conf":
+    group  => '0',
+    mode   => '0644',
+    owner  => '0',
+    notify => Service[$graphite::carbon::carbon_cache_service_name],
   }
 
   concat::fragment { 'header':
-    target => "${carbon_config_dir}storage-schemas.conf",
+    target => "${graphite::carbon::carbon_config_dir}storage-schemas.conf",
     order  => 0,
     source => 'puppet:///modules/graphite/storage-schemas.conf',
   }
 
-  file { "${carbon_config_dir}carbon-cache.conf":
+  file { "${graphite::carbon::carbon_config_dir}carbon-cache.conf":
     ensure  => present,
     group   => 'root',
     owner   => 'root',
     mode    => '0644',
     content => template('graphite/carbon/carbon-cache.conf.erb'),
-    require => Package[$carbon_package],
-    notify  => Service[$carbon_cache_service_name],
+    require => Package[$graphite::carbon::carbon_package],
+    notify  => Service[$graphite::carbon::carbon_cache_service_name],
   }
 
   file { '/etc/init.d/carbon-cache':
@@ -66,18 +66,18 @@ class graphite::carbon::config inherits graphite::carbon {
     owner   => 'root',
     mode    => '0755',
     content => template('graphite/carbon/carbon-cache.erb'),
-    require => Package[$carbon_package],
-    notify  => Service[$carbon_cache_service_name],
+    require => Package[$graphite::carbon::carbon_package],
+    notify  => Service[$graphite::carbon::carbon_cache_service_name],
   }
 
-  file { "${carbon_config_dir}carbon-relay.conf":
+  file { "${graphite::carbon::carbon_config_dir}carbon-relay.conf":
     ensure  => present,
     group   => 'root',
     owner   => 'root',
     mode    => '0644',
     content => template('graphite/carbon/carbon-relay.conf.erb'),
-    require => Package[$carbon_package],
-    notify  => Service[$relay_service_name],
+    require => Package[$graphite::carbon::carbon_package],
+    notify  => Service[$graphite::carbon::relay_service_name],
   }
 
   file { '/etc/init.d/carbon-relay':
@@ -86,6 +86,6 @@ class graphite::carbon::config inherits graphite::carbon {
     owner   => 'root',
     mode    => '0755',
     content => template('graphite/relay/carbon-relay.erb'),
-    notify => Service[$relay_service_name],
+    notify  => Service[$graphite::carbon::relay_service_name],
     }
 }
