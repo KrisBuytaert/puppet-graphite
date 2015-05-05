@@ -27,8 +27,8 @@
 #
 # [Remember: No empty lines between comments and class definition]
 class graphite::relay::package inherits graphite::relay {
-  package { $carbon_package:
-    ensure => $carbon_package_ensure,
-    before => Service[$relay_service_name],
+  package { $graphite::relay::carbon_package:
+    ensure => $graphite::relay::carbon_package_ensure,
+    before => Service[$graphite::relay::relay_service_name],
   }
 }

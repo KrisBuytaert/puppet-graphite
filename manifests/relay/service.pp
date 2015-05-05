@@ -28,8 +28,8 @@
 #
 # [Remember: No empty lines between comments and class definition]
 class graphite::relay::service inherits graphite::relay {
-  service { $relay_service_name:
-    ensure     => $relay_service_enable,
+  service { $graphite::relay::relay_service_name:
+    ensure     => $graphite::relay::relay_service_enable,
     enable     => true,
     hasrestart => true,
     hasstatus  => true,
