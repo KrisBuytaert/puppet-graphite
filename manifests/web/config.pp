@@ -16,8 +16,8 @@
 #
 # contain graphite::web::config
 class graphite::web::config (
-  $whisper_dir       = $graphite::params::whisper_dir,
-  $database_name     = "${graphite::params::web_dir}graphite.db",
+  $whisper_dir       = $graphite::web::whisper_dir,
+  $database_name     = "${graphite::web::web_dir}graphite.db",
   $database_engine   = 'django.db.backends.sqlite3',
   $database_user     = '',
   $database_password = '',
@@ -27,7 +27,7 @@ class graphite::web::config (
 
   file {'local_settings.py':
     ensure  => file,
-    path    => "${web_dir}local_settings.py",
+    path    => "${graphite::web::web_dir}local_settings.py",
     owner   => 'root',
     group   => 'root',
     mode    => '0644',

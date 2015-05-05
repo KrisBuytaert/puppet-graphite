@@ -28,8 +28,8 @@
 # [Remember: No empty lines between comments and class definition]
 class graphite::web::package () inherits graphite::web {
   $soft = ['bitmap-fonts-compat','graphite-web']
-  package { $web_package:
-    ensure => $web_package_ensure,
-    before => Service[$web_service_name],
+  package { $graphite::web::web_package:
+    ensure => $graphite::web::web_package_ensure,
+    before => Service[$graphite::web::web_service_name],
   }
 }

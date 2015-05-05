@@ -18,15 +18,15 @@ class graphite::web::auth inherits graphite::web {
     owner     => 'root',
     group     => 'root',
     mode      => '0644',
-    notify    => Service[$web_service_name],
+    notify    => Service[$graphite::web::web_service_name],
     content   => template('graphite/web/graphite-web.conf.erb');
   }
 
-  file {"${web_graphite_root}.htpasswd":
+  file {"${graphite::web::web_graphite_root}.htpasswd":
     ensure  => file,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => "${web_basic_http_user}:${web_basic_http_password}",
+    content => "${graphite::web::web_basic_http_user}:${graphite::web::web_basic_http_password}",
   }
 }
