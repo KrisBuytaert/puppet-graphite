@@ -296,15 +296,13 @@ REPLICATION_FACTOR = <%= @relay_replication_factor %>
 #
 # If using RELAY_METHOD = rules, all destinations used in relay-rules.conf
 # must be defined in this list
-<% destinations = '' -%>
-<% i = 0 -%>
-<% for d in 1..@carbon_cache_amount.to_i do
-     destinations += (@relay_destinations+':'+(@carbon_pickle_receiver_port.to_i + 10*i).to_s+':'+d.to_s)
-     if d < @carbon_cache_amount.to_i
-       destinations += ', '
-     end
-     i += 1
-   end
+<% destinations = ''
+for d in 1..@carbon_cache_amount.to_i do
+  destinations += (@relay_destinations+':'+(@carbon_pickle_receiver_port.to_i + 10*d - 10).to_s+':'+d.to_s)
+  if d < @carbon_cache_amount.to_i
+    destinations += ', '
+  end
+end
 -%>
 DESTINATIONS = <%= destinations %>
 
