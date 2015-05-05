@@ -30,10 +30,10 @@ class graphite::web (
   contain graphite::web::package
   contain graphite::web::config
 
-  if str2bool("$web_manage_httpd") {
+  if str2bool("${web_manage_httpd}") {
     include graphite::web::service
   }
-  if str2bool("$web_basic_http_auth") {
+  if str2bool("${web_basic_http_auth}") {
     include graphite::web::auth
   }
 }

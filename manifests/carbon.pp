@@ -127,7 +127,7 @@ class graphite::carbon (
   $aggregator_use_whitelist                  = $graphite::params::aggregator_use_whitelist,
   $aggregator_carbon_metric_prefix           = $graphite::params::aggregator_carbon_metric_prefix,
   $aggregator_carbon_metric_interval         = $graphite::params::aggregator_carbon_metric_interval,
-) inherits ::graphite::params{
+) inherits ::graphite{
 
   if $carbon_cache_amount > 1 {
       $carbon_line_receiver_interface  = '127.0.0.1'
