@@ -57,7 +57,7 @@ DEBUG = <%= @web_debug %>
 # If using RRD files and rrdcached, set to the address or socket of the daemon
 #FLUSHRRDCACHED = 'unix:/var/run/rrdcached.sock'
 <%- if @web_flushrrdcached -%>
-FLUSHRRDCACHED = '<%= web_flushrrdcached %>
+FLUSHRRDCACHED = '<%= @web_flushrrdcached %>
 <%- end -%>
 
 # This lists the memcached servers that will be used by this webapp.
