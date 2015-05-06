@@ -26,7 +26,7 @@ SECRET_KEY= '<%= @web_secret_key %>'
 # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-ALLOWED_HOSTS
 #ALLOWED_HOSTS = [ '*' ]
 <%- if @web_allowed_hosts -%>
-ALLOWED_HOSTS=<% @web_allowed_hosts %>
+ALLOWED_HOSTS=<%= @web_allowed_hosts %>
 <%- end -%>
 
 # Set your local timezone (Django's default is America/Chicago)
