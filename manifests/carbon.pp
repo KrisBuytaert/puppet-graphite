@@ -143,8 +143,46 @@ class graphite::carbon (
       $relay_method                     = 'rules'
     }
 
-    contain graphite::carbon::package
-    contain graphite::carbon::config
-    contain graphite::carbon::service
-    contain graphite::carbon::whisper
+  contain graphite::carbon::package
+  contain graphite::carbon::config
+  contain graphite::carbon::service
+  contain graphite::carbon::whisper
+  # Setup graphite web with the right params.
+  class { 'graphite::web':
+    web_allowed_hosts               => $web_allowed_hosts,
+    web_basic_http_auth             => $web_basic_http_auth,
+    web_basic_http_auth_password    => $web_basic_http_auth_password,
+    web_basic_http_password         => $web_basic_http_password,
+    web_basic_http_user             => $web_basic_http_user,
+    web_conf_dir                    => $web_conf_dir,
+    web_content_dir                 => $web_content_dir,
+    web_data_dirs                   => $web_data_dirs,
+    web_debug                       => $web_debug,
+    web_default_cache_duration      => $web_default_cache_duration,
+    web_dir                         => $web_dir,
+    web_flushrrdcached              => $web_flushrrdcached,
+    web_graphite_root               => $web_graphite_root,
+    web_index_file                  => $web_index_file,
+    web_log_cache_performance       => $web_log_cache_performance,
+    web_log_dir                     => $web_log_dir,
+    web_log_metic_access            => $web_log_metric_access,
+    web_log_rendering_performance   => $web_log_rendering_performance,
+    web_logging                     => $web_logging,
+    web_manage_db_setup             => $web_manage_db_setup,
+    web_manage_httpd                => $web_manage_httpd,
+    web_memcache_hosts              => $web_memcache_hosts,
+    web_package                     => $web_package,
+    web_package_ensure              => $web_package_ensure,
+    web_port                        => $web_port,
+    web_remote_store_cache_duration => $web_remote_store_cache_duration,
+    web_remote_store_fetch_timeout  => $web_remote_store_fetch_timeout,
+    web_remote_store_find_timeout   => $web_remote_store_find_timeout,
+    web_remote_store_retry_delay    => $web_remote_store_retry_delay,
+    web_rrd_dir                     => $web_rrd_dir,
+    web_secret_key                  => $web_secret_key,
+    web_service_enable              => $web_service_enable,
+    web_service_name                => $web_service_name,
+    web_storage_dir                 => $web_storage_dir,
+    web_time_zone                   => $web_time_zone,
+  }
 }
