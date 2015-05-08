@@ -70,7 +70,7 @@ class graphite (
   $carbon_whisper_sparse_create              = $::graphite::params::carbon_whisper_sparse_create,
   $caron_metric_name_in_body                 = $::graphite::params::caron_metric_name_in_body,
   $cluster_servers                           = $::graphite::params::cluster_servers,
-  $relay_carbon_metirc_interval              = $::graphite::params::relay_carbon_metirc_interval,
+  $relay_carbon_metric_interval              = $::graphite::params::relay_carbon_metric_interval,
   $relay_carbon_metric_prefix                = $::graphite::params::relay_carbon_metric_prefix,
   $relay_destinations                        = $::graphite::params::relay_destinations,
   $relay_line_receiver_interface             = $::graphite::params::relay_line_receiver_interface,

@@ -17,7 +17,7 @@ class graphite::params (
   $carbon_use_whitelist                      = undef,
   $carbon_whisper_lock_writes                = undef,
   $carbon_whisper_sparse_create              = undef,
-  $relay_carbon_metirc_interval              = undef,
+  $relay_carbon_metric_interval              = undef,
   $relay_carbon_metric_prefix                = undef,
   $relay_use_whitelist                       = undef,
   $web_allowed_hosts                         = undef,

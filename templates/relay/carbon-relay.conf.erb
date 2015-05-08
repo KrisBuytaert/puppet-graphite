@@ -85,7 +85,9 @@ USE_WHITELIST = <%= @relay_use_whitelist %>
 # By default, carbon itself will log statistics (such as a count,
 # metricsReceived) with the top level prefix of 'carbon' at an interval of 60
 # seconds. Set CARBON_METRIC_INTERVAL to 0 to disable instrumentation
-<% if @relay_carbon_metric_prefix and @relay_carbon_metric_interval -%>
+<% if @relay_carbon_metric_prefix -%>
 CARBON_METRIC_PREFIX = <%= @relay_carbon_metric_prefix %>
+<% end -%>
+<% if @relay_carbon_metric_interval -%>
 CARBON_METRIC_INTERVAL = <%= @relay_carbon_metirc_interval %>
 <% end -%>
