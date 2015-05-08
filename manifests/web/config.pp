@@ -25,13 +25,22 @@ class graphite::web::config (
   $database_port     = '',
   ) inherits graphite::web {
 
-  file {'local_settings.py':
+  file { 'local_settings.py':
     ensure  => file,
     path    => "${graphite::web::web_dir}local_settings.py",
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    require => Package['graphite-web'],
+    require => Package[$graphite::web::web_package],
     content => template('graphite/web/local_settings.py.erb');
+  }
+
+  file { 'index':
+    ensure  => file,
+    path    => $graphite::web::web_index_file,
+    owner   => $graphite::web::web_user,
+    group   => $graphite::web::web_group,
+    mode    => '0644',
+    require => Package[$graphite::web::web_package],
   }
 }

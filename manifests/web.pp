@@ -36,6 +36,7 @@ class graphite::web (
   $web_dir                         = $::graphite::params::web_dir,
   $web_flushrrdcached              = $::graphite::params::web_flushrrdcached,
   $web_graphite_root               = $::graphite::params::web_graphite_root,
+  $web_group                       = $::graphite::params::web_group,
   $web_index_file                  = $::graphite::params::web_index_file,
   $web_log_cache_performance       = $::graphite::params::web_log_cache_performance,
   $web_log_dir                     = $::graphite::params::web_log_dir,
@@ -58,6 +59,7 @@ class graphite::web (
   $web_service_name                = $::graphite::params::web_service_name,
   $web_storage_dir                 = $::graphite::params::web_storage_dir,
   $web_time_zone                   = $::graphite::params::web_time_zone,
+  $web_user                        = $::graphite::params::web_user,
 ) inherits ::graphite::params {
   contain graphite::web::package
   contain graphite::web::config

@@ -162,6 +162,7 @@ class graphite::carbon (
     web_dir                         => $web_dir,
     web_flushrrdcached              => $web_flushrrdcached,
     web_graphite_root               => $web_graphite_root,
+    web_group                       => $web_group,
     web_index_file                  => $web_index_file,
     web_log_cache_performance       => $web_log_cache_performance,
     web_log_dir                     => $web_log_dir,
@@ -184,5 +185,6 @@ class graphite::carbon (
     web_service_name                => $web_service_name,
     web_storage_dir                 => $web_storage_dir,
     web_time_zone                   => $web_time_zone,
+    web_user                        => $web_user,
   }
 }
