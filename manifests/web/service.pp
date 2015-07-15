@@ -31,8 +31,9 @@ class graphite::web::service inherits ::graphite::web {
 
   if str2bool("${graphite::web::web_manage_db_setup}") {
     exec { 'setup_db':
-      command => '/usr/bin/python /usr/lib/python2.6/site-packages/graphite/manage.py syncdb --noinput',
+      command => '/usr/bin/python -W ignore::DeprecationWarning /usr/lib/python2.6/site-packages/graphite/manage.py syncdb --noinput',
       creates => $managesyncdb_path,
+      before  => Service[$graphite::web::web_service_name],
     }
 
     file { $managesyncdb_path:
