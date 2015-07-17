@@ -88,4 +88,16 @@ class graphite::carbon::config inherits graphite::carbon {
     content => template('graphite/relay/carbon-relay.erb'),
     notify  => Service[$graphite::carbon::relay_service_name],
     }
+
+  if ($relay_method == 'rules') {
+    file { "${graphite::carbon::carbon_config_dir}relay-rules.conf":
+      ensure  => present,
+      group   => 'root',
+      owner   => 'root',
+      mode    => '0644',
+      content => template('graphite/relay/relay-rules.conf.erb'),
+      require => Package[$graphite::carbon::carbon_package],
+      notify  => Service[$graphite::carbon::relay_service_name],
+    }
+  }
 }

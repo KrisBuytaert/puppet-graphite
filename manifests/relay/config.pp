@@ -52,4 +52,19 @@ class graphite::relay::config inherits graphite::relay {
     notify  => Service[$graphite::relay::relay_service_name],
   }
 
+  notify { 'debug':
+    message => "relay_method = $relay_method",
+  }
+
+  if ($relay_method == 'rules') {
+    file { "${graphite::relay::carbon_config_dir}relay-rules.conf":
+      ensure  => present,
+      group   => 'root',
+      owner   => 'root',
+      mode    => '0644',
+      content => template('graphite/relay/relay-rules.conf.erb'),
+      require => Package[$graphite::relay::carbon_package],
+      notify  => Service[$graphite::relay::relay_service_name],
+    }
+  }
 }
