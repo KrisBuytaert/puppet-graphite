@@ -103,6 +103,7 @@ class graphite::params (
   $web_graphite_root                         = '/usr/share/graphite/',
   $web_group                                 = 'apache',
   $web_index_file                            = '/var/lib/graphite-web/index',
+  $web_database_file                         = '/var/lib/graphite-web/graphite.db',
   $web_log_cache_performance                 = 'True',
   $web_log_dir                               = '/var/log/graphite-web/',
   $web_log_metric_access                     = 'True',

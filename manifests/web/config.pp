@@ -43,4 +43,14 @@ class graphite::web::config (
     mode    => '0644',
     require => Package[$graphite::web::web_package],
   }
+
+  file { 'graphite.db':
+    ensure  => present,
+    path    => $graphite::web::web_database_file,
+    owner   => $graphite::web::web_user,
+    group   => $graphite::web::web_group,
+    mode    => '0644',
+    require => Package[$graphite::web::web_package],
+    before  => Service[$graphite::web::web_service_name],
+  }
 }
