@@ -1,0 +1,99 @@
+#!/bin/sh
+### File managed with puppet ###
+##<% if scope.lookupvar('::servername') -%>
+### Served by:        '<%= scope.lookupvar('::servername') %>'
+##<% end -%>
+### Module:           '<%= @module_name %>'
+### Template source:  'MODULES<%= template_source.gsub(Regexp.new("^#{Puppet.lookup(:current_environment)[:modulepath].gsub(':','|')}"),"") %>'
+#
+# carbon-cache  init file for starting up the carbon-cache daemon
+#
+# chkconfig:   - 20 80
+# description: Starts and stops the carbon-cache daemon.
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+exec="/usr/bin/carbon-cache"
+<% for i in 1..@carbon_cache_amount.to_i do -%>
+pidfile_<%= i %>="/var/run/carbon-cache-<%= i %>.pid"
+lockfile_<%= i %>=/var/lock/subsys/carbon-cache-<%= i %>
+<% end -%>
+
+CONFIG="<%= @carbon_config_dir %>carbon-cache.conf"
+LOG_DIR="/var/log/carbon"
+
+[ -e /etc/sysconfig/carbon ] && . /etc/sysconfig/carbon
+
+start() {
+    [ -f $CONFIG ] || exit 6
+    [ -x $exec ] || exit 5
+<% for i in 1..@carbon_cache_amount.to_i do -%>
+    #echo -n $"Starting `basename $exec` instance <%= i %>: "
+    daemon --pidfile=$pidfile_<%= i %> $exec --config=$CONFIG --logdir=$LOG_DIR --instance=<%= i %> start
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && touch $lockfile_<%= i %>
+<% end -%>
+    return $retval
+    }
+
+stop() {
+<% for i in 1..@carbon_cache_amount.to_i do -%>
+    echo -n $"Stopping `basename $exec` instance=<%= i %>: "
+    killproc -p $pidfile_<%= i %> `basename $exec`
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && rm -f $lockfile_<%= i %>
+<% end -%>
+    return $retval
+    }
+
+restart() {
+    stop
+    start
+}
+
+reload() {
+    stop
+    start
+    }
+
+rh_status() {
+<% for i in 1..@carbon_cache_amount.to_i do -%>
+    status -p $pidfile_<%= i %> `basename $exec`
+<% end -%>
+}
+
+rh_status_q() {
+    rh_status >/dev/null 2>&1
+}
+
+case "$1" in
+    start)
+        rh_status_q && exit 0
+        $1
+        ;;
+    stop)
+        rh_status_q || exit 0
+        $1
+        ;;
+    restart)
+        $1
+        ;;
+    reload)
+        $1
+        ;;
+    status)
+        rh_status
+        ;;
+    condrestart|try-restart)
+        rh_status_q || exit 0
+        restart
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|status|restart|condrestart|try-restart}"
+        exit 2
+esac
+exit $?
+

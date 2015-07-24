@@ -1,3 +1,9 @@
+### File managed with puppet ###
+#<% if scope.lookupvar('::servername') -%>
+## Served by:        '<%= scope.lookupvar('::servername') %>'
+#<% end -%>
+## Module:           '<%= @module_name %>'
+## Template source:  'MODULES<%= template_source.gsub(Regexp.new("^#{Puppet.lookup(:current_environment)[:modulepath].gsub(':','|')}"),"") %>'
 ## Graphite local_settings.py
 # Edit this file to customize the default Graphite webapp settings
 #
@@ -6,10 +12,31 @@
 #####################################
 # General Configuration #
 #####################################
+# Set this to a long, random unique string to use as a secret key for this
+# install. This key is used for salting of hashes used in auth tokens,
+# CRSF middleware, cookie storage, etc. This should be set identically among
+# instances if used behind a load balancer.
+#SECRET_KEY = 'UNSAFE_DEFAULT'
+<%- if @web_secret_key -%>
+SECRET_KEY= '<%= @web_secret_key %>'
+<%- end -%>
+
+# In Django 1.5+ set this to the list of hosts your graphite instances is
+# accessible as. See:
+# https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-ALLOWED_HOSTS
+#ALLOWED_HOSTS = [ '*' ]
+<%- if @web_allowed_hosts -%>
+<%- allowed_hosts = ''
+for host in @web_allowed_hosts do
+  allowed_hosts += "'" + host + "', "
+end -%>
+ALLOWED_HOSTS=[<%= allowed_hosts %>]
+<%- end -%>
+
 # Set your local timezone (Django's default is America/Chicago)
 # If your graphs appear to be offset by a couple hours then this probably
 # needs to be explicitly set to your local timezone.
-TIME_ZONE = '<%= @timezone %>'
+TIME_ZONE = '<%= @web_time_zone %>'
 
 
 # Override this to provide documentation specific to your Graphite deployment
@@ -19,12 +46,23 @@ TIME_ZONE = '<%= @timezone %>'
 #LOG_RENDERING_PERFORMANCE = True
 #LOG_CACHE_PERFORMANCE = True
 #LOG_METRIC_ACCESS = True
+<%- if @web_logging -%>
+LOG_RENDERING_PERFORMANCE = <%= @web_log_rendering_performance %>
+LOG_CACHE_PERFORMANCE = <%= @web_log_cache_performance %>
+LOG_METRIC_ACCESS = <%= @web_log_metric_access %>
+<%- end -%>
 
 # Enable full debug page display on exceptions (Internal Server Error pages)
 #DEBUG = True
+<%- if @web_debug %>
+DEBUG = <%= @web_debug %>
+<%- end -%>
 
 # If using RRD files and rrdcached, set to the address or socket of the daemon
 #FLUSHRRDCACHED = 'unix:/var/run/rrdcached.sock'
+<%- if @web_flushrrdcached -%>
+FLUSHRRDCACHED = '<%= @web_flushrrdcached %>
+<%- end -%>
 
 # This lists the memcached servers that will be used by this webapp.
 # If you have a cluster of webapps you should ensure all of them
@@ -37,38 +75,50 @@ TIME_ZONE = '<%= @timezone %>'
 # unneeded cache misses. Set to [] to disable caching of images and fetched data
 #MEMCACHE_HOSTS = ['10.10.10.10:11211', '10.10.10.11:11211', '10.10.10.12:11211']
 #DEFAULT_CACHE_DURATION = 60 # Cache images and data for 1 minute
-
+<%- if @web_memcache_hosts -%>
+  <%- i = 1
+      memcache_hosts = '['
+  for host in @web_memcache_hosts do
+    memcache_hosts += ("'" + host + "'")
+    if i < @web_memcache_hosts.length
+      memcache_hosts += ','
+    end
+  end
+  memcache_hosts += ']'-%>
+MEMCACHE_HOSTS = <%= memcache_hosts %>
+<%- end -%>
+<%- if @web_default_cache_duration -%>
+DEFAULT_CACHE_DURATION = <%= @web_default_cache_duration %>
+<%- end -%>
 
 #####################################
 # Filesystem Paths #
 #####################################
 # Change only GRAPHITE_ROOT if your install is merely shifted from /opt/graphite
 # to somewhere else
-<% if @graphite_root %>
-GRAPHITE_ROOT = '<%= @graphite_root%>'
-<% end %>
+GRAPHITE_ROOT = '<%= @web_graphite_root %>'
 
 # Most installs done outside of a separate tree such as /opt/graphite will only
 # need to change these three settings. Note that the default settings for each
 # of these is relative to GRAPHITE_ROOT
-#CONF_DIR = '/opt/graphite/conf'
-#STORAGE_DIR = '/opt/graphite/storage'
-#CONTENT_DIR = '/opt/graphite/webapp/content'
+CONF_DIR = '<%= @web_conf_dir %>'
+STORAGE_DIR = '<%= @web_storage_dir %>'
+CONTENT_DIR = '<%= @web_content_dir %>'
 
 # To further or fully customize the paths, modify the following. Note that the
 # default settings for each of these are relative to CONF_DIR and STORAGE_DIR
 #
 ## Webapp config files
-#DASHBOARD_CONF = '/opt/graphite/conf/dashboard.conf'
-#GRAPHTEMPLATES_CONF = '/opt/graphite/conf/graphTemplates.conf'
+#DASHBOARD_CONF = '/etc/graphite-web/dashboard.conf'
+#GRAPHTEMPLATES_CONF = '/etc/graphite-web/graphTemplates.conf'
 
 ## Data directories
 # NOTE: If any directory is unreadable in DATA_DIRS it will break metric browsing
 WHISPER_DIR = '<%= @whisper_dir %>'
-#RRD_DIR = '/opt/graphite/storage/rrd'
-#DATA_DIRS = [WHISPER_DIR, RRD_DIR] # Default: set from the above variables
-LOG_DIR = '<%= @log_dir %>'
-#INDEX_FILE = '/opt/graphite/storage/index'  # Search index file
+RRD_DIR = '<%= @web_rrd_dir %>'
+DATA_DIRS = <%= @web_data_dirs %>
+LOG_DIR = '<%= @web_log_dir %>'
+INDEX_FILE = '<%= @web_index_file %>'  # Search index file
 
 
 #####################################
@@ -141,16 +191,16 @@ LOG_DIR = '<%= @log_dir %>'
 #
 # Users with Django 1.2 or greater should use the new dictionary
 # specification as the old database specification style is removed in 1.4
-DATABASES = {
-    'default': {
-        'NAME': '<%= @database_name %>',
-        'ENGINE': '<%= @database_engine %>',
-        'USER': '<%= @database_user %>',
-        'PASSWORD': '<%= @database_password %>',
-        'HOST': '<%= @database_host %>',
-        'PORT': '<%= @database_port %>'
-    }
-}
+#DATABASES = {
+#    'default': {
+#        'NAME': '/opt/graphite/storage/graphite.db',
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'USER': '',
+#        'PASSWORD': '',
+#        'HOST': '',
+#        'PORT': ''
+#    }
+#}
 #
 # Users still on Django 1.1 must use the old method instead:
 #DATABASE_ENGINE = 'django.db.backends.mysql'
@@ -171,12 +221,36 @@ DATABASES = {
 # metric data. Note that the first server to return a match for a query will be
 # used.
 #CLUSTER_SERVERS = ["10.0.2.2:80", "10.0.2.3:80"]
+<%- cluster_servers_destinations = '['
+   i = 1 -%>
+<%- if @cluster_servers
+      for d in @cluster_servers do
+        cluster_servers_destinations += ('"' + d + ':' + @web_port + '"')
+          if i < @cluster_servers.length
+            cluster_servers_destinations += ', '
+          end
+       i += 1
+      end -%>
+CLUSTER_SERVERS = <%= cluster_servers_destinations %>]
+<%- end -%>
 
 ## These are timeout values (in seconds) for requests to remote webapps
 #REMOTE_STORE_FETCH_TIMEOUT = 6   # Timeout to fetch series data
 #REMOTE_STORE_FIND_TIMEOUT = 2.5  # Timeout for metric find requests
 #REMOTE_STORE_RETRY_DELAY = 60    # Time before retrying a failed remote webapp
 #REMOTE_FIND_CACHE_DURATION = 300 # Time to cache remote metric find results
+<%- if @web_remote_store_fetch_timeout -%>
+REMOTE_STORE_FETCH_TIMEOUT = <%= @web_store_fetch_timeout %>
+<%- end -%>
+<%- if @web_remote_store_find_timeout -%>
+REMOTE_STORE_FETCH_TIMEOUT = <%= @web_store_find_timeout %>
+<%- end -%>
+<%- if @web_remote_store_retry_delay -%>
+REMOTE_STORE_FETCH_TIMEOUT = <%= @web_store_retry_delay %>
+<%- end -%>
+<%- if @web_remote_store_cache_duration -%>
+REMOTE_STORE_FETCH_TIMEOUT = <%= @web_store_cache_duration %>
+<%- end -%>
 
 ## Remote rendering settings
 # Set to True to enable rendering of Graphs on a remote webapp

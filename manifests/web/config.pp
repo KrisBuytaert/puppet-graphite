@@ -1,72 +1,56 @@
 # Class: graphite::web::config
 #
+# This is a private class, do not use inside a manifest/role/profile
+#
+# Parameters:
+#
+# $whisper_dir:
+#   The directory where the whisper database is.
+#   Default: '/var/lib/carbon/whisper/'
+#
+# $web_dir:
+#   The directory where the graphite-web config is put in.
+#   Default: '/etc/graphite-web/'
+#
+# Sample Uses:
+#
+# contain graphite::web::config
 class graphite::web::config (
-  $timezone = $::timezone,
-){
-  $config_dir        = $::graphite::web::config_dir
-  $http_config_dir   = $::graphite::web::params::http_config_dir
-  $log_dir           = $::graphite::web::params::log_dir
-  $service_name      = $::graphite::web::params::service_name
-  $django_root_dir   = $::graphite::params::django_root_dir
-  $graphite_root     = $::graphite::web::params::graphite_root
-  $extra_http_config = $::graphite::web::extra_http_config
-  $whisper_dir       = $::graphite::web::params::whisper_dir
+  $whisper_dir       = $graphite::web::whisper_dir,
+  $database_name     = "${graphite::web::web_dir}graphite.db",
+  $database_engine   = 'django.db.backends.sqlite3',
+  $database_user     = '',
+  $database_password = '',
+  $database_host     = '',
+  $database_port     = '',
+  ) inherits graphite::web {
 
-  exec { 'graphite_syncdb':
-    command     => 'python manage.py syncdb --noinput',
-    path        => '/usr/bin',
-    cwd         => $django_root_dir,
-    refreshonly => true,
-    subscribe   => [File['graphite_settings'], Package['graphite-web']],
-  }
-
-  file { 'graphite_settings':
-    ensure  => present,
-    content => template('graphite/local_settings.py.erb'),
+  file { 'local_settings.py':
+    ensure  => file,
+    path    => "${graphite::web::web_dir}local_settings.py",
+    owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    notify  => Service[$service_name],
-    owner   => 'root',
-    path    => "${config_dir}/local_settings.py",
-    require => Package['graphite-web'],
+    require => Package[$graphite::web::web_package],
+    content => template('graphite/web/local_settings.py.erb');
   }
 
-  if $::osfamily == 'RedHat' {
-    file { "${graphite_root}/storage":
-      ensure  => directory,
-      group   => 'apache',
-      notify  => Service[$service_name],
-      owner   => 'apache',
-      require => Package[$::graphite::web::package::package_name],
-    } ->
-
-    file { "${graphite_root}/storage/whisper":
-      ensure  => directory,
-      group   => 'carbon',
-      notify  => Service[$service_name],
-      owner   => 'carbon',
-      require => Package[$::graphite::web::package::package_name],
-    }
+  file { 'index':
+    ensure  => file,
+    path    => $graphite::web::web_index_file,
+    owner   => $graphite::web::web_user,
+    group   => $graphite::web::web_group,
+    mode    => '0644',
+    require => Package[$graphite::web::web_package],
   }
 
-  if $::osfamily == 'Debian' {
-    file { "${config_dir}/apache2.conf":
-      ensure  => present,
-      content => template("graphite/apache2.conf.${::osfamily}.erb"),
-      group   => 'root',
-      notify  => Service[$service_name],
-      owner   => 'root',
-    }
-  }
-
-  if $::osfamily == 'RedHat' {
-    file { "${http_config_dir}/00-graphite.conf":
-      ensure  => present,
-      content => template("graphite/apache2.conf.${::osfamily}.erb"),
-      group   => 'root',
-      notify  => Service[$service_name],
-      owner   => 'root',
-    }
+  file { 'graphite.db':
+    ensure  => present,
+    path    => $graphite::web::web_database_file,
+    owner   => $graphite::web::web_user,
+    group   => $graphite::web::web_group,
+    mode    => '0644',
+    require => Package[$graphite::web::web_package],
+    before  => Service[$graphite::web::web_service_name],
   }
 }
-

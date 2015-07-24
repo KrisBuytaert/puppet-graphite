@@ -1,24 +1,35 @@
-# Class: graphite::web::package
+# Class: graphite
 #
-class graphite::web::package {
-  $package_name = $::osfamily ? {
-    /(?i:Debian)/ => [
-      'python-django-tagging',
-      'python-graphite-web',
-    ],
-    /(?i:RedHat)/ => 'graphite-web',
-    default       => 'graphite-web',
-  }
-
-  if $::osfamily == 'RedHat' {
-    package { 'bitmap-fonts-compat':
-      ensure => present,
-      before => Package[$package_name];
-    }
-  }
-
-  package { $package_name:
-    ensure => present;
+# This is a private class, do not use inside a manifest/role/profile
+#
+# Parameters:
+#
+# $web_package:
+#   The name of the to-install package(s).
+#   Default: 'bitmap-fonts-compat' and 'graphite-web'
+#
+# $web_package_ensure:
+#   The state the package(s) should be in.
+#   Default: 'installed'
+#
+# Actions:
+#
+# Installes the required package(s)
+#
+# Requires:
+#
+# graphite::web
+# inherits params from graphite::web
+#
+# Sample Usage:
+#
+# contain graphite::web::package
+#
+# [Remember: No empty lines between comments and class definition]
+class graphite::web::package () inherits graphite::web {
+  $soft = ['bitmap-fonts-compat','graphite-web']
+  package { $graphite::web::web_package:
+    ensure => $graphite::web::web_package_ensure,
+    before => Service[$graphite::web::web_service_name],
   }
 }
-
