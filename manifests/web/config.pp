@@ -53,4 +53,25 @@ class graphite::web::config (
     require => Package[$graphite::web::web_package],
     before  => Service[$graphite::web::web_service_name],
   }
+
+  # The upstream package disables access to the webgui on EL7 fixing.
+
+  if $::operatingsystemmajrelease {
+    $os_maj_release = $::operatingsystemmajrelease
+  } else {
+    $os_versions    = split($::operatingsystemrelease, '[.]')
+    $os_maj_release = $os_versions[0]
+  }
+  if  $os_maj_release  == '7' {
+    file {'/etc/httpd/conf.d/graphite-web.conf':
+      ensure  => file,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+      notify  => Service[$graphite::web::web_service_name],
+      content => template('graphite/web/graphite-web.conf.7.erb');
+    }
+
+  }
+
 }
