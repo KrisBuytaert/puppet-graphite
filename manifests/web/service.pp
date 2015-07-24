@@ -29,9 +29,28 @@ class graphite::web::service inherits ::graphite::web {
 
   $managesyncdb_path = "${graphite::web::web_dir}.DoNotDeletePlease"
 
+
+  if $::operatingsystemmajrelease {
+    $os_maj_release = $::operatingsystemmajrelease
+  } else {
+    $os_versions    = split($::operatingsystemrelease, '[.]')
+    $os_maj_release = $os_versions[0]
+  }
+  case $os_maj_release {
+    '7': {
+      $pymanagepath = '/usr/lib/python2.7/site-packages/graphite/manage.py'
+    }
+    default: {
+      $pymanagepath = '/usr/lib/python2.6/site-packages/graphite/manage.py'
+    }
+  }
+
+
+
+
   if str2bool("${graphite::web::web_manage_db_setup}") {
     exec { 'setup_db':
-      command => '/usr/bin/python -W ignore::DeprecationWarning /usr/lib/python2.6/site-packages/graphite/manage.py syncdb --noinput',
+      command => "/usr/bin/python -W ignore::DeprecationWarning ${pymanagepath} syncdb --noinput",
       creates => $managesyncdb_path,
       before  => Service[$graphite::web::web_service_name],
     }
