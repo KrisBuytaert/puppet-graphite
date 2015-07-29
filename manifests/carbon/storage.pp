@@ -21,7 +21,6 @@
 #
 # [Remember: No empty lines between comments and class definition]
 define graphite::carbon::storage ( $pattern,$retentions) {
-  require graphite::carbon
   concat::fragment {$name:
     target  => "${graphite::carbon::carbon_config_dir}storage-schemas.conf",
     order   => 10,
