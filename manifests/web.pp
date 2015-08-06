@@ -40,7 +40,7 @@ class graphite::web (
   $web_index_file                  = $::graphite::params::web_index_file,
   $web_log_cache_performance       = $::graphite::params::web_log_cache_performance,
   $web_log_dir                     = $::graphite::params::web_log_dir,
-  $web_log_metic_access            = $::graphite::params::web_log_metric_access,
+  $web_log_metric_access           = $::graphite::params::web_log_metric_access,
   $web_log_rendering_performance   = $::graphite::params::web_log_rendering_performance,
   $web_logging                     = $::graphite::params::web_logging,
   $web_manage_db_setup             = $::graphite::params::web_manage_db_setup,
@@ -64,10 +64,10 @@ class graphite::web (
   contain graphite::web::package
   contain graphite::web::config
 
-  if str2bool("${web_manage_httpd}") {
+  if str2bool($web_manage_httpd) {
     include graphite::web::service
   }
-  if str2bool("${web_basic_http_auth}") {
+  if str2bool($web_basic_http_auth) {
     include graphite::web::auth
   }
 }

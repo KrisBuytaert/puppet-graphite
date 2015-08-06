@@ -89,7 +89,7 @@ class graphite::carbon::config inherits graphite::carbon {
     notify  => Service[$graphite::carbon::relay_service_name],
     }
 
-  if ($relay_method == 'rules') {
+  if ($graphite::relay::relay_method == 'rules') {
     file { "${graphite::carbon::carbon_config_dir}relay-rules.conf":
       ensure  => present,
       group   => 'root',
