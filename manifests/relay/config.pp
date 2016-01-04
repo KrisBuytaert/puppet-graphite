@@ -53,10 +53,10 @@ class graphite::relay::config inherits graphite::relay {
   }
 
   notify { 'debug':
-    message => "relay_method = $relay_method",
+    message => "relay_method = ${relay_method}",
   }
 
-  if ($relay_method == 'rules') {
+  if ($graphite::relay::relay_method == 'rules') {
     file { "${graphite::relay::carbon_config_dir}relay-rules.conf":
       ensure  => present,
       group   => 'root',
