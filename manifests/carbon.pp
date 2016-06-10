@@ -128,7 +128,7 @@ class graphite::carbon (
   $whisper_dir                               = $graphite::params::whisper_dir,
 ) inherits ::graphite {
 
-  if $carbon_cache_amount > '1' {
+  if $carbon_cache_amount > 1 {
       $carbon_line_receiver_interface   = '127.0.0.1'
       $carbon_udp_receiver_interface    = '127.0.0.1'
       $carbon_pickle_receiver_interface = '127.0.0.1'
