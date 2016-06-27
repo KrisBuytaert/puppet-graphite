@@ -44,3 +44,10 @@ More Detailed Examples on how to use this module including a fully functional Va
 
 I've tagged the code that supports 0.9.9 versions of graphite-web and carbon with
 the 0.9.9 tag ..
+
+To Do
+-----
+
+Move params with pathos to case $::os['family']
+Documentation
+Move os params in graphite::web::service to params
