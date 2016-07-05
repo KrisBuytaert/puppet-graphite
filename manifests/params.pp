@@ -6,7 +6,7 @@
 #
 #   contain graphite::params
 #
-class graphite::params (
+class graphite::params {
   $aggregator_carbon_metric_interval         = undef,
   $aggregator_carbon_metric_prefix           = undef,
   $aggregator_write_back_frequenty           = undef,
@@ -122,6 +122,4 @@ class graphite::params (
   $whisper_dir                               = '/var/lib/carbon/whisper/',
   $whisper_package                           = 'python-whisper',
   $whisper_package_ensure                    = 'present',
-) {
 }
-
