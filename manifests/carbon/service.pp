@@ -10,7 +10,8 @@
 #
 # $graphite::carbon::carbon_cache_service_ensure:
 #   The state of the carbon-cache service to be in.
-#   Default: 'running'
+
+
 #
 # Sample Usage:
 #
