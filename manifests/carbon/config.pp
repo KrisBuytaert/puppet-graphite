@@ -70,6 +70,31 @@ class graphite::carbon::config inherits graphite::carbon {
     notify  => Service[$graphite::carbon::carbon_cache_service_name],
   }
 
+  # Systemd service
+  if ($graphite::carbon::carbon_cache_amount == 1) {
+    file {'/etc/systemd/system/carbon-cache.service':
+      ensure  => present,
+      group   => 'root',
+      owner   => 'root',
+      mode    => '0755',
+      content => template('graphite/carbon/carbon-cache.systemd.erb'),
+      require => Package[$graphite::carbon::carbon_package],
+      notify  => Service[$graphite::carbon::carbon_cache_service_name],
+    }
+  } else {
+    range("1", "${graphite::carbon::carbon_cache_amount}").each |$number| {
+      file {"/etc/systemd/system/carbon-cache-${number}.service":
+        ensure  => present,
+        group   => 'root',
+        owner   => 'root',
+        mode    => '0755',
+        content => template('graphite/carbon/carbon-cache@.systemd.erb'),
+        require => Package[$graphite::carbon::carbon_package],
+        notify  => Service[$graphite::carbon::carbon_cache_service_name],
+      }
+    }
+  }
+
   file { "${graphite::carbon::carbon_config_dir}carbon-relay.conf":
     ensure  => present,
     group   => 'root',
@@ -87,7 +112,18 @@ class graphite::carbon::config inherits graphite::carbon {
     mode    => '0755',
     content => template('graphite/relay/carbon-relay.erb'),
     notify  => Service[$graphite::carbon::relay_service_name],
-    }
+  }
+
+  # Systemd service
+  file {'/etc/systemd/system/carbon-relay.service':
+    ensure  => present,
+    group   => 'root',
+    owner   => 'root',
+    mode    => '0755',
+    content => template('graphite/relay/carbon-relay.systemd.erb'),
+    require => Package[$graphite::carbon::carbon_package],
+    notify  => Service[$graphite::carbon::carbon_cache_service_name],
+  }
 
   if ($graphite::relay::relay_method == 'rules') {
     file { "${graphite::carbon::carbon_config_dir}relay-rules.conf":
