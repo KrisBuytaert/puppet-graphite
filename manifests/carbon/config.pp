@@ -121,8 +121,7 @@ class graphite::carbon::config inherits graphite::carbon {
     owner   => 'root',
     mode    => '0755',
     content => template('graphite/relay/carbon-relay.systemd.erb'),
-    require => Package[$graphite::carbon::carbon_package],
-    notify  => Service[$graphite::carbon::carbon_cache_service_name],
+    notify  => Service[$graphite::carbon::relay_service_name],
   }
 
   if ($graphite::relay::relay_method == 'rules') {

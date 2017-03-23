@@ -59,8 +59,8 @@ class graphite::relay::config inherits graphite::relay {
     owner   => 'root',
     mode    => '0755',
     content => template('graphite/relay/carbon-relay.systemd.erb'),
-    require => Package[$graphite::carbon::carbon_package],
-    notify  => Service[$graphite::carbon::carbon_cache_service_name],
+    require => Package[$graphite::relay::carbon_package],
+    notify  => Service[$graphite::relay::relay_service_name],
   }
   file {'/etc/systemd/system/carbon-relay@.service':
     ensure  => present,
@@ -68,8 +68,8 @@ class graphite::relay::config inherits graphite::relay {
     owner   => 'root',
     mode    => '0755',
     content => template('graphite/relay/carbon-relay@.systemd.erb'),
-    require => Package[$graphite::carbon::carbon_package],
-    notify  => Service[$graphite::carbon::carbon_cache_service_name],
+    require => Package[$graphite::relay::carbon_package],
+    notify  => Service[$graphite::relay::relay_service_name],
   }
 
   notify { 'debug':
