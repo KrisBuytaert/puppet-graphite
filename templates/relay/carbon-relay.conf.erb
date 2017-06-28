@@ -55,7 +55,11 @@ REPLICATION_FACTOR = <%= @relay_replication_factor %>
 destinations = ''
 i = 1
 for d in @relay_destinations do
-  destinations += (d +':'+ @relay_pickle_receiver_port)
+  if d.include? ":"
+    destinations += d
+  else
+    destinations += (d +':'+ @relay_pickle_receiver_port)
+  end
   if i < @relay_destinations.length
     destinations += ', '
   end

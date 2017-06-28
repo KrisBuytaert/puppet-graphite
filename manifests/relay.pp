@@ -26,6 +26,10 @@
 #   carbon_pickle_receiver_port => '2012',
 # }
 #
+# Use destinations with different ports:
+# class { 'graphite::relay':
+#   relay_destinations          => ['192.168.1.102:2015','192.168.1.104:2025'],
+
 class graphite::relay (
   $relay_method                      = 'consistent-hashing',
   $carbon_pickle_receiver_port       = $graphite::params::relay_pickle_receiver_port,
