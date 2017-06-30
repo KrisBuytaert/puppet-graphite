@@ -78,6 +78,7 @@ class graphite::carbon (
   $carbon_amqp_vhost                         = $graphite::params::carbon_amqp_vhost,
   $carbon_bind_patterns                      = $graphite::params::carbon_bind_patterns,
   $carbon_cache_amount                       = $graphite::params::carbon_cache_amount,
+  $carbon_cache_query_interface              = $graphite::params::carbon_cache_query_interface,
   $carbon_cache_query_port                   = $graphite::params::carbon_cache_query_port,
   $carbon_cache_service_ensure               = $graphite::params::carbon_cache_service_ensure,
   $carbon_cache_service_name                 = $graphite::params::carbon_cache_service_name,
@@ -88,6 +89,7 @@ class graphite::carbon (
   $carbon_enable_amqp                        = $graphite::params::carbon_enable_amqp,
   $carbon_enable_logrotation                 = $graphite::params::carbon_enable_logrotation,
   $carbon_enable_udp_listerner               = $graphite::params::carbon_enable_udp_listerner,
+  $carbon_line_receiver_interface            = $graphite::params::carbon_line_receiver_interface,
   $carbon_line_receiver_port                 = $graphite::params::carbon_line_receiver_port,
   $carbon_log_cache_hits                     = $graphite::params::carbon_log_cache_hits,
   $carbon_log_cache_queu_sorts               = $graphite::params::carbon_log_cache_queu_sorts,
@@ -99,7 +101,9 @@ class graphite::carbon (
   $carbon_max_updates_per_second_on_shutdown = $graphite::params::carbon_max_updates_per_second_on_shutdown,
   $carbon_package                            = $graphite::params::carbon_package,
   $carbon_package_ensure                     = $graphite::params::carbon_package_ensure,
+  $carbon_pickle_receiver_interface          = $graphite::params::carbon_pickle_receiver_interface,
   $carbon_pickle_receiver_port               = $graphite::params::carbon_pickle_receiver_port,
+  $carbon_udp_receiver_interface             = $graphite::params::carbon_udp_receiver_interface,
   $carbon_udp_receiver_port                  = $graphite::params::carbon_udp_receiver_port,
   $carbon_use_flow_control                   = $graphite::params::carbon_use_flow_control,
   $carbon_use_insecure_unpickler             = $graphite::params::carbon_use_insecure_unpickler,
@@ -119,6 +123,7 @@ class graphite::carbon (
   $relay_log_listener_connections            = $graphite::params::relay_log_listener_connections,
   $relay_max_data_points_per_message         = $graphite::params::relay_max_data_points_per_message,
   $relay_max_queue_size                      = $graphite::params::relay_max_queue_size,
+  $relay_method                              = $graphite::params::relay_method,
   $relay_pickle_receiver_interface           = $graphite::params::relay_pickle_receiver_interface,
   $relay_pickle_receiver_port                = $graphite::params::relay_pickle_receiver_port,
   $relay_replication_factor                  = $graphite::params::relay_replication_factor,
@@ -165,19 +170,6 @@ class graphite::carbon (
   $web_user                                  = $graphite::params::web_user,
 ) inherits ::graphite {
 
-  if $carbon_cache_amount > 1 {
-      $carbon_line_receiver_interface   = '127.0.0.1'
-      $carbon_udp_receiver_interface    = '127.0.0.1'
-      $carbon_pickle_receiver_interface = '127.0.0.1'
-      $carbon_cache_query_interface     = '127.0.0.1'
-      $relay_method                     = 'consistent-hashing'
-    } else {
-      $carbon_line_receiver_interface   = '0.0.0.0'
-      $carbon_udp_receiver_interface    = '0.0.0.0'
-      $carbon_pickle_receiver_interface = '0.0.0.0'
-      $carbon_cache_query_interface     = '0.0.0.0'
-      $relay_method                     = 'rules'
-    }
 
   contain graphite::carbon::package
   contain graphite::carbon::config
