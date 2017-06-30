@@ -56,7 +56,7 @@ class graphite::params (
   $carbon_amqp_verbose                       = 'False',
   $carbon_amqp_vhost                         = '/',
   $carbon_cache_amount                       = $::processorcount,
-  $carbon_cache_query_interface              = '0.0.0.0'
+  $carbon_cache_query_interface              = '0.0.0.0',
   $carbon_cache_query_port                   = '7002',
   $carbon_cache_service_enable               = 'running',
   $carbon_cache_service_name                 = 'carbon-cache',
@@ -65,7 +65,7 @@ class graphite::params (
   $carbon_enable_amqp                        = 'False',
   $carbon_enable_logrotation                 = 'False',
   $carbon_enable_udp_listerner               = 'False',
-  $carbon_line_receiver_interface            = '0.0.0.0'
+  $carbon_line_receiver_interface            = '0.0.0.0',
   $carbon_line_receiver_port                 = '2013',
   $carbon_log_cache_hits                     = 'False',
   $carbon_log_cache_queu_sorts               = 'True',
@@ -78,7 +78,7 @@ class graphite::params (
   $carbon_package_ensure                     = 'present',
   $carbon_pickle_receiver_interface          = '0.0.0.0',
   $carbon_pickle_receiver_port               = '2015',
-  $carbon_udp_receiver_interface             = '0.0.0.0'
+  $carbon_udp_receiver_interface             = '0.0.0.0',
   $carbon_udp_receiver_port                  = '2014',
   $carbon_use_flow_control                   = 'True',
   $carbon_use_insecure_unpickler             = 'False',
@@ -92,7 +92,7 @@ class graphite::params (
   $relay_log_listener_connections            = 'True',
   $relay_max_data_points_per_message         = '500',
   $relay_max_queue_size                      = '10000',
-  $$relay_method                             = 'rules',
+  $relay_method                             = 'rules',
   $relay_pickle_receiver_interface           = '0.0.0.0',
   $relay_pickle_receiver_port                = '2004',
   $relay_replication_factor                  = '1',
