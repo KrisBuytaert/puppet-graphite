@@ -49,7 +49,6 @@ class graphite::relay (
   $relay_use_flow_control            = $graphite::params::relay_use_flow_control,
   $relay_use_whitelist               = $graphite::params::relay_use_whitelist,
   $relay_user                        = $graphite::params::relay_user,
-  $relay_ulimit_nofile               = $graphite::params::relay_ulimit_nofile,
 ) inherits graphite::params {
   contain graphite::relay::config
   contain graphite::relay::package
