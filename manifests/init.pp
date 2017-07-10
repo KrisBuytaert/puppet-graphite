@@ -86,6 +86,7 @@ class graphite (
   $relay_use_flow_control                    = $::graphite::params::relay_use_flow_control,
   $relay_use_whitelist                       = $::graphite::params::relay_use_whitelist,
   $relay_user                                = $::graphite::params::relay_user,
+  $relay_ulimit_nofile                       = $::graphite::params::relay_ulimit_nofile,
   $web_allowed_hosts                         = $::graphite::params::web_allowed_hosts,
   $web_basic_http_auth                       = $::graphite::params::web_basic_http_auth,
   $web_basic_http_auth_password              = $::graphite::params::web_basic_http_auth_password,

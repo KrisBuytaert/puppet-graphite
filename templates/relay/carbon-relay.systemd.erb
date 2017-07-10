@@ -9,6 +9,9 @@ StandardError=syslog
 ExecStart=/usr/bin/carbon-relay --config=<%= @carbon_config_dir %>carbon-relay.conf --pidfile=/var/run/carbon-relay.pid --logdir=/var/log/carbon/ start
 ExecReload=/bin/kill -USR1 $MAINPID
 PIDFile=/var/run/carbon-relay.pid
+<% if @relay_ulimit_nofile -%>
+LimitNOFILE=<%= @relay_ulimit_nofile %>
+<% end -%>
 
 [Install]
 WantedBy=multi-user.target

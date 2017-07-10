@@ -100,6 +100,7 @@ class graphite::params (
   $relay_service_name                        = 'carbon-relay',
   $relay_use_flow_control                    = 'True',
   $relay_user                                = 'carbon',
+  $relay_ulimit_nofile                       = undef,
   $web_basic_http_auth                       = false,
   $web_conf_dir                              = '/etc/graphite-web',
   $web_content_dir                           = '/usr/share/graphite/webapp/content',
