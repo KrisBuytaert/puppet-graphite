@@ -72,10 +72,6 @@ class graphite::relay::config inherits graphite::relay {
     notify  => Service[$graphite::relay::relay_service_name],
   }
 
-  notify { 'debug':
-    message => "relay_method = ${relay_method}",
-  }
-
   if ($graphite::relay::relay_method == 'rules') {
     file { "${graphite::relay::carbon_config_dir}relay-rules.conf":
       ensure  => present,
