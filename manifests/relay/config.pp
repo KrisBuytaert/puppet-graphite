@@ -52,8 +52,24 @@ class graphite::relay::config inherits graphite::relay {
     notify  => Service[$graphite::relay::relay_service_name],
   }
 
-  notify { 'debug':
-    message => "relay_method = ${relay_method}",
+  # Systemd service
+  file {'/etc/systemd/system/carbon-relay.service':
+    ensure  => present,
+    group   => 'root',
+    owner   => 'root',
+    mode    => '0755',
+    content => template('graphite/relay/carbon-relay.systemd.erb'),
+    require => Package[$graphite::relay::carbon_package],
+    notify  => Service[$graphite::relay::relay_service_name],
+  }
+  file {'/etc/systemd/system/carbon-relay@.service':
+    ensure  => present,
+    group   => 'root',
+    owner   => 'root',
+    mode    => '0755',
+    content => template('graphite/relay/carbon-relay@.systemd.erb'),
+    require => Package[$graphite::relay::carbon_package],
+    notify  => Service[$graphite::relay::relay_service_name],
   }
 
   if ($graphite::relay::relay_method == 'rules') {

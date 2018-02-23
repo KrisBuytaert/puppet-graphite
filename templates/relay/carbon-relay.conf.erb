@@ -12,6 +12,9 @@ LINE_RECEIVER_PORT = <%= @relay_line_receiver_port %>
 PICKLE_RECEIVER_INTERFACE = <%= @relay_pickle_receiver_interface %>
 PICKLE_RECEIVER_PORT = <%= @relay_pickle_receiver_port %>
 
+# Enable daily log rotation. If disabled, a kill -HUP can be used after a manual rotate
+ENABLE_LOGROTATION = False
+
 # Set to false to disable logging of successful connections
 LOG_LISTENER_CONNECTIONS = <%= @relay_log_listener_connections %>
 
@@ -55,7 +58,11 @@ REPLICATION_FACTOR = <%= @relay_replication_factor %>
 destinations = ''
 i = 1
 for d in @relay_destinations do
-  destinations += (d +':'+ @relay_pickle_receiver_port)
+  if d.include? ":"
+    destinations += d
+  else
+    destinations += (d +':'+ @relay_pickle_receiver_port)
+  end
   if i < @relay_destinations.length
     destinations += ', '
   end
